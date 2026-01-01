@@ -1,0 +1,74 @@
+{
+  "name": "@cael-aero/weight-and-balance",
+  "description": "Aircraft Weight and Balance calculator",
+  "version": "0.1.0",
+  "license": "BSD-3-Clause",
+  "readme": "README.md",
+  "author": "Justin Couch",
+  "homepage": "https://github.com/CAELAero/weight-and-balance",
+  "bugs": {
+    "url": "https://github.com/CAELAero/weight-and-balance/issues"
+  },
+  "keywords": [
+    "GFA",
+    "airworthiness",
+    "typescript",
+    "weight and balance"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=11.0.0"
+  },
+  "files": [
+    "lib/**/*",
+    "LICENSE",
+    "tsconfig.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CAELAero/weight-and-balance"
+  },
+  "publishConfig": {
+    "tag": "latest",
+    "cache": ".npm",
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "test": "jest --config jest.config.json",
+    "coverage": "jest --coverage",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "./node_modules/.bin/eslint src",
+    "docs": "typedoc src",
+    "prepublishOnly": "npm test && npm run lint && npm run docs && git add docs/* && git commit -m \"Auto generated docs\" docs && git push",
+    "preversion": "npm test && npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "dependencies": {
+    "moment": "^2.29.1",
+    "ssf": "https://cdn.sheetjs.com/ssf-0.11.3/ssf-0.11.3.tgz",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.x",
+    "@types/node": "^20.x",
+    "@typescript-eslint/eslint-plugin": "^8.x",
+    "@typescript-eslint/parser": "^8.x",
+    "acorn": "^8.x",
+    "eslint": "^9.x",
+    "eslint-config-prettier": "^9.x",
+    "eslint-plugin-import": "^2.25",
+    "eslint-plugin-prefer-arrow": "^1.2",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.x",
+    "minimist": ">=1.2.5",
+    "prettier": "^3.x",
+    "ts-jest": "^29.x",
+    "typedoc": "^0.25",
+    "typescript": "^5.4"
+  }
+}
