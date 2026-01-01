@@ -71,7 +71,12 @@ This is the typical scenario after repair work. Weights have changed,
 requiring a full reweigh of the aircraft. 
 
 ```typescript
-import { calculateWeightAndBalance } from '@cael-aero/weight-and-balance';
+import { 
+    calculateWeightAndBalance,
+    AircraftConfiguration, 
+    WeightAndBalanceDatum, 
+    WeightAndBalanceComponentChange
+} from '@cael-aero/weight-and-balance';
 
 const config: AircraftConfiguration = { .... };
 const datum: WeightAndBalanceDatum = { .... };
@@ -92,7 +97,12 @@ A single item has changed on the aircraft and you have measured the arm
 for it. 
 
 ```typescript
-import { calculateWeightAndBalance. AircraftConfiguration, WeightAndBalanceDatum, WeightAndBalanceComponentChange } from '@cael-aero/weight-and-balance';
+import { 
+    updateWeightAndBalance. 
+    AircraftConfiguration, 
+    WeightAndBalanceDatum, 
+    WeightAndBalanceComponentChange
+} from '@cael-aero/weight-and-balance';
 
 const config: AircraftConfiguration = { .... };
 const datum: WeightAndBalanceDatum = { .... };
@@ -122,7 +132,12 @@ new CG location and empty weight.  It is basically a simplified version of
 the previous example - just leave the itemX properties undefined.
 
 ```typescript
-import { calculateWeightAndBalance. AircraftConfiguration, WeightAndBalanceDatum, WeightAndBalanceComponentChange } from '@cael-aero/weight-and-balance';
+import { 
+    generateWeightAndBalancePlacardData. 
+    AircraftConfiguration, 
+    WeightAndBalanceDatum, 
+    WeightAndBalanceComponentChange
+} from '@cael-aero/weight-and-balance';
 
 const config: AircraftConfiguration = { .... };
 const datum: WeightAndBalanceDatum = { .... };
@@ -147,6 +162,27 @@ output generation. It has the following properties
 | minAllowedWeightDifference | 10 | Stop the calculation when the difference between the minimum and maximum pilot weights becomes less than this value |
 | placardWeightIncremments | 10 | The weight increment for each line when generating the placard data |
 | p1ArmRangePercentage | undefined | Some aircraft can have a min and max Pilot 1 arm specified. If that is true in the datum information, and this value is defined, it is treated as a percentage of the difference between the two arms to use as a "average" P1 arm. If undefined, and a min/max is provided in the datum, then the conservative approach is to use the shortest arm with the minimum pilot weight, and the longest arm with the maximum pilot weight | 
+
+If you're running a club two-seater, then you would run the code like this:
+
+```typescript
+import { 
+    generateWeightAndBalancePlacardData. 
+    AircraftConfiguration, 
+    WeightAndBalanceDatum, 
+    WeightAndBalanceComponentChange
+} from '@cael-aero/weight-and-balance';
+
+const config: AircraftConfiguration = { .... };
+const datum: WeightAndBalanceDatum = { .... };
+const change: WeightAndBalanceComponentChange = {
+    aircraftWeight: 279,
+    aircraftArm: 551,
+    nonLiftingPartsWeight: 133,
+};
+
+const output = generateWeightAndBalancePlacardData(datum, config, change, { useGFAMinBuffer: true });
+```
 
 ## Detailed Data Description
 
@@ -239,6 +275,7 @@ use the ```wingspanAlternate``` property eg:
         wingSpanPrimary: 15,
         wingSpanAlternate: 18,
         wingPanelCount: 4,
+    };
 
 ```
 
