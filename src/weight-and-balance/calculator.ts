@@ -83,7 +83,7 @@ export function generateWeightAndBalancePlacardData(datum: WeightAndBalanceDatum
                                                     nonLiftingPartsWeight: number, 
                                                     options?: WeightAndBalanceOptions): WeightAndBalanceResult {
 
-    const real_options = { ...DEFAULT_OPTIONS, ...options};
+    const real_options = { ...DEFAULT_OPTIONS, ...options };
 
     const xsafe_aft = datum.aftCGLimit - 0.05 * (datum.aftCGLimit - datum.forwardCGLimit);
     const xaft = real_options.useGFAMinBuffer ? xsafe_aft : datum.aftCGLimit;
