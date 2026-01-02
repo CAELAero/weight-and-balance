@@ -1,6 +1,5 @@
 import { generateWeightAndBalancePlacardData }  from "../../src/weight-and-balance/calculator";
 import { SingleSeaterWeightAndBalanceResult, TwoSeaterWeightAndBalanceResult } from "../../src/weight-and-balance/result-types";
-import { WeightAndBalanceMeasurement, WeightAndBalanceComponentChange } from "../../src/weight-and-balance/measurements";
 
 import { JANTAR_DATUM, JANTAR_CONFIG, DG1000_CONFIG, DG1000_P1_RANGED_DATUM, DG1000_P1_FIXED_DATUM, K21_CONFIG, K21_DATUM, LS6_CONFIG, LS6_DATUM } from "./data-gen";
 
@@ -160,6 +159,8 @@ describe("Base validation", () => {
             expect(result_ranged.emptyCGArm).toBe(result_default.emptyCGArm);
             expect(result_ranged.emptyWeight).toBe(result_default.emptyWeight);
             expect(result_ranged.nonLiftingPartsWeight).toBe(result_default.nonLiftingPartsWeight);
+            expect(result_ranged.pilotArmMinMaxUsed).toBeTruthy();
+            expect(result_ranged.pilot1ArmUsed).toBe(datum_ranged.pilot1Arm);
 
             // Since we know with this aircraft that  the min pilot weight is actually much less 
             // that the required min pilot, these shouldn't change either. 
@@ -173,6 +174,24 @@ describe("Base validation", () => {
             expect(result_ranged.calculationInputOptions.primaryWingspanSelected).toBeTruthy();
             expect(result_ranged.calculationInputOptions.useGFAMinBuffer).toBeTruthy();
         });
+
+        it("P1 arm range with explicit percentage", () => {
+            const datum = DG1000_P1_RANGED_DATUM;
+            const config = DG1000_CONFIG;
+
+            // 18M configuration values from VH-DGI 8 Nov 2022 measurements.
+            const aircaft_weight = 411.5;
+            const aircraft_arm = 707;
+            const nlp_weight = 224.5;
+            const arm_percentage = 30;
+
+            const result = generateWeightAndBalancePlacardData(datum, config, aircaft_weight, aircraft_arm, nlp_weight, { useGFAMinBuffer: true, p1ArmRangePercentage: arm_percentage }) as TwoSeaterWeightAndBalanceResult;
+            
+            expect(result.calculationInputOptions.p1ArmRangePercentage).toBe(arm_percentage);
+            expect(result.pilotArmMinMaxUsed).toBeFalsy();
+            expect(result.pilot1ArmUsed).toBe(datum.pilot1Arm + (datum.pilot1Arm - (datum.pilot1ArmMax || 0)) * (arm_percentage / 100) );
+        });
+
     });
 
     describe("Error handling", () => {

@@ -50,6 +50,8 @@ export interface WeightAndBalanceOptions {
      * conservative option of lightest weight at the smallest arm, and heaviest weight at the longest
      * arm. This will result in min and max pilot weights that are probably well within what could actually
      * be flown. 
+     * 
+     * Percentage should be a number between 0 and 100. Anything else will result in an error. 
      */
     p1ArmRangePercentage?: number;
 }
@@ -295,9 +297,9 @@ function calculateBaseCGLimits(
 
     // Do we have a range specified? If so, work out what set of options are applied
     if(datum.pilot1ArmMax) {
-        if(p1ArmRangePercentage) {
+        if(p1ArmRangePercentage) {            
             let arm_range = datum.pilot1Arm - datum.pilot1ArmMax;
-            arm_range *= p1ArmRangePercentage;
+            arm_range *= convertP1ArmPercentage(p1ArmRangePercentage);
             min_arm += arm_range;
             max_arm = min_arm;
         } else {
@@ -346,7 +348,7 @@ function calculateSingleSeater(
     options: WeightAndBalanceOptions): SingleSeaterWeightAndBalanceResult {
 
         
-    const retval = calculateBaseCGLimits(datum, ge, xe, xaft, nlpWeight);
+    const retval = calculateBaseCGLimits(datum, ge, xe, xaft, nlpWeight, options.p1ArmRangePercentage);
 
     // clean up the numbers to whole numbers here. 
     retval.minPilotWeight = Math.ceil(Math.max(retval.minPilotWeight, datum.minAllowedPilotWeight));
@@ -388,7 +390,7 @@ function calculateTwoSeater(
         return null;
     }
 
-    const base_pilot = calculateBaseCGLimits(datum, ge, xe, xaft, nlpWeight);
+    const base_pilot = calculateBaseCGLimits(datum, ge, xe, xaft, nlpWeight, options.p1ArmRangePercentage);
     const dual_range = calculateTwoSeaterP2(datum, ge, xe, xaft, nlpWeight, options);
 
     const retval: TwoSeaterWeightAndBalanceResult = {
@@ -409,7 +411,10 @@ function calculateTwoSeater(
         }
     };
 
-    if((config.wingMaxBallastAmount || 0) > 0) {
+if(dual_range.length == 0) {
+    console.log("Zero range for " + ge + " xe " + xe);
+}    
+    if((dual_range.length > 0) && (config.wingMaxBallastAmount || 0) > 0) {
         // Set max pilot weight here to be the sum of both pilots when maxed out
         const last = dual_range.length - 1;
         const total_max_pilot = dual_range[last].maxPilot2Weight + dual_range[last].pilot1Weight;
@@ -516,7 +521,7 @@ function calculateTwoSeaterAdjustedWeights(
         const adjusted_nlp_weight = nlpWeight + ballast;
 
 //console.log(`Adjusted values for ballast ${ballast}: ge ${adjusted_ge} Xe ${adjusted_xe} NLP ${adjusted_nlp_weight}`);        
-        const base_pilot = calculateBaseCGLimits(datum, adjusted_ge, adjusted_xe, xaft, adjusted_nlp_weight);
+        const base_pilot = calculateBaseCGLimits(datum, adjusted_ge, adjusted_xe, xaft, adjusted_nlp_weight, options.p1ArmRangePercentage);
         const dual_range = calculateTwoSeaterP2(datum, adjusted_ge, adjusted_xe, xaft, adjusted_nlp_weight, options);
 
         const data: TwoSeaterPilotWeightTailBallastAdjustment = {
@@ -637,8 +642,9 @@ function calculateTwoSeaterP2(
     // Do we have a range specified? If so, work out what set of options are applied
     if(datum.pilot1ArmMax) {
         if(options.p1ArmRangePercentage) {
+
             let arm_range = datum.pilot1Arm - datum.pilot1ArmMax;
-            arm_range *= options.p1ArmRangePercentage;
+            arm_range *= convertP1ArmPercentage(options.p1ArmRangePercentage);
             min_arm += arm_range;
             max_arm = min_arm;
         } else {
@@ -774,5 +780,18 @@ export function calculateBlockCombos(blocks: BallastBlockCapacity[]): FittedBall
     });
 
     return retval;
+}
 
+function convertP1ArmPercentage(value: number): number {
+    if(value < 0) {
+        throw new Error("P1 Arm percentage cannot be less than zero");
+    }
+
+    if(value > 100) {
+        throw new Error("P1 Arm percentage cannot be greater than one hundred");
+    }
+
+    // Just in case they use fractional numbers to represent a percentage, rather
+    // than whole numbers
+    return (value > 1) ? value / 100 : value;
 }

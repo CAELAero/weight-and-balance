@@ -49,7 +49,8 @@ export interface WeightAndBalanceResult {
 
     nonLiftingPartsWeight: number;
 
-    /** If the calculation used the min-max method for a P1 arm, this will be set to true. If so,
+    /** 
+     * If the calculation used the min-max method for a P1 arm, this will be set to true. If so,
      * then pilot1ArmUsed will reference the arm length closest to the datum. 
      */
     pilotArmMinMaxUsed: boolean;
