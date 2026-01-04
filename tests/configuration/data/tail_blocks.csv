@@ -1,0 +1,2 @@
+"Type certificate","flaps","trim","ruddervator","fixed uc","uc type","seat type","fuselage max ballast","wings max ballast","tail ballast type", "tail ballast capacity", "tail wing compensation max ballast", "winspan primary", "wingspan alternate", "wing panel count", "winglets", "cockpit ballast count", "cockpit ballast block weight"
+"DG1000S", false, false, false, false, inline, tandem, , 150, BLOCKS, large:2.4:4, ,15, , 2, false, 0, ,

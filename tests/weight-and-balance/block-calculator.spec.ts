@@ -1,4 +1,4 @@
-import { BallastBlockCapacity } from "../../src/weight-and-balance/aircraft-configuration";
+import { BallastBlockCapacity } from "../../src/configuration/aircraft-configuration";
 import { calculateBlockCombos }  from "../../src/weight-and-balance/calculator";
 
 describe("Block combination calculator", () => {

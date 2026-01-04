@@ -45,6 +45,12 @@ export interface WingBallastCompensation {
  * options - eg DG300s could be ordered with or without a tail tank. 
  */
 export interface AircraftConfiguration {
+    /** 
+     * An identifier of the type certificate the configuration belongs to. Not used by the calculator, but can be used
+     * if this is fetched from a DB, file or other data source.
+     */
+    typeCertificateId: string;
+
     hasFlaps: boolean;
 
     /**

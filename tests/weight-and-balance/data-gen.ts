@@ -1,7 +1,8 @@
-import { AircraftConfiguration, SeatingConfiguration, TailBallastType, UndercarriageConfiguration } from "../../src/weight-and-balance/aircraft-configuration";
+import { AircraftConfiguration, SeatingConfiguration, TailBallastType, UndercarriageConfiguration } from "../../src/configuration/aircraft-configuration";
 import { DatumCalculationModel, WeightAndBalanceDatum } from "../../src/weight-and-balance/datum";
 
 export const JANTAR_DATUM: WeightAndBalanceDatum = {
+    typeCertificateId: "SZD 48-1",
     location: "1",
     levellingInstructions: "flat",
     calculationModel: DatumCalculationModel.MODEL_1,
@@ -19,6 +20,7 @@ export const JANTAR_DATUM: WeightAndBalanceDatum = {
 };
 
 export const DG300_DATUM: WeightAndBalanceDatum = {
+    typeCertificateId: "DG300 ELAN",
     location: "1",
     levellingInstructions: "flat",
     calculationModel: DatumCalculationModel.MODEL_1,
@@ -37,6 +39,7 @@ export const DG300_DATUM: WeightAndBalanceDatum = {
 };
 
 export const LS6_DATUM: WeightAndBalanceDatum = {
+    typeCertificateId: "LS6C",
     location: "1",
     levellingInstructions: "flat",
     calculationModel: DatumCalculationModel.MODEL_1,
@@ -54,6 +57,7 @@ export const LS6_DATUM: WeightAndBalanceDatum = {
 };
 
 export const K21_DATUM: WeightAndBalanceDatum = {
+    typeCertificateId: "ASK21",
     location: "1",
     levellingInstructions: "1",
     calculationModel: DatumCalculationModel.MODEL_3,
@@ -72,6 +76,7 @@ export const K21_DATUM: WeightAndBalanceDatum = {
 };
 
 export const DG1000_P1_RANGED_DATUM: WeightAndBalanceDatum = {
+    typeCertificateId: "DG1000S",
     location: "1",
     levellingInstructions: "1",
     calculationModel: DatumCalculationModel.MODEL_1,
@@ -92,6 +97,7 @@ export const DG1000_P1_RANGED_DATUM: WeightAndBalanceDatum = {
 };
 
 export const DG1000_P1_FIXED_DATUM: WeightAndBalanceDatum = {
+    typeCertificateId: "DG1000S",
     location: "1",
     levellingInstructions: "1",
     calculationModel: DatumCalculationModel.MODEL_1,
@@ -111,6 +117,7 @@ export const DG1000_P1_FIXED_DATUM: WeightAndBalanceDatum = {
 };
 
 export const JANTAR_CONFIG: AircraftConfiguration = {
+    typeCertificateId: "SZD 48-1",
     hasFlaps: false,
     hasElevatorTrim: false,
     hasRudderVators: false,
@@ -127,6 +134,7 @@ export const JANTAR_CONFIG: AircraftConfiguration = {
 };
 
 export const LS6_CONFIG: AircraftConfiguration = {
+    typeCertificateId: "LS6C",
     hasFlaps: true,
     hasElevatorTrim: false,
     hasRudderVators: false,
@@ -145,6 +153,7 @@ export const LS6_CONFIG: AircraftConfiguration = {
 };
 
 export const K21_CONFIG: AircraftConfiguration = {
+    typeCertificateId: "ASK21",
     hasFlaps: false,
     hasElevatorTrim: false,
     hasRudderVators: false,
@@ -161,6 +170,7 @@ export const K21_CONFIG: AircraftConfiguration = {
 };
 
 export const DG1000_CONFIG: AircraftConfiguration = {
+    typeCertificateId: "DG1000S",
     hasFlaps: false,
     hasElevatorTrim: false,
     hasRudderVators: false,

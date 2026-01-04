@@ -12,6 +12,12 @@ export const reverseCalculationModelMap = new Map<string, DatumCalculationModel>
  * Datum is defined by type certificate, not per aircraft type. 
  */
 export interface WeightAndBalanceDatum {
+    /** 
+     * An identifier of the type certificate the configuration belongs to. Not used by the calculator, but can be used
+     * if this is fetched from a DB, file or other data source.
+     */
+    typeCertificateId: string;
+
     /** Plain text description of where the datum is located on the airframe */
     location: string;
 

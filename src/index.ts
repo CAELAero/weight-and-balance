@@ -1,17 +1,19 @@
 /**
  * Global module exports
  */
+export { loadAircraftConfigFromCSV } from "./configuration/configuration-loader";
+
 export { 
-    type SeatingConfiguration, 
-    type TailBallastType, 
-    type UndercarriageConfiguration,
+    SeatingConfiguration, 
+    TailBallastType, 
+    UndercarriageConfiguration,
     reverseUndercarriageConfigurationMap,
     reverseSeatingConfigurationMap,
     reverseTailBallastTypeMap,
     type BallastBlockCapacity,
     type WingBallastCompensation,
     type AircraftConfiguration
-} from "./weight-and-balance/aircraft-configuration";
+} from "./configuration/aircraft-configuration";
 
 export {
     type DatumCalculationModel, 

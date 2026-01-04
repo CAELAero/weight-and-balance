@@ -4,7 +4,7 @@ import {
     SeatingConfiguration, 
     TailBallastType, 
     UndercarriageConfiguration 
-} from "./aircraft-configuration";
+} from "../configuration/aircraft-configuration";
 
 import { WeightAndBalanceDatum } from "./datum";
 import { WeightAndBalanceMeasurement, WeightAndBalanceComponentChange } from "./measurements";

@@ -49,7 +49,6 @@
     "postversion": "git push && git push --tags"
   },
   "dependencies": {
-    "moment": "^2.29.1",
     "ssf": "https://cdn.sheetjs.com/ssf-0.11.3/ssf-0.11.3.tgz",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
