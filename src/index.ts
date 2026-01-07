@@ -1,6 +1,7 @@
 /**
  * Global module exports
  */
+export { exportAircraftConfigToCSV } from "./configuration/configuration-exporter";
 export { loadAircraftConfigFromCSV } from "./configuration/configuration-loader";
 
 export { 

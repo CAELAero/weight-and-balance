@@ -317,5 +317,4 @@ LICENSE file in the root directory of this source tree.
 
 ## Related Projects
 
-Datum and aircraft config data - TBD.
-
+Datum and aircraft config data: https://github.com/CAELAero/aircraft-data
