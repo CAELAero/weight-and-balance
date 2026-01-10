@@ -17,10 +17,12 @@ export {
 } from "./configuration/aircraft-configuration";
 
 export {
-    type DatumCalculationModel, 
+    DatumCalculationModel, 
     reverseCalculationModelMap,
     type WeightAndBalanceDatum
-} from "./weight-and-balance/datum";
+} from "./datum/datum";
+
+export { loadDatumFromCSV } from "./datum/datum-loader";
 
 export { 
     type WeightAndBalanceComponentChange, 

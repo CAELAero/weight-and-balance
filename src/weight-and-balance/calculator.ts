@@ -6,7 +6,7 @@ import {
     UndercarriageConfiguration 
 } from "../configuration/aircraft-configuration";
 
-import { WeightAndBalanceDatum } from "./datum";
+import { WeightAndBalanceDatum } from "../datum/datum";
 import { WeightAndBalanceMeasurement, WeightAndBalanceComponentChange } from "./measurements";
 import { 
     FittedBallastBlock, 

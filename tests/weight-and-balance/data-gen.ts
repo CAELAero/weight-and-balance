@@ -1,5 +1,5 @@
 import { AircraftConfiguration, SeatingConfiguration, TailBallastType, UndercarriageConfiguration } from "../../src/configuration/aircraft-configuration";
-import { DatumCalculationModel, WeightAndBalanceDatum } from "../../src/weight-and-balance/datum";
+import { DatumCalculationModel, WeightAndBalanceDatum } from "../../src/datum/datum";
 
 export const JANTAR_DATUM: WeightAndBalanceDatum = {
     typeCertificateId: "SZD 48-1",
