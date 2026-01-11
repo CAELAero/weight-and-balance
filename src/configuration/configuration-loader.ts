@@ -11,7 +11,7 @@ import {
     BallastBlockCapacity
 } from "./aircraft-configuration";
 
-import { parseBoolean, parseString, readInput } from '../util/parse-utils';
+import { parseBoolean, parseInt, parseString, readInput } from '../util/parse-utils';
 
 export async function loadAircraftConfigFromCSV (source: string | Readable | ReadableStream | Blob) : Promise<AircraftConfiguration[]> {
     if (!source) {

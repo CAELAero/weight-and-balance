@@ -33,7 +33,7 @@ describe("Configuration export", () => {
         expect(result).toBeTruthy();
         expect(result.length).toBe(2);
         expect(result[1].startsWith(JANTAR_CONFIG.typeCertificateId)).toBeTruthy();
-        expect(result[1]).toBe("SZD481,false,false,false,false,inline,single,,150,none,,,15,,2,false,,");
+        expect(result[1]).toBe("SZD481,false,false,false,false,inline,single,,150,none,,,15,,2,false,0,");
     });
 
     it("Floating point number formatting", () => {
@@ -60,7 +60,7 @@ describe("Configuration export", () => {
         expect(result).toBeTruthy();
         expect(result.length).toBe(2);
         expect(result[1].startsWith(LS6_CONFIG.typeCertificateId)).toBeTruthy();
-        expect(result[1]).toBe("LS6C,true,false,false,false,inline,single,,140,none,,,15,17.6,4,false,,");
+        expect(result[1]).toBe("LS6C,true,false,false,false,inline,single,,140,none,,,15,17.6,4,false,0,");
     });
 
     describe("Tail CG ballast options", () => {
@@ -88,7 +88,7 @@ describe("Configuration export", () => {
             expect(result).toBeTruthy();
             expect(result.length).toBe(2);
             expect(result[1].startsWith(DG1000_CONFIG.typeCertificateId)).toBeTruthy();
-            expect(result[1]).toBe("DG1000S,false,false,false,false,inline,tandem,,160,water,5.5,,18,20,4,false,,");
+            expect(result[1]).toBe("DG1000S,false,false,false,false,inline,tandem,,160,water,5.5,,18,20,4,false,0,");
         });
 
         it("Single tail block", () => {
@@ -115,7 +115,7 @@ describe("Configuration export", () => {
             expect(result).toBeTruthy();
             expect(result.length).toBe(2);
             expect(result[1].startsWith(DG1000_CONFIG.typeCertificateId)).toBeTruthy();
-            expect(result[1]).toBe("DG1000S,false,false,false,false,inline,tandem,,160,blocks,small:2:4,,18,20,4,false,,");
+            expect(result[1]).toBe("DG1000S,false,false,false,false,inline,tandem,,160,blocks,small:2:4,,18,20,4,false,0,");
         });
 
         it("Multiple tail blocks", () => {
@@ -142,7 +142,7 @@ describe("Configuration export", () => {
             expect(result).toBeTruthy();
             expect(result.length).toBe(2);
             expect(result[1].startsWith(DG1000_CONFIG.typeCertificateId)).toBeTruthy();
-            expect(result[1]).toBe("DG1000S,false,false,false,false,inline,tandem,,160,blocks,large:2:4:small:1:2,,18,20,4,false,,");
+            expect(result[1]).toBe("DG1000S,false,false,false,false,inline,tandem,,160,blocks,large:2:4:small:1:2,,18,20,4,false,0,");
         });
 
     })
