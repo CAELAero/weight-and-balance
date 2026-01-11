@@ -81,9 +81,9 @@ export function exportAircraftConfigToCSV(configs: AircraftConfiguration[]) : st
 }
 
 function convertIntToString(src?: number): string {
-    return src ? src.toFixed(0) : '';
+    return (src != undefined) && (src != null) ? src.toFixed(0) : '';
 }
 
 function convertFloatToString(src?: number): string {
-    return src ? FLOAT_FORMAT.format(src) : '';
+    return (src != undefined) && (src != null) ? FLOAT_FORMAT.format(src) : '';
 }

@@ -2,8 +2,8 @@ import { Readable } from 'stream';
 
 import { Sheet2JSONOpts, WorkBook, utils } from 'xlsx';
 
-import { DatumCalculationModel, reverseCalculationModelMap, WeightAndBalanceDatum } from './datum';
-import { parseBoolean, parseString, parseInt, readInput } from '../util/parse-utils';
+import { reverseCalculationModelMap, WeightAndBalanceDatum } from './datum';
+import { parseString, parseInt, readInput } from '../util/parse-utils';
 
 export async function loadDatumFromCSV(source: string | Readable | ReadableStream | Blob) : Promise<WeightAndBalanceDatum[]> {
 

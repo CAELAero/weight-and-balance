@@ -57,7 +57,7 @@ export function exportDatumToCSV(configs: WeightAndBalanceDatum[]) : string[] {
 }
 
 function convertIntToString(src?: number): string {
-    return src ? src.toFixed(0) : '';
+    return (src != undefined) && (src != null) ? src.toFixed(0) : '';
 }
 
 function escapeString(src: string): string {
