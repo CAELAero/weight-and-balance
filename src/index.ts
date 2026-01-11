@@ -22,6 +22,7 @@ export {
     type WeightAndBalanceDatum
 } from "./datum/datum";
 
+export { exportDatumToCSV } from "./datum/datum-exporter";
 export { loadDatumFromCSV } from "./datum/datum-loader";
 
 export { 
