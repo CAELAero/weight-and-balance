@@ -30,7 +30,7 @@ export async function loadAircraftConfigFromCSV (source: string | Readable | Rea
         dateNF: 'yyyy-mm-dd',
         raw: false,
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const sheet_data: any[][] = utils.sheet_to_json(loaded_data, conv_opts);
 
     const retval: AircraftConfiguration[] = [];
@@ -62,7 +62,7 @@ export async function loadAircraftConfigFromCSV (source: string | Readable | Rea
                 case TailBallastType.BLOCKS:
                     // use a colon separated list, in blocks of 3. Really needs JSON here, but mixing
                     // JSON with CSV is just ugly, so we go for a slightly less ugly version.
-                    let raw = parseString(row[10]);
+                    const raw = parseString(row[10]);
                     const parts = raw?.split(':');
                     const block_defs: BallastBlockCapacity[] = [];
                     const num_blocks = Math.floor(parts?.length / 3);
@@ -116,7 +116,6 @@ export async function loadAircraftConfigFromCSV (source: string | Readable | Rea
         } catch (error) {
             // Should never get here since the above parsing is quite forgiving. Likely this is due
             // to a stream or other interrupt error.
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             const row_str = '[ ' + row.join(',') + ' ]';
             if (error instanceof Error) {
                 console.error(`Error reading row ${row_str} due to ${error.message}`, error);

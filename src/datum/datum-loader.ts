@@ -23,7 +23,7 @@ export async function loadDatumFromCSV(source: string | Readable | ReadableStrea
         dateNF: 'yyyy-mm-dd',
         raw: false,
     };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     const sheet_data: any[][] = utils.sheet_to_json(loaded_data, conv_opts);
 
     const retval: WeightAndBalanceDatum[] = [];
@@ -76,7 +76,6 @@ export async function loadDatumFromCSV(source: string | Readable | ReadableStrea
         } catch (error) {
             // Should never get here since the above parsing is quite forgiving. Likely this is due
             // to a stream or other interrupt error.
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             const row_str = '[ ' + row.join(',') + ' ]';
             if (error instanceof Error) {
                 console.error(`Error reading row ${row_str} due to ${error.message}`, error);

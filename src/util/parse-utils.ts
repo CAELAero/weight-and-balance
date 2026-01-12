@@ -17,7 +17,7 @@ export function parseBoolean(src: any): boolean {
 }
 
 export function parseFloat(src: any): number {
-    let raw = parseString(src);
+    const raw = parseString(src);
 
     let retval: number = undefined;
 
@@ -36,7 +36,7 @@ export function parseFloat(src: any): number {
 }
 
 export function parseInt(src: any): number {
-    let raw = parseString(src);
+    const raw = parseString(src);
 
     let retval: number = undefined;
 
@@ -54,12 +54,10 @@ export function parseInt(src: any): number {
     return retval;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function parseString(src: any): string {
     const src_type = typeof src;
 
     if (src_type === 'string' || src_type === 'number') {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
         return src ? src.toString().trim() : undefined;
     } else {
         return undefined;
@@ -80,12 +78,10 @@ export async function readInput(
         // ReadableStream is a derived type of Readable, so we're good here
         return readStream(source, options);
     } else if (source instanceof ReadableStream) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
         const readable = new Readable().wrap(source as any);
         return readStream(readable, options);
     } else if (source instanceof Blob) {
         const blob_stream = source.stream();
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
         const readable = new Readable().wrap(blob_stream as any);
         return readStream(readable, options);
     } else {

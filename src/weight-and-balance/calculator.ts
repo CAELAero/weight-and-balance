@@ -129,7 +129,7 @@ export function updateWeightAndBalance(datum: WeightAndBalanceDatum,
         xe_new = ((change.itemWeightChange * change.itemArm) + (change.aircraftWeight * change.aircraftArm)) / ge_new;
     }
 
-    let retval: WeightAndBalanceResult = generateWeightAndBalancePlacardData(datum, config, ge_new, xe_new, gwft_new, options);
+    const retval: WeightAndBalanceResult = generateWeightAndBalancePlacardData(datum, config, ge_new, xe_new, gwft_new, options);
 
     return retval;
 }
@@ -180,7 +180,7 @@ export function calculateWeightAndBalance(datum: WeightAndBalanceDatum,
         return null;
     }
 
-    let retval: WeightAndBalanceResult = generateWeightAndBalancePlacardData(datum, config, ge, xe, gwft, options);
+    const retval: WeightAndBalanceResult = generateWeightAndBalancePlacardData(datum, config, ge, xe, gwft, options);
 
     return retval;
 }
@@ -447,7 +447,7 @@ if(dual_range.length == 0) {
 
             water_increments.push((config.tailCGAdjustBallastCapacity as number));
 
-            let water_map = calculateTwoSeaterAdjustedWeights(datum, ge, xe, xaft, nlpWeight, water_increments, options);
+            const water_map = calculateTwoSeaterAdjustedWeights(datum, ge, xe, xaft, nlpWeight, water_increments, options);
             if(water_map) {
                 retval.tailBallastAdjustedPilotWeights = [...water_map.values()];
             }
@@ -468,7 +468,7 @@ if(dual_range.length == 0) {
                 block_map.set(weight, block_combo);
             });
 
-            let adjust_map = calculateTwoSeaterAdjustedWeights(datum, ge, xe, xaft, nlpWeight, block_increments, options);
+            const adjust_map = calculateTwoSeaterAdjustedWeights(datum, ge, xe, xaft, nlpWeight, block_increments, options);
 
             // Need to map this back to block combinations now. The original results come with the ballast 
             // amount as the number, so we replace that with the map to block combo
@@ -604,11 +604,11 @@ function calculateCockpitBallast(datum: WeightAndBalanceDatum,
         return null;
     }
     
-    let weight_chart: WeightAndBalanceCockpitBallast[] = [];
+    const weight_chart: WeightAndBalanceCockpitBallast[] = [];
 
     //console.log("Calc: " + emptyWeight + " " + emptyCGArm + " " + xaft + " " + blockWeight + " " + p1ArmUsed);
     for(let i = 1; i <= blockCount; i++) {
-        let p1_min = ((emptyWeight * (emptyCGArm - xaft)) - ((i * blockWeight) * (xaft - datum.cockpitBallastBlockArm))) / (xaft - p1ArmUsed);
+        const p1_min = ((emptyWeight * (emptyCGArm - xaft)) - ((i * blockWeight) * (xaft - datum.cockpitBallastBlockArm))) / (xaft - p1ArmUsed);
 
         weight_chart.push({ blockCount: i, minPilotWeight: Math.ceil(p1_min) });
     }
@@ -653,7 +653,7 @@ function calculateTwoSeaterP2(
     }
 
     do {
-        let p2_min = ((ge * (xe - xaft)) - (abs_min_p1 * (xaft - min_arm))) / (xaft - datum.pilot2Arm);
+        const p2_min = ((ge * (xe - xaft)) - (abs_min_p1 * (xaft - min_arm))) / (xaft - datum.pilot2Arm);
 
         // Only bother calculating if the P2 weight is within sane bounds.
         if(p2_min <= datum.maxSeatWeight) {
@@ -696,7 +696,7 @@ export function calculateBlockCombos(blocks: BallastBlockCapacity[]): FittedBall
         for(let j = 1; j <= blocks[i].maxBlockCount; j++) {
             const base_weight = blocks[i].weightPerBlock * j;
 
-            let item = weight_to_blocks.get(base_weight);
+            const item = weight_to_blocks.get(base_weight);
 
             if(!item) {
                 const b: FittedBallastBlock = {
@@ -726,7 +726,7 @@ export function calculateBlockCombos(blocks: BallastBlockCapacity[]): FittedBall
                 for(let l = 1; l <= blocks[k].maxBlockCount; l++) {
                     const combo_weight = base_weight + blocks[k].weightPerBlock * l;
 
-                    let item = weight_to_blocks.get(combo_weight);
+                    const item = weight_to_blocks.get(combo_weight);
 
                     if(!item) {
                         const b1: FittedBallastBlock = {
@@ -771,7 +771,7 @@ export function calculateBlockCombos(blocks: BallastBlockCapacity[]): FittedBall
     // Now we have the completed map of weights to block combo, dump it into the
     // final output double array. First need to sort based on weight - lowest to
     // highest. 
-    let sorted = [...weight_to_blocks.keys()].sort((a, b) => a - b);
+    const sorted = [...weight_to_blocks.keys()].sort((a, b) => a - b);
 
     const retval: FittedBallastBlock[][] = [];
 
