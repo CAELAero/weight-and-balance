@@ -1,14 +1,15 @@
-import { Readable } from 'stream';
+import { Readable } from "stream";
 
-import { Sheet2JSONOpts, WorkBook, utils } from 'xlsx';
+import { Sheet2JSONOpts, WorkBook, utils } from "xlsx";
 
-import { reverseCalculationModelMap, WeightAndBalanceDatum } from './datum';
-import { parseString, parseInt, readInput } from '../util/parse-utils';
+import { reverseCalculationModelMap, WeightAndBalanceDatum } from "./datum";
+import { parseString, parseInt, readInput } from "../util/parse-utils";
 
-export async function loadDatumFromCSV(source: string | Readable | ReadableStream | Blob) : Promise<WeightAndBalanceDatum[]> {
-
+export async function loadDatumFromCSV(
+    source: string | Readable | ReadableStream | Blob,
+): Promise<WeightAndBalanceDatum[]> {
     if (!source) {
-        throw new Error('No source given to parse');
+        throw new Error("No source given to parse");
     }
 
     const workbook: WorkBook = await readInput(source);
@@ -20,7 +21,7 @@ export async function loadDatumFromCSV(source: string | Readable | ReadableStrea
         blankrows: false,
         range: 1,
         UTC: true,
-        dateNF: 'yyyy-mm-dd',
+        dateNF: "yyyy-mm-dd",
         raw: false,
     };
 
@@ -67,23 +68,22 @@ export async function loadDatumFromCSV(source: string | Readable | ReadableStrea
                 pilot1ArmMax: p1_arm_alt,
                 pilot2Arm: p2_arm,
                 cockpitBallastBlockArm: cockpit_arm,
-                tailBallastArm:tail_arm,
+                tailBallastArm: tail_arm,
                 distanceFrontWheelToDatum: front_wheel,
-                distanceFrontWheelToRearWheel: wheel_to_wheel
+                distanceFrontWheelToRearWheel: wheel_to_wheel,
             };
-            
+
             retval.push(obj);
         } catch (error) {
             // Should never get here since the above parsing is quite forgiving. Likely this is due
             // to a stream or other interrupt error.
-            const row_str = '[ ' + row.join(',') + ' ]';
+            const row_str = "[ " + row.join(",") + " ]";
             if (error instanceof Error) {
                 console.error(`Error reading row ${row_str} due to ${error.message}`, error);
             } else {
                 console.error(`Unexpected row error object found on row ${row_str}`, error);
             }
         }
-
     });
 
     return retval;

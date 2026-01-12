@@ -1,29 +1,35 @@
 export enum UndercarriageConfiguration {
     INLINE = "inline",
     TRIKE_NOSEWHEEL = "trike_nosewheel",
-    TRIKE_TAILDRAGGER = "trike_taildragger"
+    TRIKE_TAILDRAGGER = "trike_taildragger",
 }
 
 export enum SeatingConfiguration {
     SINGLE = "single",
     TANDEM = "tandem",
-    SIDE_BY_SIDE = "side_by_side"
+    SIDE_BY_SIDE = "side_by_side",
 }
 
 export enum TailBallastType {
-    NONE = 'none',
-    WATER = 'water',
-    BLOCKS = 'blocks'
+    NONE = "none",
+    WATER = "water",
+    BLOCKS = "blocks",
 }
 
-export const reverseUndercarriageConfigurationMap = new Map<string, UndercarriageConfiguration>(Object.values(UndercarriageConfiguration).map((value => [`${value}`, value])));
-export const reverseSeatingConfigurationMap = new Map<string, SeatingConfiguration>(Object.values(SeatingConfiguration).map((value => [`${value}`, value])));
-export const reverseTailBallastTypeMap = new Map<string, TailBallastType>(Object.values(TailBallastType).map((value => [`${value}`, value])));
+export const reverseUndercarriageConfigurationMap = new Map<string, UndercarriageConfiguration>(
+    Object.values(UndercarriageConfiguration).map((value) => [`${value}`, value]),
+);
+export const reverseSeatingConfigurationMap = new Map<string, SeatingConfiguration>(
+    Object.values(SeatingConfiguration).map((value) => [`${value}`, value]),
+);
+export const reverseTailBallastTypeMap = new Map<string, TailBallastType>(
+    Object.values(TailBallastType).map((value) => [`${value}`, value]),
+);
 
 /**
- * Defines a number blocks of a single configuration that can be added as ballast. 
+ * Defines a number blocks of a single configuration that can be added as ballast.
  * Ballast may be placed in the tail or nose, to the maximum number of the blocks
- * of this weight. 
+ * of this weight.
  */
 export interface BallastBlockCapacity {
     label: string;
@@ -32,7 +38,7 @@ export interface BallastBlockCapacity {
 }
 
 /**
- * Mapping from wing ballast to tail ballast amount. 
+ * Mapping from wing ballast to tail ballast amount.
  */
 export interface WingBallastCompensation {
     wingBallastAmount: number;
@@ -42,10 +48,10 @@ export interface WingBallastCompensation {
 /**
  * Represents the configuration of an aircraft based on type certificate. This represents the combinations
  * the type cert is capable of having. However, an individual aircraft may not have all of these configuration
- * options - eg DG300s could be ordered with or without a tail tank. 
+ * options - eg DG300s could be ordered with or without a tail tank.
  */
 export interface AircraftConfiguration {
-    /** 
+    /**
      * An identifier of the type certificate the configuration belongs to. Not used by the calculator, but can be used
      * if this is fetched from a DB, file or other data source.
      */
@@ -65,7 +71,7 @@ export interface AircraftConfiguration {
      */
     hasRudderVators: boolean;
 
-    /** 
+    /**
      * Used for any form of fixed undercarriage, including
      * aircraft with only skids
      */
@@ -80,7 +86,7 @@ export interface AircraftConfiguration {
     seatingType: SeatingConfiguration;
 
     /**
-     * This is the maximum amount of water ballast that can be put into the 
+     * This is the maximum amount of water ballast that can be put into the
      * fuselage tanks. The assumption is there's only a single fuselage tank.
      * CG location of the tank is defined in the W&B datum configuration.
      */
@@ -88,7 +94,7 @@ export interface AircraftConfiguration {
 
     /**
      * This is the maximum
-     * amount of water ballast that can be put into the wings. This 
+     * amount of water ballast that can be put into the wings. This
      * can be modified by aircraft-specific SBs and the overall weight
      * and balance of the aircraft
      */
@@ -96,7 +102,7 @@ export interface AircraftConfiguration {
 
     /**
      * Sets the type of ballast, if any that can be used to adjust the CG
-     * position and is located in the tail. 
+     * position and is located in the tail.
      */
     tailCGAdjustBallastType: TailBallastType;
 
@@ -111,13 +117,13 @@ export interface AircraftConfiguration {
     tailCGAdjustBallastCapacity: number | BallastBlockCapacity[] | null;
 
     /**
-     * IF there is a tail ballast tank that can be used to offset the wing water 
-     * ballast amount then this is the maximum amount allowed. 
+     * IF there is a tail ballast tank that can be used to offset the wing water
+     * ballast amount then this is the maximum amount allowed.
      */
     tailWingBallastCompensationAmount?: number;
 
     /**
-     * Primary wingspan (typically the shorter). Value always in metres. 
+     * Primary wingspan (typically the shorter). Value always in metres.
      */
     wingSpanPrimary: number;
 
@@ -127,23 +133,23 @@ export interface AircraftConfiguration {
      */
     wingSpanAlternate?: number;
 
-    /** 
-     * The number of panels that are used for the whole wing. Typically is an 
+    /**
+     * The number of panels that are used for the whole wing. Typically is an
      * even number since most aircraft do not have a single central section that
      * tips attach to. However, some aircraft, particularly older wooden aircraft
-     * might have a single piece wing, so the panel count is 1. 
+     * might have a single piece wing, so the panel count is 1.
      */
     wingPanelCount: number;
 
     /**
-     * Used to describe if an aircraft has separate winglet and flat tips in a 
+     * Used to describe if an aircraft has separate winglet and flat tips in a
      * given length wing. Mostly used on older generation flapped aircraft, or
      * the DG300 where you can have 15m flat and 15m Winglets. The winglets will
-     * replace the outer-most panel. 
+     * replace the outer-most panel.
      */
     hasWingletOption: boolean;
 
-    /** 
+    /**
      * Number of blocks that could be fixed in the cockpit if there is the
      * ability to mount them
      */

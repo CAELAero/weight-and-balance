@@ -1,6 +1,6 @@
 import { AircraftConfiguration, BallastBlockCapacity, TailBallastType } from "./aircraft-configuration";
 
-const HEADER=[
+const HEADER = [
     "Type certificate",
     "flaps",
     "trim",
@@ -18,17 +18,17 @@ const HEADER=[
     "wing panel count",
     "winglets",
     "cockpit ballast count",
-    "cockpit ballast block weight"
+    "cockpit ballast block weight",
 ];
 
-const FLOAT_FORMAT=new Intl.NumberFormat("en-IN", { maximumSignificantDigits: 3 });
+const FLOAT_FORMAT = new Intl.NumberFormat("en-IN", { maximumSignificantDigits: 3 });
 
-export function exportAircraftConfigToCSV(configs: AircraftConfiguration[]) : string[] {
+export function exportAircraftConfigToCSV(configs: AircraftConfiguration[]): string[] {
     const retval: string[] = [];
 
-    retval.push(HEADER.join(','));
+    retval.push(HEADER.join(","));
 
-    configs.forEach(data => {
+    configs.forEach((data) => {
         const row: string[] = [];
 
         // order is important here, to match the header.
@@ -43,9 +43,9 @@ export function exportAircraftConfigToCSV(configs: AircraftConfiguration[]) : st
         row.push(convertIntToString(data.wingMaxBallastAmount));
         row.push(data.tailCGAdjustBallastType.toString());
 
-        switch(data.tailCGAdjustBallastType) {
+        switch (data.tailCGAdjustBallastType) {
             case TailBallastType.NONE:
-                row.push('');
+                row.push("");
                 break;
 
             case TailBallastType.WATER:
@@ -56,13 +56,13 @@ export function exportAircraftConfigToCSV(configs: AircraftConfiguration[]) : st
                 const blocks = data.tailCGAdjustBallastCapacity as BallastBlockCapacity[];
                 const output: string[] = [];
 
-                blocks.forEach(b => {
+                blocks.forEach((b) => {
                     output.push(b.label);
                     output.push(convertFloatToString(b.weightPerBlock));
                     output.push(convertIntToString(b.maxBlockCount));
                 });
 
-                row.push(output.join(':'));
+                row.push(output.join(":"));
                 break;
         }
 
@@ -74,16 +74,16 @@ export function exportAircraftConfigToCSV(configs: AircraftConfiguration[]) : st
         row.push(convertIntToString(data.cockpitBallastBlockCount));
         row.push(convertFloatToString(data.cockpitBallastWeightPerBlock));
 
-        retval.push(row.join(','));
+        retval.push(row.join(","));
     });
 
     return retval;
 }
 
 function convertIntToString(src?: number): string {
-    return (src != undefined) && (src != null) ? src.toFixed(0) : '';
+    return src != undefined && src != null ? src.toFixed(0) : "";
 }
 
 function convertFloatToString(src?: number): string {
-    return (src != undefined) && (src != null) ? FLOAT_FORMAT.format(src) : '';
+    return src != undefined && src != null ? FLOAT_FORMAT.format(src) : "";
 }

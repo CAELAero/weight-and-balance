@@ -1,7 +1,6 @@
+import { Readable } from "stream";
 
-import { Readable } from 'stream';
-
-import { ParsingOptions, WorkBook, readFile, read } from 'xlsx';
+import { ParsingOptions, WorkBook, readFile, read } from "xlsx";
 
 const BOOLEAN_TRUE_MAP = new Set();
 BOOLEAN_TRUE_MAP.add("true");
@@ -21,10 +20,10 @@ export function parseFloat(src: any): number {
 
     let retval: number = undefined;
 
-    if(raw && raw.length > 0) {
+    if (raw && raw.length > 0) {
         try {
             retval = Number.parseFloat(raw);
-            if(Number.isNaN(retval)) {
+            if (Number.isNaN(retval)) {
                 retval = undefined;
             }
         } catch (err) {
@@ -40,10 +39,10 @@ export function parseInt(src: any): number {
 
     let retval: number = undefined;
 
-    if(raw && raw.length > 0) {
+    if (raw && raw.length > 0) {
         try {
             retval = Number.parseInt(raw, 10);
-            if(Number.isNaN(retval)) {
+            if (Number.isNaN(retval)) {
                 retval = undefined;
             }
         } catch (err) {
@@ -57,22 +56,20 @@ export function parseInt(src: any): number {
 export function parseString(src: any): string {
     const src_type = typeof src;
 
-    if (src_type === 'string' || src_type === 'number') {
+    if (src_type === "string" || src_type === "number") {
         return src ? src.toString().trim() : undefined;
     } else {
         return undefined;
     }
 }
 
-export async function readInput(
-    source: string | Readable | ReadableStream | Blob,
-): Promise<WorkBook> {
+export async function readInput(source: string | Readable | ReadableStream | Blob): Promise<WorkBook> {
     // Need to force raw parsing here since it will mess up the registration dates,
     // which are in internation style dd/mm/yyyy and it converts to american style.
     const options: ParsingOptions = {};
     options.raw = true;
 
-    if (typeof source === 'string') {
+    if (typeof source === "string") {
         return readFile(source, options);
     } else if (source instanceof Readable) {
         // ReadableStream is a derived type of Readable, so we're good here
@@ -85,22 +82,22 @@ export async function readInput(
         const readable = new Readable().wrap(blob_stream as any);
         return readStream(readable, options);
     } else {
-        throw new Error('Unhandled type of input source');
+        throw new Error("Unhandled type of input source");
     }
 }
 
 async function readStream(stream: Readable, options: ParsingOptions): Promise<WorkBook> {
     const buffers: Uint8Array[] = [];
-    options.type = 'buffer';
+    options.type = "buffer";
 
     const reader = new Promise<WorkBook>((resolve, reject) => {
-        stream.on('data', (data) => {
+        stream.on("data", (data) => {
             if (data instanceof Uint8Array) {
                 buffers.push(data);
             }
         });
-        stream.on('end', () => resolve(read(Buffer.concat(buffers), options)));
-        stream.on('error', reject);
+        stream.on("end", () => resolve(read(Buffer.concat(buffers), options)));
+        stream.on("error", reject);
     });
 
     return reader;

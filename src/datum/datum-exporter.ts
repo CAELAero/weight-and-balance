@@ -1,6 +1,6 @@
 import { WeightAndBalanceDatum } from "./datum";
 
-const HEADER=[
+const HEADER = [
     "Type certificate",
     "location",
     "levelling instructions",
@@ -19,15 +19,15 @@ const HEADER=[
     "cockpit ballast arm",
     "tail ballast arm",
     "wheel to datum",
-    "wheel to tailwheel"
+    "wheel to tailwheel",
 ];
 
-export function exportDatumToCSV(configs: WeightAndBalanceDatum[]) : string[] {
+export function exportDatumToCSV(configs: WeightAndBalanceDatum[]): string[] {
     const retval: string[] = [];
 
-    retval.push(HEADER.join(','));
+    retval.push(HEADER.join(","));
 
-    configs.forEach(data => {
+    configs.forEach((data) => {
         const row: string[] = [];
 
         row.push(data.typeCertificateId);
@@ -50,19 +50,19 @@ export function exportDatumToCSV(configs: WeightAndBalanceDatum[]) : string[] {
         row.push(convertIntToString(data.distanceFrontWheelToDatum));
         row.push(convertIntToString(data.distanceFrontWheelToRearWheel));
 
-        retval.push(row.join(','));
+        retval.push(row.join(","));
     });
 
     return retval;
 }
 
 function convertIntToString(src?: number): string {
-    return (src != undefined) && (src != null) ? src.toFixed(0) : '';
+    return src != undefined && src != null ? src.toFixed(0) : "";
 }
 
 function escapeString(src: string): string {
-    if(src.indexOf(',') != -1) {
-        return "\"" + src + "\"";
+    if (src.indexOf(",") != -1) {
+        return '"' + src + '"';
     } else {
         return src;
     }

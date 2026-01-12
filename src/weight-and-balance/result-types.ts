@@ -8,7 +8,7 @@ export interface WeightAndBalanceBallastAmount {
     pilotWeight: number;
 }
 
-/** 
+/**
  * Modified pilot weights based on the amount of ballast in the tail
  */
 export interface SingleSeaterPilotWeightTailBallastAdjustment {
@@ -20,8 +20,8 @@ export interface SingleSeaterPilotWeightTailBallastAdjustment {
 
 export interface TwoSeaterPilotWeightTailBallastAdjustment {
     /**
-     * Amount of tail ballast to fit. Can be either a number for water ballast, or 
-     * a block count for aircraft that can handle blocks. 
+     * Amount of tail ballast to fit. Can be either a number for water ballast, or
+     * a block count for aircraft that can handle blocks.
      */
     ballastAmount: number | FittedBallastBlock[];
     soloMinPilotWeight: number;
@@ -35,13 +35,13 @@ export interface TwoSeaterPilotWeightTailBallastAdjustment {
 export interface WeightAndBalanceResult {
     calculationInputOptions: {
         useGFAMinBuffer: boolean;
-        primaryWingspanSelected: boolean;  
+        primaryWingspanSelected: boolean;
         p1ArmRangePercentage?: number;
-    }
+    };
 
     /** Numbers copied from the datum so that the results can be standalone when printing */
     maxAllUpWeight: number;
-    
+
     emptyCGArm: number;
     emptyWeight: number;
 
@@ -49,19 +49,19 @@ export interface WeightAndBalanceResult {
 
     nonLiftingPartsWeight: number;
 
-    /** 
+    /**
      * If the calculation used the min-max method for a P1 arm, this will be set to true. If so,
-     * then pilot1ArmUsed will reference the arm length closest to the datum. 
+     * then pilot1ArmUsed will reference the arm length closest to the datum.
      */
     pilotArmMinMaxUsed: boolean;
 
-    /** 
+    /**
      * The selected arm distance used for P1 calculation. This can vary if a range is defined in
-     * aircraft datum, and the user has selected a percentage range. 
+     * aircraft datum, and the user has selected a percentage range.
      */
     pilot1ArmUsed: number;
 
-    /** 
+    /**
      * Ballast blocks to adjust the minimum pilot weight. Optional as some aircraft
      * don't have removable ballast.
      */
@@ -72,13 +72,12 @@ export interface WeightAndBalanceResult {
 }
 
 export interface SingleSeaterWeightAndBalanceResult extends WeightAndBalanceResult {
-
     /** Minimum pilot weight assuming no ballast blocks are fitted */
     minPilotWeight: number;
 
     maxPilotWeight: number;
 
-    /** 
+    /**
      * If this aircaft config allows adjusting the CG with tail ballast, this documents how
      * the pilot weight range changes.
      */
@@ -104,7 +103,7 @@ export interface TwoSeaterWeightAndBalanceResult extends WeightAndBalanceResult 
 
     dualPilotWeightRanges: TwoSeatWeightRange[];
 
-    /** 
+    /**
      * If this aircaft config allows adjusting the CG with tail ballast, this documents how
      * the pilot weight range changes.
      */
