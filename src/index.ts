@@ -1,6 +1,7 @@
 /**
  * Global module exports
  */
+export { encodeTypeCertificateId } from "./util/type-cert-utils";
 export { exportAircraftConfigToCSV } from "./configuration/configuration-exporter";
 export { loadAircraftConfigFromCSV } from "./configuration/configuration-loader";
 
