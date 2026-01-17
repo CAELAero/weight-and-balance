@@ -68,6 +68,7 @@ typings/
 # Only exists if Bazel was run
 /bazel-out
 /lib
+/build
 
 # profiling files
 chrome-profiler-events.json
