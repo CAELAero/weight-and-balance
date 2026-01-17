@@ -121,7 +121,7 @@ export function generateWeightAndBalancePlacardData(
 /**
  * Using an existing measurement, and a single component change detail, update the weight and balance of
  * this aircraft. Since the item change values could be undefined in the changes parameter, this can act
- * identically to the {@generateWeightAndBalancePlacardData} method.
+ * identically to the {@link generateWeightAndBalancePlacardData} method.
  *
  * @param datum Datum details for the requested type certificate
  * @param config Configuration of this aircraft of this type certificate
