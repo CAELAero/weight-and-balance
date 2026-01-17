@@ -38,12 +38,14 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "tsc --build",
+    "build": "tsc --build tsconfig.lib.json",
+    "apps": "tsc --build tsconfig.apps.json",
+    "dump": "ts-node --project ./tsconfig.apps.json --logError ./apps/gfa_speadsheet/gfa_dump.ts -src ./apps/gfa_speadsheet/data/gfa_worksheet.xlsx",
     "test": "jest --config jest.config.json",
     "coverage": "jest --coverage",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "./node_modules/.bin/eslint src",
-    "docs": "typedoc src",
+    "docs": "typedoc --tsconfig tsconfig.lib.json src",
     "prepublishOnly": "npm test && npm run lint && npm run docs && git add docs/* && git commit -m \"Auto generated docs\" docs && git push",
     "preversion": "npm test && npm run lint",
     "version": "npm run format && git add -A src",
@@ -71,7 +73,7 @@
     "minimist": ">=1.2.5",
     "prettier": "^3.x",
     "ts-jest": "^29.x",
-    "typedoc": "^0.25",
+    "typedoc": "^0.28",
     "typescript": "^5.4"
   }
 }

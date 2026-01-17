@@ -26,7 +26,7 @@ export default defineConfig([
             sourceType: "module",
 
             parserOptions: {
-                project: "./tsconfig.json",
+                project: "./tsconfig.apps.json",
                 createDefaultProgram: true,
             },
         },
