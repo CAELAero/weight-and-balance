@@ -40,7 +40,7 @@
   "scripts": {
     "build": "tsc --build tsconfig.lib.json",
     "apps": "tsc --build tsconfig.apps.json",
-    "dump": "ts-node --project ./tsconfig.apps.json --logError ./apps/gfa_speadsheet/gfa_dump.ts -src ./apps/gfa_speadsheet/data/gfa_worksheet.xlsx",
+    "dump": "ts-node --project ./tsconfig.apps.json ./apps/gfa_spreadsheet/gfa_dump.ts -src ./apps/gfa_spreadsheet/data/gfa_worksheet.xlsx",
     "test": "jest --config jest.config.json",
     "coverage": "jest --coverage",
     "format": "prettier --write \"src/**/*.ts\"",
