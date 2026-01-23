@@ -45,3 +45,8 @@ export {
     updateWeightAndBalance,
     calculateWeightAndBalance,
 } from "./weight-and-balance/calculator";
+
+export {
+    calculateArm,
+    calculateTailBallastAmountForCGPosition
+} from "./weight-and-balance/helpers";
