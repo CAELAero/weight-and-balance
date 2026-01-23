@@ -61,7 +61,7 @@ function convertIntToString(src?: number): string {
 }
 
 function escapeString(src: string): string {
-    if (src.indexOf(",") != -1) {
+    if (src && src.indexOf(",") != -1) {
         return '"' + src + '"';
     } else {
         return src;
