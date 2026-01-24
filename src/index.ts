@@ -1,6 +1,11 @@
 /**
  * Global module exports
  */
+export { 
+    CertificationCategory,
+    reverseCertificationCategoryMap
+} from "./util/certifcation-category";
+
 export { encodeTypeCertificateId } from "./util/type-cert-utils";
 export { exportAircraftConfigToCSV } from "./configuration/configuration-exporter";
 export { loadAircraftConfigFromCSV } from "./configuration/configuration-loader";
@@ -17,7 +22,11 @@ export {
     type AircraftConfiguration,
 } from "./configuration/aircraft-configuration";
 
-export { DatumCalculationModel, reverseCalculationModelMap, type WeightAndBalanceDatum } from "./datum/datum";
+export { 
+    DatumCalculationModel, 
+    type WeightAndBalanceDatum,
+    reverseCalculationModelMap, 
+} from "./datum/datum";
 
 export { exportDatumToCSV } from "./datum/datum-exporter";
 export { loadDatumFromCSV } from "./datum/datum-loader";

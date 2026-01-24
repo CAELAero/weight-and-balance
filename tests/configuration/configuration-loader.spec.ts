@@ -15,6 +15,7 @@ describe("configuration-loader", () => {
 
             const entry = result[0];
             expect(entry.typeCertificateId).toBe("SZD 48-1");
+            expect(entry.wingspanOptions[0]).toBe(15);
             expect(entry.hasFlaps).toBeFalsy();
             expect(entry.hasElevatorTrim).toBeFalsy();
             expect(entry.hasRudderVators).toBeFalsy();
@@ -26,8 +27,6 @@ describe("configuration-loader", () => {
             expect(entry.tailWingBallastCompensationAmount).toBeUndefined();
             expect(entry.tailCGAdjustBallastType).toBe(TailBallastType.NONE);
             expect(entry.tailCGAdjustBallastCapacity).toBeFalsy();
-            expect(entry.wingSpanAlternate).toBeFalsy();
-            expect(entry.wingSpanPrimary).toBe(15);
             expect(entry.wingPanelCount).toBe(2);
             expect(entry.hasWingletOption).toBeFalsy();
             expect(entry.cockpitBallastBlockCount).toBe(0);
@@ -48,7 +47,7 @@ describe("configuration-loader", () => {
             expect(entry.hasWingletOption).toBeFalsy();
         });
 
-        xit("Loads tail block definitions", async () => {
+        it("Loads tail block definitions", async () => {
             const result = await loadAircraftConfigFromCSV("tests/configuration/data/tail_blocks.csv");    
 
             expect(result.length).toBe(1);

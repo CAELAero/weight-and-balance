@@ -26,7 +26,6 @@ describe("Base validation", () => {
 
             // ensure we copy out the options too
             expect(result.calculationInputOptions.p1ArmRangePercentage).toBeUndefined();
-            expect(result.calculationInputOptions.primaryWingspanSelected).toBeTruthy();
             expect(result.calculationInputOptions.useGFAMinBuffer).toBeFalsy();
         });
 
@@ -38,7 +37,7 @@ describe("Base validation", () => {
             const aircraft_arm = 608;
             const nlp_weight = 131.3;
 
-            const result = generateWeightAndBalancePlacardData(datum, config, aircaft_weight, aircraft_arm, nlp_weight, { calculatePrimary: false }) as SingleSeaterWeightAndBalanceResult;
+            const result = generateWeightAndBalancePlacardData(datum, config, aircaft_weight, aircraft_arm, nlp_weight) as SingleSeaterWeightAndBalanceResult;
 
             expect(result).toBeTruthy();
 
@@ -61,7 +60,6 @@ describe("Base validation", () => {
 
             // ensure we copy out the options too
             expect(result.calculationInputOptions.p1ArmRangePercentage).toBeUndefined();
-            expect(result.calculationInputOptions.primaryWingspanSelected).toBeFalsy();
             expect(result.calculationInputOptions.useGFAMinBuffer).toBeFalsy();
         });
 
@@ -73,7 +71,7 @@ describe("Base validation", () => {
             const aircraft_arm = 614;
             const nlp_weight = 131.3;
 
-            const result = generateWeightAndBalancePlacardData(datum, config, aircaft_weight, aircraft_arm, nlp_weight, { useGFAMinBuffer: true, calculatePrimary: false }) as SingleSeaterWeightAndBalanceResult;
+            const result = generateWeightAndBalancePlacardData(datum, config, aircaft_weight, aircraft_arm, nlp_weight, { useGFAMinBuffer: true }) as SingleSeaterWeightAndBalanceResult;
 
             expect(result).toBeTruthy();
 
@@ -83,7 +81,6 @@ describe("Base validation", () => {
 
             // ensure we copy out the options too
             expect(result.calculationInputOptions.p1ArmRangePercentage).toBeUndefined();
-            expect(result.calculationInputOptions.primaryWingspanSelected).toBeFalsy();
             expect(result.calculationInputOptions.useGFAMinBuffer).toBeTruthy();
         });
     });
@@ -171,7 +168,6 @@ describe("Base validation", () => {
 
             // ensure we copy out the options too
             expect(result_ranged.calculationInputOptions.p1ArmRangePercentage).toBeUndefined();
-            expect(result_ranged.calculationInputOptions.primaryWingspanSelected).toBeTruthy();
             expect(result_ranged.calculationInputOptions.useGFAMinBuffer).toBeTruthy();
         });
 

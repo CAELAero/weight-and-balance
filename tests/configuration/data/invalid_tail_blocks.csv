@@ -1,4 +1,4 @@
-"Type certificate","flaps","trim","ruddervator","fixed uc","uc type","seat type","fuselage max ballast","wings max ballast","tail ballast type", "tail ballast capacity", "tail wing compensation max ballast", "winspan primary", "wingspan alternate", "wing panel count", "winglets", "cockpit ballast count", "cockpit ballast block weight"
-"Missing first weight", false, false, false, false, inline, tandem, , 150, BLOCKS, large:2.4, ,15, , 2, false, 0, ,
-"invalid second block", false, false, false, false, inline, tandem, , 150, BLOCKS, large:2.4:4:small:, ,15, , 2, false, 0, ,
-"No blocks defined", false, false, false, false, inline, tandem, , 150, BLOCKS,, ,15, , 2, false, 0, ,
+"Type certificate","wingspan options","flaps","trim","ruddervator","fixed uc","uc type","seat type","fuselage max ballast","wings max ballast","tail ballast type", "tail ballast capacity", "tail wing compensation max ballast","wing panel count", "winglets","cockpit ballast count","cockpit ballast block weight"
+"Missing first weight",15, false, false, false, false, inline, tandem, , 150, BLOCKS, large:2.4, , 2, false, 0, ,
+"invalid second block",15, false, false, false, false, inline, tandem, , 150, BLOCKS, large:2.4:4:small:, , 2, false, 0, ,
+"No blocks defined",15, false, false, false, false, inline, tandem, , 150, BLOCKS,, , 2, false, 0, ,

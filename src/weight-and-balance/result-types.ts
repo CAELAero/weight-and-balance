@@ -35,7 +35,6 @@ export interface TwoSeaterPilotWeightTailBallastAdjustment {
 export interface WeightAndBalanceResult {
     calculationInputOptions: {
         useGFAMinBuffer: boolean;
-        primaryWingspanSelected: boolean;
         p1ArmRangePercentage?: number;
     };
 

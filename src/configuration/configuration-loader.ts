@@ -40,29 +40,41 @@ export async function loadAircraftConfigFromCSV(
     sheet_data.forEach((row) => {
         try {
             const type_cert_id = parseString(row[0]);
-            const flaps = parseBoolean(row[1]);
-            const trim = parseBoolean(row[2]);
-            const ruddervator = parseBoolean(row[3]);
-            const fixed_uc = parseBoolean(row[4]);
+            const value = parseString(row[1]);
+            const option_str = value.split(":");
 
-            const uc_type = reverseUndercarriageConfigurationMap.get(parseString(row[5])?.toLowerCase());
-            const seat_type = reverseSeatingConfigurationMap.get(parseString(row[6])?.toLowerCase());
+            const span_options: number[] = [];
 
-            const fuse_max_ballast = parseInt(row[7]);
-            const wing_max_ballast = parseInt(row[8]);
-            const tail_ballast_type = reverseTailBallastTypeMap.get(parseString(row[9])?.toLowerCase());
+            option_str.forEach(val => {
+                const parsed = parseFloat(val);
+                if(parsed) {
+                    span_options.push(parsed);
+                }
+            });
+
+            const flaps = parseBoolean(row[2]);
+            const trim = parseBoolean(row[3]);
+            const ruddervator = parseBoolean(row[4]);
+            const fixed_uc = parseBoolean(row[5]);
+
+            const uc_type = reverseUndercarriageConfigurationMap.get(parseString(row[6])?.toLowerCase());
+            const seat_type = reverseSeatingConfigurationMap.get(parseString(row[7])?.toLowerCase());
+
+            const fuse_max_ballast = parseInt(row[8]);
+            const wing_max_ballast = parseInt(row[9]);
+            const tail_ballast_type = reverseTailBallastTypeMap.get(parseString(row[10])?.toLowerCase());
 
             let tail_cap = null;
 
             switch (tail_ballast_type) {
                 case TailBallastType.WATER:
-                    tail_cap = parseFloat(row[10]);
+                    tail_cap = parseFloat(row[11]);
                     break;
 
                 case TailBallastType.BLOCKS:
                     // use a colon separated list, in blocks of 3. Really needs JSON here, but mixing
                     // JSON with CSV is just ugly, so we go for a slightly less ugly version.
-                    const raw = parseString(row[10]);
+                    const raw = parseString(row[11]);
                     const parts = raw?.split(":");
                     const block_defs: BallastBlockCapacity[] = [];
                     const num_blocks = Math.floor(parts?.length / 3);
@@ -83,16 +95,15 @@ export async function loadAircraftConfigFromCSV(
                 // do nothing
             }
 
-            const wing_comp_ballast = parseInt(row[11]);
-            const span_primary = parseFloat(row[12]);
-            const span_alt = parseFloat(row[13]);
-            const panel_count = parseInt(row[14]);
-            const winglets = parseBoolean(row[15]);
-            const cockpit_ballast_count = parseInt(row[16]);
-            const cockpit_block_weight = parseFloat(row[19]);
+            const wing_comp_ballast = parseInt(row[12]);
+            const panel_count = parseInt(row[13]);
+            const winglets = parseBoolean(row[14]);
+            const cockpit_ballast_count = parseInt(row[15]);
+            const cockpit_block_weight = parseFloat(row[16]);
 
             const obj: AircraftConfiguration = {
                 typeCertificateId: type_cert_id,
+                wingspanOptions: span_options,
                 hasFlaps: flaps,
                 hasElevatorTrim: trim,
                 hasRudderVators: ruddervator,
@@ -104,8 +115,6 @@ export async function loadAircraftConfigFromCSV(
                 fuselageMaxBallastAmount: fuse_max_ballast,
                 wingMaxBallastAmount: wing_max_ballast,
                 tailWingBallastCompensationAmount: wing_comp_ballast,
-                wingSpanPrimary: span_primary,
-                wingSpanAlternate: span_alt,
                 wingPanelCount: panel_count,
                 hasWingletOption: winglets,
                 cockpitBallastBlockCount: cockpit_ballast_count,

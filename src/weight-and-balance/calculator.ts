@@ -24,12 +24,6 @@ export interface WeightAndBalanceOptions {
     useGFAMinBuffer?: boolean;
 
     /**
-     * Decide whether to use the primary or alternate wingspan weight values. System allows for both
-     * numbers to be passed in for the tips, so itcan select which set of data to use.
-     */
-    calculatePrimary?: boolean;
-
-    /**
      * Minimum different allowed between min and max pilot weights before the system refuses to give
      * an answer. Typically this is used in 2 seater configuration where the P2 will want to have a
      * reasonable range. By default, this is 10.
@@ -58,7 +52,6 @@ export interface WeightAndBalanceOptions {
 
 const DEFAULT_OPTIONS: WeightAndBalanceOptions = {
     useGFAMinBuffer: false,
-    calculatePrimary: true,
     minAllowedWeightDifference: 10,
     placardWeightIncremments: 10,
 
@@ -185,7 +178,7 @@ export function calculateWeightAndBalance(
     // english readable versions. This helps with double-checking against hand calculations.
     const g1 = calculateG1(config, measurements);
     const g2 = calculateG2(config, measurements);
-    const g_wing = calculateWingWeights(config, measurements, real_options.calculatePrimary);
+    const g_wing = calculateWingWeights(config, measurements);
 
     // Total empty weight
     const ge = g1 + g2;
@@ -270,11 +263,7 @@ function calculateG2(config: AircraftConfiguration, measurements: WeightAndBalan
  * @param calculatePrimary When the aircraft has multiple wingspans, should this calculate based
  * @returns The total weight of the wings summed based on the configuration and/or primary length.
  */
-function calculateWingWeights(
-    config: AircraftConfiguration,
-    measurements: WeightAndBalanceMeasurement,
-    calculatePrimary: boolean,
-): number {
+function calculateWingWeights( config: AircraftConfiguration, measurements: WeightAndBalanceMeasurement ): number {
     // always start with left wing. We store data here even if it's a one-piece wing like many old vintage gliders;
 
     let weight = 0;
@@ -292,11 +281,7 @@ function calculateWingWeights(
 
         case 4:
             weight = measurements.wing1Weight + measurements.wing2Weight;
-            if (calculatePrimary) {
-                weight += (measurements.wing3Weight || 0) + (measurements.wing4Weight || 0);
-            } else {
-                weight += (measurements.wing5Weight || 0) + (measurements.wing6Weight || 0);
-            }
+            weight += (measurements.wing3Weight || 0) + (measurements.wing4Weight || 0);
             break;
 
         case 6:
@@ -366,7 +351,6 @@ function calculateBaseCGLimits(
         maxFuselageLoad: Math.floor(Math.min(max_auw, max_dry, max_nlp)),
         calculationInputOptions: {
             useGFAMinBuffer: false,
-            primaryWingspanSelected: false,
             p1ArmRangePercentage: p1ArmRangePercentage,
         },
     };
@@ -414,7 +398,6 @@ function calculateSingleSeater(
     }
 
     // Update the options selected here
-    retval.calculationInputOptions.primaryWingspanSelected = options.calculatePrimary;
     retval.calculationInputOptions.useGFAMinBuffer = options.useGFAMinBuffer || false;
 
     return retval;
@@ -450,7 +433,6 @@ function calculateTwoSeater(
         maxFuselageLoad: Math.floor(base_pilot.maxFuselageLoad),
         calculationInputOptions: {
             useGFAMinBuffer: options.useGFAMinBuffer,
-            primaryWingspanSelected: options.calculatePrimary || true,
             p1ArmRangePercentage: options.p1ArmRangePercentage,
         },
     };
@@ -558,7 +540,6 @@ function calculateTwoSeater(
     }
 
     // Update the options selected here
-    retval.calculationInputOptions.primaryWingspanSelected = options.calculatePrimary;
     retval.calculationInputOptions.useGFAMinBuffer = options.useGFAMinBuffer || false;
 
     //console.log(JSON.stringify(retval, null, 2));

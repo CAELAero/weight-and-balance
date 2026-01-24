@@ -4,6 +4,7 @@ import { Sheet2JSONOpts, WorkBook, utils } from "xlsx";
 
 import { reverseCalculationModelMap, WeightAndBalanceDatum } from "./datum";
 import { parseString, parseInt, readInput } from "../util/parse-utils";
+import { reverseCertificationCategoryMap } from "..";
 
 export async function loadDatumFromCSV(
     source: string | Readable | ReadableStream | Blob,
@@ -32,27 +33,31 @@ export async function loadDatumFromCSV(
     sheet_data.forEach((row) => {
         try {
             const type_cert_id = parseString(row[0]);
-            const location = parseString(row[1]);
-            const levelling = parseString(row[2]);
-            const model = reverseCalculationModelMap.get(parseString(row[3]));
-            const mauw = parseInt(row[4]);
-            const mauw_alt = parseInt(row[5]);
-            const mdry = parseInt(row[6]);
-            const mnlp = parseInt(row[7]);
-            const max_seat = parseInt(row[8]);
-            const min_seat = parseInt(row[9]);
-            const fwd_cg = parseInt(row[10]);
-            const rear_cg = parseInt(row[11]);
-            const p1_arm = parseInt(row[12]);
-            const p1_arm_alt = parseInt(row[13]);
-            const p2_arm = parseInt(row[14]);
-            const cockpit_arm = parseInt(row[15]);
-            const tail_arm = parseInt(row[16]);
-            const front_wheel = parseInt(row[17]);
-            const wheel_to_wheel = parseInt(row[18]);
+            const category = reverseCertificationCategoryMap.get(parseString(row[1]));
+            const wingspan = parseFloat(row[2]);
+            const location = parseString(row[3]);
+            const levelling = parseString(row[4]);
+            const model = reverseCalculationModelMap.get(parseString(row[5]));
+            const mauw = parseInt(row[6]);
+            const mauw_alt = parseInt(row[7]);
+            const mdry = parseInt(row[8]);
+            const mnlp = parseInt(row[9]);
+            const max_seat = parseInt(row[10]);
+            const min_seat = parseInt(row[11]);
+            const fwd_cg = parseInt(row[12]);
+            const rear_cg = parseInt(row[13]);
+            const p1_arm = parseInt(row[14]);
+            const p1_arm_alt = parseInt(row[15]);
+            const p2_arm = parseInt(row[16]);
+            const cockpit_arm = parseInt(row[17]);
+            const tail_arm = parseInt(row[18]);
+            const front_wheel = parseInt(row[19]);
+            const wheel_to_wheel = parseInt(row[20]);
 
             const obj: WeightAndBalanceDatum = {
                 typeCertificateId: type_cert_id,
+                category: category,
+                wingspan: wingspan,
                 location: location,
                 levellingInstructions: levelling,
                 calculationModel: model,

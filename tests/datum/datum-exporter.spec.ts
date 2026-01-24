@@ -1,4 +1,4 @@
-import { DatumCalculationModel, exportDatumToCSV, WeightAndBalanceDatum } from "../../src";
+import { CertificationCategory, DatumCalculationModel, exportDatumToCSV, WeightAndBalanceDatum } from "../../src";
 
 describe("Datum export", () => {
     it("exports a header-only output", () => {
@@ -7,12 +7,14 @@ describe("Datum export", () => {
         expect(result).toBeTruthy();
         expect(Array.isArray(result)).toBeTruthy();
         expect(result.length).toBe(1);
-        expect(result[0].toLowerCase()).toBe('type certificate,location,levelling instructions,model,mauw,mauw alternate,mdry,mnlp,max seat,min pilot,fwd cg,aft cg,p1arm,p1arm max,p2arm,cockpit ballast arm,tail ballast arm,wheel to datum,wheel to tailwheel');
+        expect(result[0].toLowerCase()).toBe('type certificate,category,wingspan,location,levelling instructions,model,mauw,mauw alternate,mdry,mnlp,max seat,min pilot,fwd cg,aft cg,p1arm,p1arm max,p2arm,cockpit ballast arm,tail ballast arm,wheel to datum,wheel to tailwheel');
     });
 
     it("Exports a single seater definition", () => {
         const JANTAR_DATUM: WeightAndBalanceDatum = {
             typeCertificateId: "SZD481",
+            category: CertificationCategory.UTILITY,
+            wingspan: 15,
             location: "WRLE",
             levellingInstructions: "flat",
             calculationModel: DatumCalculationModel.MODEL_1,
@@ -33,12 +35,14 @@ describe("Datum export", () => {
         expect(Array.isArray(result)).toBeTruthy();
         expect(result.length).toBe(2);
         expect(result[1].startsWith(JANTAR_DATUM.typeCertificateId)).toBeTruthy();
-        expect(result[1]).toBe('SZD481,WRLE,flat,model_1,535,,385,245,110,70,158,336,-616,,,,,120,3648');
+        expect(result[1]).toBe('SZD481,utility,15,WRLE,flat,model_1,535,,385,245,110,70,158,336,-616,,,,,120,3648');
     });
 
     it("Quotes string fields containing commas", () => {
         const JANTAR_DATUM: WeightAndBalanceDatum = {
             typeCertificateId: "SZD481",
+            category: CertificationCategory.UTILITY,
+            wingspan: 15,
             location: "location with, comma",
             levellingInstructions: "levelling, with comma",
             calculationModel: DatumCalculationModel.MODEL_1,
@@ -51,7 +55,7 @@ describe("Datum export", () => {
             aftCGLimit: 336,
             pilot1Arm: -616,
             distanceFrontWheelToDatum: 120,
-            distanceFrontWheelToRearWheel: 3648
+            distanceFrontWheelToRearWheel: 3648,
         };
 
         const result = exportDatumToCSV([JANTAR_DATUM]);
@@ -59,6 +63,6 @@ describe("Datum export", () => {
         expect(Array.isArray(result)).toBeTruthy();
         expect(result.length).toBe(2);
         expect(result[1].startsWith(JANTAR_DATUM.typeCertificateId)).toBeTruthy();
-        expect(result[1]).toBe('SZD481,"location with, comma","levelling, with comma",model_1,535,,385,245,110,70,158,336,-616,,,,,120,3648');
+        expect(result[1]).toBe('SZD481,utility,15,"location with, comma","levelling, with comma",model_1,535,,385,245,110,70,158,336,-616,,,,,120,3648');
     });
 });

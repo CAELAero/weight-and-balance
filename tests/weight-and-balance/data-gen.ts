@@ -1,8 +1,11 @@
+import { CertificationCategory } from "../../src";
 import { AircraftConfiguration, SeatingConfiguration, TailBallastType, UndercarriageConfiguration } from "../../src/configuration/aircraft-configuration";
 import { DatumCalculationModel, WeightAndBalanceDatum } from "../../src/datum/datum";
 
 export const JANTAR_DATUM: WeightAndBalanceDatum = {
     typeCertificateId: "SZD 48-1",
+    category: CertificationCategory.UTILITY,
+    wingspan: 15,
     location: "1",
     levellingInstructions: "flat",
     calculationModel: DatumCalculationModel.MODEL_1,
@@ -21,6 +24,8 @@ export const JANTAR_DATUM: WeightAndBalanceDatum = {
 
 export const DG300_DATUM: WeightAndBalanceDatum = {
     typeCertificateId: "DG300 ELAN",
+    category: CertificationCategory.UTILITY,
+    wingspan: 15,
     location: "1",
     levellingInstructions: "flat",
     calculationModel: DatumCalculationModel.MODEL_1,
@@ -40,6 +45,8 @@ export const DG300_DATUM: WeightAndBalanceDatum = {
 
 export const LS6_DATUM: WeightAndBalanceDatum = {
     typeCertificateId: "LS6C",
+    category: CertificationCategory.UTILITY,
+    wingspan: 15,
     location: "1",
     levellingInstructions: "flat",
     calculationModel: DatumCalculationModel.MODEL_1,
@@ -58,6 +65,8 @@ export const LS6_DATUM: WeightAndBalanceDatum = {
 
 export const K21_DATUM: WeightAndBalanceDatum = {
     typeCertificateId: "ASK21",
+    category: CertificationCategory.UTILITY,
+    wingspan: 17,
     location: "1",
     levellingInstructions: "1",
     calculationModel: DatumCalculationModel.MODEL_3,
@@ -77,6 +86,8 @@ export const K21_DATUM: WeightAndBalanceDatum = {
 
 export const DG1000_P1_RANGED_DATUM: WeightAndBalanceDatum = {
     typeCertificateId: "DG1000S",
+    category: CertificationCategory.UTILITY,
+    wingspan: 20,
     location: "1",
     levellingInstructions: "1",
     calculationModel: DatumCalculationModel.MODEL_1,
@@ -98,6 +109,8 @@ export const DG1000_P1_RANGED_DATUM: WeightAndBalanceDatum = {
 
 export const DG1000_P1_FIXED_DATUM: WeightAndBalanceDatum = {
     typeCertificateId: "DG1000S",
+    category: CertificationCategory.UTILITY,
+    wingspan: 20,
     location: "1",
     levellingInstructions: "1",
     calculationModel: DatumCalculationModel.MODEL_1,
@@ -118,13 +131,13 @@ export const DG1000_P1_FIXED_DATUM: WeightAndBalanceDatum = {
 
 export const JANTAR_CONFIG: AircraftConfiguration = {
     typeCertificateId: "SZD 48-1",
+    wingspanOptions: [15],
     hasFlaps: false,
     hasElevatorTrim: false,
     hasRudderVators: false,
     hasFixedUndercarriage: false,
     undercarriageType: UndercarriageConfiguration.INLINE,
     seatingType: SeatingConfiguration.SINGLE,
-    wingSpanPrimary: 15,
     wingPanelCount: 2,
     hasWingletOption: false,
     wingMaxBallastAmount: 150,
@@ -135,14 +148,13 @@ export const JANTAR_CONFIG: AircraftConfiguration = {
 
 export const LS6_CONFIG: AircraftConfiguration = {
     typeCertificateId: "LS6C",
+    wingspanOptions: [15,17.5],
     hasFlaps: true,
     hasElevatorTrim: false,
     hasRudderVators: false,
     hasFixedUndercarriage: false,
     undercarriageType: UndercarriageConfiguration.INLINE,
     seatingType: SeatingConfiguration.SINGLE,
-    wingSpanPrimary: 15,
-    wingSpanAlternate: 17.5,
     wingPanelCount: 4,
     hasWingletOption: true,
     wingMaxBallastAmount: 140,
@@ -154,13 +166,13 @@ export const LS6_CONFIG: AircraftConfiguration = {
 
 export const K21_CONFIG: AircraftConfiguration = {
     typeCertificateId: "ASK21",
+    wingspanOptions: [17],
     hasFlaps: false,
     hasElevatorTrim: false,
     hasRudderVators: false,
     hasFixedUndercarriage: true,
     undercarriageType: UndercarriageConfiguration.INLINE,
     seatingType: SeatingConfiguration.TANDEM,
-    wingSpanPrimary: 17,
     wingPanelCount: 2,
     hasWingletOption: false,
     cockpitBallastBlockCount: 10,
@@ -171,14 +183,13 @@ export const K21_CONFIG: AircraftConfiguration = {
 
 export const DG1000_CONFIG: AircraftConfiguration = {
     typeCertificateId: "DG1000S",
+    wingspanOptions: [18,20],
     hasFlaps: false,
     hasElevatorTrim: false,
     hasRudderVators: false,
     hasFixedUndercarriage: false,
     undercarriageType: UndercarriageConfiguration.INLINE,
     seatingType: SeatingConfiguration.TANDEM,
-    wingSpanPrimary: 18,
-    wingSpanAlternate: 20,
     wingPanelCount: 4,
     hasWingletOption: true,
     wingMaxBallastAmount: 160,

@@ -1,7 +1,11 @@
 import { WeightAndBalanceDatum } from "./datum";
 
+const FLOAT_FORMAT = new Intl.NumberFormat("en-IN", { maximumSignificantDigits: 3 });
+
 const HEADER = [
-    "Type certificate",
+    "type certificate",
+    "category",
+    "wingspan",
     "location",
     "levelling instructions",
     "model",
@@ -31,6 +35,8 @@ export function exportDatumToCSV(configs: WeightAndBalanceDatum[]): string[] {
         const row: string[] = [];
 
         row.push(data.typeCertificateId);
+        row.push(data.category);
+        row.push(convertFloatToString(data.wingspan));
         row.push(escapeString(data.location));
         row.push(escapeString(data.levellingInstructions));
         row.push(data.calculationModel);
@@ -58,6 +64,10 @@ export function exportDatumToCSV(configs: WeightAndBalanceDatum[]): string[] {
 
 function convertIntToString(src?: number): string {
     return src != undefined && src != null ? src.toFixed(0) : "";
+}
+
+function convertFloatToString(src?: number): string {
+    return src != undefined && src != null ? FLOAT_FORMAT.format(src) : "";
 }
 
 function escapeString(src: string): string {

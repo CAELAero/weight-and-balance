@@ -1,3 +1,5 @@
+import { CertificationCategory } from "../util/certifcation-category";
+
 export enum UndercarriageConfiguration {
     INLINE = "inline",
     TRIKE_NOSEWHEEL = "trike_nosewheel",
@@ -56,6 +58,12 @@ export interface AircraftConfiguration {
      * if this is fetched from a DB, file or other data source.
      */
     typeCertificateId: string;
+
+    /** 
+     * How many different wingspans this aircraft can have. Typically 1 or 2, but some types
+     * will have 3 (eg DG1000 or ASH25). This array must always be at least length 1.
+     */
+    wingspanOptions: number[];
 
     hasFlaps: boolean;
 
@@ -121,17 +129,6 @@ export interface AircraftConfiguration {
      * ballast amount then this is the maximum amount allowed.
      */
     tailWingBallastCompensationAmount?: number;
-
-    /**
-     * Primary wingspan (typically the shorter). Value always in metres.
-     */
-    wingSpanPrimary: number;
-
-    /**
-     * When there's an alternate wingspan length available. Value always in
-     * metres. Note that this can also be linked to a weight and balance change.
-     */
-    wingSpanAlternate?: number;
 
     /**
      * The number of panels that are used for the whole wing. Typically is an

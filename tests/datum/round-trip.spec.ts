@@ -1,11 +1,13 @@
 import { Readable } from "stream";
 
-import { DatumCalculationModel, exportDatumToCSV, loadDatumFromCSV, WeightAndBalanceDatum } from "../../src";
+import { CertificationCategory, DatumCalculationModel, exportDatumToCSV, loadDatumFromCSV, WeightAndBalanceDatum } from "../../src";
 
 describe("Round trip datum import/export", () => {
     it("Handles simple import/export", async () => {
         const JANTAR_DATUM: WeightAndBalanceDatum = {
             typeCertificateId: "SZD481",
+            category: CertificationCategory.UTILITY,
+            wingspan: 15,
             location: "location with, comma",
             levellingInstructions: "levelling, with comma",
             calculationModel: DatumCalculationModel.MODEL_1,

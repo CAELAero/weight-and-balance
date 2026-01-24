@@ -1,7 +1,8 @@
 import { AircraftConfiguration, BallastBlockCapacity, TailBallastType } from "./aircraft-configuration";
 
 const HEADER = [
-    "Type certificate",
+    "type certificate",
+    "wingspan options",
     "flaps",
     "trim",
     "ruddervator",
@@ -13,8 +14,6 @@ const HEADER = [
     "tail ballast type",
     "tail ballast capacity",
     "tail wing compensation max ballast",
-    "winspan primary",
-    "wingspan alternate",
     "wing panel count",
     "winglets",
     "cockpit ballast count",
@@ -33,6 +32,13 @@ export function exportAircraftConfigToCSV(configs: AircraftConfiguration[]): str
 
         // order is important here, to match the header.
         row.push(data.typeCertificateId);
+        let options: string[] = [];
+        data.wingspanOptions.forEach(val => {
+            options.push(convertFloatToString(val));
+        });
+
+        row.push(options.join(":"));
+
         row.push(data.hasFlaps.toString());
         row.push(data.hasElevatorTrim.toString());
         row.push(data.hasRudderVators.toString());
@@ -67,8 +73,6 @@ export function exportAircraftConfigToCSV(configs: AircraftConfiguration[]): str
         }
 
         row.push(convertFloatToString(data.tailWingBallastCompensationAmount));
-        row.push(convertFloatToString(data.wingSpanPrimary));
-        row.push(convertFloatToString(data.wingSpanAlternate));
         row.push(convertIntToString(data.wingPanelCount));
         row.push(data.hasWingletOption.toString());
         row.push(convertIntToString(data.cockpitBallastBlockCount));

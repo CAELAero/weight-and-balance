@@ -1,3 +1,5 @@
+import { CertificationCategory } from "../util/certifcation-category";
+
 export enum DatumCalculationModel {
     MODEL_1 = "model_1",
     MODEL_1A = "model_1a",
@@ -10,7 +12,11 @@ export const reverseCalculationModelMap = new Map<string, DatumCalculationModel>
 );
 
 /**
- * Datum is defined by type certificate, not per aircraft type.
+ * Datum is defined by type certificate, not per aircraft type. Note that to uniquely identify
+ * what calculation is to be done, 3 parts will uniquely identify the aircraft - the type
+ * certification ID, the JAR22 category, and also a wingspan. Most modern aircraft will have
+ * multiple wingspan options, which can, sometimes, lead to different datum requirements
+ * particularly dry or all up weights. 
  */
 export interface WeightAndBalanceDatum {
     /**
@@ -18,6 +24,12 @@ export interface WeightAndBalanceDatum {
      * if this is fetched from a DB, file or other data source.
      */
     typeCertificateId: string;
+
+    /** The JAR22 certification category, used to uniquely identify which datum to use for calculation */
+    category: CertificationCategory;
+
+    /** 3rd part of the unique ID to identify a specific variant */
+    wingspan: number;
 
     /** Plain text description of where the datum is located on the airframe */
     location: string;
