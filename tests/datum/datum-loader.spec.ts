@@ -19,7 +19,6 @@ describe("Datum loader", () => {
             expect(entry.levellingInstructions).toBeTruthy();
             expect(entry.calculationModel).toBe(DatumCalculationModel.MODEL_1);
             expect(entry.maxAllUpWeight).toBe(535);
-            expect(entry.maxAllUpWeightAlternateSpan).toBeUndefined();
             expect(entry.maxDryWeight).toBe(385);
             expect(entry.maxNonLiftingPartsWeight).toBe(245);
             expect(entry.maxSeatWeight).toBe(110);
@@ -46,7 +45,6 @@ describe("Datum loader", () => {
             expect(entry.levellingInstructions).toBeTruthy();
             expect(entry.calculationModel).toBe(DatumCalculationModel.MODEL_1);
             expect(entry.maxAllUpWeight).toBe(750);
-            expect(entry.maxAllUpWeightAlternateSpan).toBeUndefined();
             expect(entry.maxDryWeight).toBe(630);
             expect(entry.maxNonLiftingPartsWeight).toBe(469);
             expect(entry.maxSeatWeight).toBe(110);

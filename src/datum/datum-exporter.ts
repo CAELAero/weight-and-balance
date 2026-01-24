@@ -10,7 +10,6 @@ const HEADER = [
     "levelling instructions",
     "model",
     "mauw",
-    "mauw alternate",
     "mdry",
     "mnlp",
     "max seat",
@@ -41,7 +40,6 @@ export function exportDatumToCSV(configs: WeightAndBalanceDatum[]): string[] {
         row.push(escapeString(data.levellingInstructions));
         row.push(data.calculationModel);
         row.push(convertIntToString(data.maxAllUpWeight));
-        row.push(convertIntToString(data.maxAllUpWeightAlternateSpan));
         row.push(convertIntToString(data.maxDryWeight));
         row.push(convertIntToString(data.maxNonLiftingPartsWeight));
         row.push(convertIntToString(data.maxSeatWeight));

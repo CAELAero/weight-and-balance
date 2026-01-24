@@ -42,12 +42,6 @@ export interface WeightAndBalanceDatum {
 
     maxAllUpWeight: number;
 
-    /**
-     * If the aircraft has an alternative wingspan it may also have an alternate max weight.
-     * Most will not, but for W&B purposes, particularly water ballast, this can be different
-     */
-    maxAllUpWeightAlternateSpan?: number;
-
     maxDryWeight: number;
 
     maxNonLiftingPartsWeight: number;
