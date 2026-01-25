@@ -100,6 +100,7 @@ export async function loadAircraftConfigFromCSV(
             const winglets = parseBoolean(row[14]);
             const cockpit_ballast_count = parseInt(row[15]);
             const cockpit_block_weight = parseFloat(row[16]);
+            const fuse_fuel_amount = parseFloat(row[17]);
 
             const obj: AircraftConfiguration = {
                 typeCertificateId: type_cert_id,
@@ -119,6 +120,7 @@ export async function loadAircraftConfigFromCSV(
                 hasWingletOption: winglets,
                 cockpitBallastBlockCount: cockpit_ballast_count,
                 cockpitBallastWeightPerBlock: cockpit_block_weight,
+                fuselageFuelAmount: fuse_fuel_amount
             };
 
             retval.push(obj);

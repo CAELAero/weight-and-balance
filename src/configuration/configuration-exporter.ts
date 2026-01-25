@@ -18,6 +18,7 @@ const HEADER = [
     "winglets",
     "cockpit ballast count",
     "cockpit ballast block weight",
+    "fuselage fuel amount"
 ];
 
 const FLOAT_FORMAT = new Intl.NumberFormat("en-IN", { maximumSignificantDigits: 3 });
@@ -77,7 +78,7 @@ export function exportAircraftConfigToCSV(configs: AircraftConfiguration[]): str
         row.push(data.hasWingletOption.toString());
         row.push(convertIntToString(data.cockpitBallastBlockCount));
         row.push(convertFloatToString(data.cockpitBallastWeightPerBlock));
-
+        row.push(convertFloatToString(data.fuselageFuelAmount));
         retval.push(row.join(","));
     });
 

@@ -7,7 +7,7 @@ describe("Configuration export", () => {
         expect(result).toBeTruthy();
         expect(Array.isArray(result)).toBeTruthy();
         expect(result.length).toBe(1);
-        expect(result[0].toLowerCase()).toBe('type certificate,wingspan options,flaps,trim,ruddervator,fixed uc,uc type,seat type,fuselage max ballast,wings max ballast,tail ballast type,tail ballast capacity,tail wing compensation max ballast,wing panel count,winglets,cockpit ballast count,cockpit ballast block weight');
+        expect(result[0].toLowerCase()).toBe('type certificate,wingspan options,flaps,trim,ruddervator,fixed uc,uc type,seat type,fuselage max ballast,wings max ballast,tail ballast type,tail ballast capacity,tail wing compensation max ballast,wing panel count,winglets,cockpit ballast count,cockpit ballast block weight,fuselage fuel amount');
     });
 
     it("exports a single line file", () => {
@@ -25,7 +25,8 @@ describe("Configuration export", () => {
             wingMaxBallastAmount: 150,
             cockpitBallastBlockCount: 0,
             tailCGAdjustBallastType: TailBallastType.NONE,
-            tailCGAdjustBallastCapacity: null
+            tailCGAdjustBallastCapacity: null,
+            fuselageFuelAmount: 11.5,
         };
 
         const result = exportAircraftConfigToCSV([JANTAR_CONFIG]);
@@ -33,7 +34,7 @@ describe("Configuration export", () => {
         expect(result).toBeTruthy();
         expect(result.length).toBe(2);
         expect(result[1].startsWith(JANTAR_CONFIG.typeCertificateId)).toBeTruthy();
-        expect(result[1]).toBe("SZD481,15,false,false,false,false,inline,single,,150,none,,,2,false,0,");
+        expect(result[1]).toBe("SZD481,15,false,false,false,false,inline,single,,150,none,,,2,false,0,,11.5");
     });
 
     it("Floating point number formatting", () => {
@@ -59,7 +60,7 @@ describe("Configuration export", () => {
         expect(result).toBeTruthy();
         expect(result.length).toBe(2);
         expect(result[1].startsWith(LS6_CONFIG.typeCertificateId)).toBeTruthy();
-        expect(result[1]).toBe("LS6C,15:17.6,true,false,false,false,inline,single,,140,none,,,4,false,0,");
+        expect(result[1]).toBe("LS6C,15:17.6,true,false,false,false,inline,single,,140,none,,,4,false,0,,");
     });
 
     describe("Tail CG ballast options", () => {
@@ -86,7 +87,7 @@ describe("Configuration export", () => {
             expect(result).toBeTruthy();
             expect(result.length).toBe(2);
             expect(result[1].startsWith(DG1000_CONFIG.typeCertificateId)).toBeTruthy();
-            expect(result[1]).toBe("DG1000S,18:20,false,false,false,false,inline,tandem,,160,water,5.5,,4,false,0,");
+            expect(result[1]).toBe("DG1000S,18:20,false,false,false,false,inline,tandem,,160,water,5.5,,4,false,0,,");
         });
 
         it("Single tail block", () => {
@@ -112,7 +113,7 @@ describe("Configuration export", () => {
             expect(result).toBeTruthy();
             expect(result.length).toBe(2);
             expect(result[1].startsWith(DG1000_CONFIG.typeCertificateId)).toBeTruthy();
-            expect(result[1]).toBe("DG1000S,18:20,false,false,false,false,inline,tandem,,160,blocks,small:2:4,,4,false,0,");
+            expect(result[1]).toBe("DG1000S,18:20,false,false,false,false,inline,tandem,,160,blocks,small:2:4,,4,false,0,,");
         });
 
         it("Multiple tail blocks", () => {
@@ -138,7 +139,7 @@ describe("Configuration export", () => {
             expect(result).toBeTruthy();
             expect(result.length).toBe(2);
             expect(result[1].startsWith(DG1000_CONFIG.typeCertificateId)).toBeTruthy();
-            expect(result[1]).toBe("DG1000S,18:20,false,false,false,false,inline,tandem,,160,blocks,large:2:4:small:1:2,,4,false,0,");
+            expect(result[1]).toBe("DG1000S,18:20,false,false,false,false,inline,tandem,,160,blocks,large:2:4:small:1:2,,4,false,0,,");
         });
 
     })

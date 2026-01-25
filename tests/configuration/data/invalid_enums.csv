@@ -1,2 +1,2 @@
-"Type certificate","wingspan options","flaps","trim","ruddervator","fixed uc","uc type","seat type","fuselage max ballast","wings max ballast","tail ballast type", "tail ballast capacity", "tail wing compensation max ballast","wing panel count", "winglets","cockpit ballast count","cockpit ballast block weight"
-"SZD 48-1",15, false, false, false, false, boogie, jungle, , 150, other, ,, 2, false, 0, ,
+"Type certificate","wingspan options","flaps","trim","ruddervator","fixed uc","uc type","seat type","fuselage max ballast","wings max ballast","tail ballast type", "tail ballast capacity", "tail wing compensation max ballast","wing panel count", "winglets","cockpit ballast count","cockpit ballast block weight",fuselage fuel amount"
+"SZD 48-1",15, false, false, false, false, boogie, jungle, , 150, other, ,, 2, false, 0, ,,

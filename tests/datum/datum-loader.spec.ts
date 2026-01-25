@@ -30,6 +30,7 @@ describe("Datum loader", () => {
             expect(entry.pilot2Arm).toBeUndefined();
             expect(entry.cockpitBallastBlockArm).toBeUndefined();
             expect(entry.tailBallastArm).toBeUndefined();
+            expect(entry.fuselageFuelArm).toBeUndefined();
             expect(entry.distanceFrontWheelToDatum).toBe(120);
             expect(entry.distanceFrontWheelToRearWheel).toBe(3648);
         });
@@ -56,6 +57,7 @@ describe("Datum loader", () => {
             expect(entry.pilot2Arm).toBe(-272);
             expect(entry.cockpitBallastBlockArm).toBe(-1960);
             expect(entry.tailBallastArm).toBe(5400);
+            expect(entry.fuselageFuelArm).toBe(-300);
             expect(entry.distanceFrontWheelToDatum).toBe(114);
             expect(entry.distanceFrontWheelToRearWheel).toBe(5189);
         });

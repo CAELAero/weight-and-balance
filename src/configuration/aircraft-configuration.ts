@@ -158,4 +158,12 @@ export interface AircraftConfiguration {
      * This should be the smaller amount in that case.
      */
     cockpitBallastWeightPerBlock?: number;
+
+    /**
+     * Maximum amount of fuel that can be carried in the fuselage tank, if
+     * this aircraft has one. Undefined if no fuselage tank. This should be
+     * weight in KG, not litres, as fuel is slightly lighter than water per
+     * unit volume.
+     */
+    fuselageFuelAmount?:number;
 }

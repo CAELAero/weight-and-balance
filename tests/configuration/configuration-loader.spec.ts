@@ -31,6 +31,7 @@ describe("configuration-loader", () => {
             expect(entry.hasWingletOption).toBeFalsy();
             expect(entry.cockpitBallastBlockCount).toBe(0);
             expect(entry.cockpitBallastWeightPerBlock).toBeFalsy();
+            expect(entry.fuselageFuelAmount).toBe(20.5);
         });
 
         it("Alternate versions of true/false", async () => {

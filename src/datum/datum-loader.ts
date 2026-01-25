@@ -50,8 +50,9 @@ export async function loadDatumFromCSV(
             const p2_arm = parseInt(row[15]);
             const cockpit_arm = parseInt(row[16]);
             const tail_arm = parseInt(row[17]);
-            const front_wheel = parseInt(row[18]);
-            const wheel_to_wheel = parseInt(row[19]);
+            const fuse_fuel_arm = parseInt(row[18]);
+            const front_wheel = parseInt(row[19]);
+            const wheel_to_wheel = parseInt(row[20]);
 
             const obj: WeightAndBalanceDatum = {
                 typeCertificateId: type_cert_id,
@@ -72,6 +73,7 @@ export async function loadDatumFromCSV(
                 pilot2Arm: p2_arm,
                 cockpitBallastBlockArm: cockpit_arm,
                 tailBallastArm: tail_arm,
+                fuselageFuelArm: fuse_fuel_arm,
                 distanceFrontWheelToDatum: front_wheel,
                 distanceFrontWheelToRearWheel: wheel_to_wheel,
             };

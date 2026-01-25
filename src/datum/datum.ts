@@ -92,6 +92,12 @@ export interface WeightAndBalanceDatum {
      */
     tailBallastArm?: number;
 
+    /**
+     * For aircraft with fuel tanks in the fuselage, the arm to the tank. Assumes a linear 
+     * arm from a regular shaped tank. 
+     */
+    fuselageFuelArm?: number;
+
     distanceFrontWheelToDatum: number;
     distanceFrontWheelToRearWheel: number;
 }

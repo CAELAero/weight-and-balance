@@ -1,2 +1,2 @@
-"Type certificate","wingspan options","flaps","trim","ruddervator","fixed uc","uc type","seat type","fuselage max ballast","wings max ballast","tail ballast type", "tail ballast capacity", "tail wing compensation max ballast","wing panel count", "winglets","cockpit ballast count","cockpit ballast block weight"
+"Type certificate","wingspan options","flaps","trim","ruddervator","fixed uc","uc type","seat type","fuselage max ballast","wings max ballast","tail ballast type", "tail ballast capacity", "tail wing compensation max ballast","wing panel count", "winglets","cockpit ballast count","cockpit ballast block weight",fuselage fuel amount"
 "SZD 48-1", 15,blah, yes, true, TRUE, inline, single, , 150, none, , , 2, nope, 0, ,
