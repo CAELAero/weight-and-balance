@@ -39,6 +39,7 @@ describe("Datum loader", () => {
             expect(entry.wingFuelArm).toBeUndefined();
             expect(entry.baggageArm).toBeUndefined();
             expect(entry.fuselageFuelArm).toBeUndefined();
+            expect(entry.p1InstrumentPanelArm).toBeUndefined();
             expect(entry.distanceFrontWheelToDatum).toBe(120);
             expect(entry.distanceFrontWheelToRearWheel).toBe(3648);
         });
@@ -73,6 +74,7 @@ describe("Datum loader", () => {
             expect(entry.wingFuelArm).toBeUndefined();
             expect(entry.baggageArm).toBe(180);
             expect(entry.fuselageFuelArm).toBe(-300);
+            expect(entry.p1InstrumentPanelArm).toBe(-1700);
             expect(entry.distanceFrontWheelToDatum).toBe(114);
             expect(entry.distanceFrontWheelToRearWheel).toBe(5189);
         });

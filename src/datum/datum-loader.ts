@@ -56,8 +56,9 @@ export async function loadDatumFromCSV(
             const baggage_arm = parseInt(row[21]);
             const wing_fuel_arm = parseInt(row[22]);
             const fuse_fuel_arm = parseInt(row[23]);
-            const front_wheel = parseInt(row[24]);
-            const wheel_to_wheel = parseInt(row[25]);
+            const p1_instrument_arm = parseInt(row[24]);
+            const front_wheel = parseInt(row[25]);
+            const wheel_to_wheel = parseInt(row[26]);
 
             const obj: WeightAndBalanceDatum = {
                 typeCertificateId: type_cert_id,
@@ -84,6 +85,7 @@ export async function loadDatumFromCSV(
                 wingFuelArm: wing_fuel_arm,
                 baggageArm: baggage_arm,
                 fuselageFuelArm: fuse_fuel_arm,
+                p1InstrumentPanelArm: p1_instrument_arm,
                 distanceFrontWheelToDatum: front_wheel,
                 distanceFrontWheelToRearWheel: wheel_to_wheel,
             };

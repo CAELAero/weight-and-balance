@@ -27,6 +27,7 @@ const HEADER = [
     "baggage arm",
     "wing fuel arm",
     "fuselage fuel arm",
+    "p1 instrument arm",
     "wheel to datum",
     "wheel to tailwheel",
 ];
@@ -63,6 +64,7 @@ export function exportDatumToCSV(configs: WeightAndBalanceDatum[]): string[] {
         row.push(convertIntToString(data.baggageArm));
         row.push(convertIntToString(data.wingFuelArm));
         row.push(convertIntToString(data.fuselageFuelArm));
+        row.push(convertIntToString(data.p1InstrumentPanelArm));
         row.push(convertIntToString(data.distanceFrontWheelToDatum));
         row.push(convertIntToString(data.distanceFrontWheelToRearWheel));
 

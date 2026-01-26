@@ -125,6 +125,9 @@ export interface WeightAndBalanceDatum {
     /** If the wings can hold fuel, this is the arm for that fuel amount */
     wingFuelArm?: number;
 
+    /** If known, arm for the P1 instrument panel */
+    p1InstrumentPanelArm?: number;
+    
     distanceFrontWheelToDatum: number;
     distanceFrontWheelToRearWheel: number;
 }
