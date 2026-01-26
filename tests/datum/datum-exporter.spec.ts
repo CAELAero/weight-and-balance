@@ -7,7 +7,7 @@ describe("Datum export", () => {
         expect(result).toBeTruthy();
         expect(Array.isArray(result)).toBeTruthy();
         expect(result.length).toBe(1);
-        expect(result[0].toLowerCase()).toBe('type certificate,category,wingspan,location,levelling instructions,model,mauw,mdry,mnlp,max seat,min pilot,fwd cg,aft cg,p1arm,p1arm max,p2arm,cockpit ballast arm,tail ballast arm,fuselage fuel arm,wheel to datum,wheel to tailwheel');
+        expect(result[0].toLowerCase()).toBe('type certificate,category,wingspan,variation,location,levelling instructions,model,mauw,mdry,mnlp,max seat,min pilot,fwd cg,aft cg,p1arm,p1arm max,p2arm,cockpit ballast arm,tail ballast arm,tail battery arm,wing ballast arm,baggage arm,wing fuel arm,fuselage fuel arm,wheel to datum,wheel to tailwheel');
     });
 
     it("Exports a single seater definition", () => {
@@ -15,6 +15,7 @@ describe("Datum export", () => {
             typeCertificateId: "SZD481",
             category: CertificationCategory.UTILITY,
             wingspan: 15,
+            variation: "TN 38-01",
             location: "WRLE",
             levellingInstructions: "flat",
             calculationModel: DatumCalculationModel.MODEL_1,
@@ -35,7 +36,7 @@ describe("Datum export", () => {
         expect(Array.isArray(result)).toBeTruthy();
         expect(result.length).toBe(2);
         expect(result[1].startsWith(JANTAR_DATUM.typeCertificateId)).toBeTruthy();
-        expect(result[1]).toBe('SZD481,utility,15,WRLE,flat,model_1,535,385,245,110,70,158,336,-616,,,,,,120,3648');
+        expect(result[1]).toBe('SZD481,utility,15,TN 38-01,WRLE,flat,model_1,535,385,245,110,70,158,336,-616,,,,,,,,,,120,3648');
     });
 
     it("Quotes string fields containing commas", () => {
@@ -63,6 +64,6 @@ describe("Datum export", () => {
         expect(Array.isArray(result)).toBeTruthy();
         expect(result.length).toBe(2);
         expect(result[1].startsWith(JANTAR_DATUM.typeCertificateId)).toBeTruthy();
-        expect(result[1]).toBe('SZD481,utility,15,"location with, comma","levelling, with comma",model_1,535,385,245,110,70,158,336,-616,,,,,,120,3648');
+        expect(result[1]).toBe('SZD481,utility,15,,"location with, comma","levelling, with comma",model_1,535,385,245,110,70,158,336,-616,,,,,,,,,,120,3648');
     });
 });

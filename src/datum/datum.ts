@@ -31,6 +31,14 @@ export interface WeightAndBalanceDatum {
     /** 3rd part of the unique ID to identify a specific variant */
     wingspan: number;
 
+    /**
+     * IF this is a variation of the base defined datum information, this describes what the
+     * variation is. Typically this will be the name of the manufacturer's technical note
+     * or service bulletin that allows for a change in the datum information (eg max all up
+     * weight)
+     */
+    variation?: string;
+
     /** Plain text description of where the datum is located on the airframe */
     location: string;
 
@@ -93,10 +101,29 @@ export interface WeightAndBalanceDatum {
     tailBallastArm?: number;
 
     /**
+     * Some aircraft have a removable tail battery that can be used to influence the pilot
+     * weight, a bit like ballast blocks. The battery arm may be different to the tail ballast
+     * tanks. If so, this is the arm for the battery.
+     */
+    tailBatteryArm?: number;
+
+    /** If the manufacturer defines an arm for the wing ballast tanks, this is the distance. */
+    wingBallastArm?: number;
+
+    /**
+     *  If the cockpit can hold baggage, and the manufacturer provides an arm for the baggage location
+     * area, this is the distance.
+     */
+    baggageArm?: number;
+
+    /**
      * For aircraft with fuel tanks in the fuselage, the arm to the tank. Assumes a linear 
      * arm from a regular shaped tank. 
      */
     fuselageFuelArm?: number;
+
+    /** If the wings can hold fuel, this is the arm for that fuel amount */
+    wingFuelArm?: number;
 
     distanceFrontWheelToDatum: number;
     distanceFrontWheelToRearWheel: number;

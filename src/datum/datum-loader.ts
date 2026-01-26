@@ -35,29 +35,35 @@ export async function loadDatumFromCSV(
             const type_cert_id = parseString(row[0]);
             const category = reverseCertificationCategoryMap.get(parseString(row[1]));
             const wingspan = parseFloat(row[2]);
-            const location = parseString(row[3]);
-            const levelling = parseString(row[4]);
-            const model = reverseCalculationModelMap.get(parseString(row[5]));
-            const mauw = parseInt(row[6]);
-            const mdry = parseInt(row[7]);
-            const mnlp = parseInt(row[8]);
-            const max_seat = parseInt(row[9]);
-            const min_seat = parseInt(row[10]);
-            const fwd_cg = parseInt(row[11]);
-            const rear_cg = parseInt(row[12]);
-            const p1_arm = parseInt(row[13]);
-            const p1_arm_alt = parseInt(row[14]);
-            const p2_arm = parseInt(row[15]);
-            const cockpit_arm = parseInt(row[16]);
-            const tail_arm = parseInt(row[17]);
-            const fuse_fuel_arm = parseInt(row[18]);
-            const front_wheel = parseInt(row[19]);
-            const wheel_to_wheel = parseInt(row[20]);
+            const variation = parseString(row[3]);
+            const location = parseString(row[4]);
+            const levelling = parseString(row[5]);
+            const model = reverseCalculationModelMap.get(parseString(row[6]));
+            const mauw = parseInt(row[7]);
+            const mdry = parseInt(row[8]);
+            const mnlp = parseInt(row[9]);
+            const max_seat = parseInt(row[10]);
+            const min_seat = parseInt(row[11]);
+            const fwd_cg = parseInt(row[12]);
+            const rear_cg = parseInt(row[13]);
+            const p1_arm = parseInt(row[14]);
+            const p1_arm_alt = parseInt(row[15]);
+            const p2_arm = parseInt(row[16]);
+            const cockpit_arm = parseInt(row[17]);
+            const tail_ballast_arm = parseInt(row[18]);
+            const tail_battery_arm = parseInt(row[19]);
+            const wing_ballast_arm = parseInt(row[20]);
+            const baggage_arm = parseInt(row[21]);
+            const wing_fuel_arm = parseInt(row[22]);
+            const fuse_fuel_arm = parseInt(row[23]);
+            const front_wheel = parseInt(row[24]);
+            const wheel_to_wheel = parseInt(row[25]);
 
             const obj: WeightAndBalanceDatum = {
                 typeCertificateId: type_cert_id,
                 category: category,
                 wingspan: wingspan,
+                variation: variation,
                 location: location,
                 levellingInstructions: levelling,
                 calculationModel: model,
@@ -72,7 +78,11 @@ export async function loadDatumFromCSV(
                 pilot1ArmMax: p1_arm_alt,
                 pilot2Arm: p2_arm,
                 cockpitBallastBlockArm: cockpit_arm,
-                tailBallastArm: tail_arm,
+                tailBallastArm: tail_ballast_arm,
+                tailBatteryArm: tail_battery_arm,
+                wingBallastArm: wing_ballast_arm,
+                wingFuelArm: wing_fuel_arm,
+                baggageArm: baggage_arm,
                 fuselageFuelArm: fuse_fuel_arm,
                 distanceFrontWheelToDatum: front_wheel,
                 distanceFrontWheelToRearWheel: wheel_to_wheel,

@@ -6,6 +6,7 @@ const HEADER = [
     "type certificate",
     "category",
     "wingspan",
+    "variation",
     "location",
     "levelling instructions",
     "model",
@@ -21,6 +22,10 @@ const HEADER = [
     "p2arm",
     "cockpit ballast arm",
     "tail ballast arm",
+    "tail battery arm",
+    "wing ballast arm",
+    "baggage arm",
+    "wing fuel arm",
     "fuselage fuel arm",
     "wheel to datum",
     "wheel to tailwheel",
@@ -37,6 +42,7 @@ export function exportDatumToCSV(configs: WeightAndBalanceDatum[]): string[] {
         row.push(data.typeCertificateId);
         row.push(data.category);
         row.push(convertFloatToString(data.wingspan));
+        row.push(escapeString(data.variation));
         row.push(escapeString(data.location));
         row.push(escapeString(data.levellingInstructions));
         row.push(data.calculationModel);
@@ -52,6 +58,10 @@ export function exportDatumToCSV(configs: WeightAndBalanceDatum[]): string[] {
         row.push(convertIntToString(data.pilot2Arm));
         row.push(convertIntToString(data.cockpitBallastBlockArm));
         row.push(convertIntToString(data.tailBallastArm));
+        row.push(convertIntToString(data.tailBatteryArm));
+        row.push(convertIntToString(data.wingBallastArm));
+        row.push(convertIntToString(data.baggageArm));
+        row.push(convertIntToString(data.wingFuelArm));
         row.push(convertIntToString(data.fuselageFuelArm));
         row.push(convertIntToString(data.distanceFrontWheelToDatum));
         row.push(convertIntToString(data.distanceFrontWheelToRearWheel));
