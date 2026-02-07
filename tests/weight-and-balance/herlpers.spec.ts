@@ -10,7 +10,6 @@ describe("Helpers", () => {
             const empty_result: WeightAndBalanceResult = {
                 calculationInputOptions: {
                     useGFAMinBuffer: false,
-                    primaryWingspanSelected: false,
                     p1ArmRangePercentage: undefined
                 },
                 maxAllUpWeight: 0,
@@ -25,7 +24,6 @@ describe("Helpers", () => {
             const ballasted_result: WeightAndBalanceResult = {
                 calculationInputOptions: {
                     useGFAMinBuffer: false,
-                    primaryWingspanSelected: false,
                     p1ArmRangePercentage: undefined
                 },
                 maxAllUpWeight: 0,
@@ -51,7 +49,6 @@ describe("Helpers", () => {
             const empty_result: WeightAndBalanceResult = {
                 calculationInputOptions: {
                     useGFAMinBuffer: false,
-                    primaryWingspanSelected: false,
                     p1ArmRangePercentage: undefined
                 },
                 maxAllUpWeight: 0,
@@ -75,7 +72,6 @@ describe("Helpers", () => {
                 const empty_result: WeightAndBalanceResult = {
                     calculationInputOptions: {
                         useGFAMinBuffer: false,
-                        primaryWingspanSelected: false,
                         p1ArmRangePercentage: undefined
                     },
                     maxAllUpWeight: 0,
@@ -87,14 +83,13 @@ describe("Helpers", () => {
                     pilot1ArmUsed: 0
                 };
 
-                expect(calculateTailBallastAmountForCGPosition(JANTAR_DATUM, empty_result, 90, -1)).toThrow();
+                expect(() => { calculateTailBallastAmountForCGPosition(JANTAR_DATUM, empty_result, 90, -1)}).toThrow();
             });
 
             it("Rejects MAC > 100", () => {
                 const empty_result: WeightAndBalanceResult = {
                     calculationInputOptions: {
                         useGFAMinBuffer: false,
-                        primaryWingspanSelected: false,
                         p1ArmRangePercentage: undefined
                     },
                     maxAllUpWeight: 0,
@@ -106,14 +101,13 @@ describe("Helpers", () => {
                     pilot1ArmUsed: 0
                 };
 
-                expect(calculateTailBallastAmountForCGPosition(JANTAR_DATUM, empty_result, 90, 102)).toThrow();
+                expect(() => { calculateTailBallastAmountForCGPosition(JANTAR_DATUM, empty_result, 90, 102)}).toThrow();
             });
 
             it("Cockpit weight > max seat weight", () => {
                 const empty_result: WeightAndBalanceResult = {
                     calculationInputOptions: {
                         useGFAMinBuffer: false,
-                        primaryWingspanSelected: false,
                         p1ArmRangePercentage: undefined
                     },
                     maxAllUpWeight: 0,
@@ -132,7 +126,6 @@ describe("Helpers", () => {
                 const empty_result: WeightAndBalanceResult = {
                     calculationInputOptions: {
                         useGFAMinBuffer: false,
-                        primaryWingspanSelected: false,
                         p1ArmRangePercentage: undefined
                     },
                     maxAllUpWeight: 0,

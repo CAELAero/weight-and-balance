@@ -1,4 +1,5 @@
 import { AircraftConfiguration, BallastBlockCapacity, TailBallastType } from "./aircraft-configuration";
+import { convertFloatToString, convertIntToString, escapeString } from "../util/export-utils";
 
 const HEADER = [
     "type certificate",
@@ -83,12 +84,4 @@ export function exportAircraftConfigToCSV(configs: AircraftConfiguration[]): str
     });
 
     return retval;
-}
-
-function convertIntToString(src?: number): string {
-    return src != undefined && src != null ? src.toFixed(0) : "";
-}
-
-function convertFloatToString(src?: number): string {
-    return src != undefined && src != null ? FLOAT_FORMAT.format(src) : "";
 }

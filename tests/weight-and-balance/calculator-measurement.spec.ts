@@ -31,7 +31,6 @@ describe("Calculate from measurements", () => {
 
             // ensure we copy out the options too
             expect(result.calculationInputOptions.p1ArmRangePercentage).toBeUndefined();
-            expect(result.calculationInputOptions.primaryWingspanSelected).toBeTruthy();
             expect(result.calculationInputOptions.useGFAMinBuffer).toBeFalsy();
         });
 
@@ -48,7 +47,7 @@ describe("Calculate from measurements", () => {
                 wing4Weight: 2,
             };
 
-            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: false, calculatePrimary: true }) as SingleSeaterWeightAndBalanceResult;
+            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: false }) as SingleSeaterWeightAndBalanceResult;
 
             expect(result).toBeTruthy();
 
@@ -70,12 +69,12 @@ describe("Calculate from measurements", () => {
                 undercarriage1Weight: 249.4,
                 undercarriage2Weight: 28.5,
                 wing1Weight: 70,
-                wing5Weight: 5,
+                wing3Weight: 5,
                 wing2Weight: 67,
-                wing6Weight: 5,
+                wing4Weight: 5,
             };
 
-            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: false, calculatePrimary: false }) as SingleSeaterWeightAndBalanceResult;
+            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: false }) as SingleSeaterWeightAndBalanceResult;
             
             expect(result).toBeTruthy();
 
@@ -101,7 +100,6 @@ describe("Calculate from measurements", () => {
 
             // ensure we copy out the options too
             expect(result.calculationInputOptions.p1ArmRangePercentage).toBeUndefined();
-            expect(result.calculationInputOptions.primaryWingspanSelected).toBeFalsy();
             expect(result.calculationInputOptions.useGFAMinBuffer).toBeFalsy();
         });
 
@@ -118,7 +116,7 @@ describe("Calculate from measurements", () => {
                 wing4Weight: 2,
             };
 
-            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: true, calculatePrimary: true }) as SingleSeaterWeightAndBalanceResult;
+            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: true }) as SingleSeaterWeightAndBalanceResult;
 
             expect(result).toBeTruthy();
 
@@ -131,7 +129,6 @@ describe("Calculate from measurements", () => {
 
             // ensure we copy out the options too
             expect(result.calculationInputOptions.p1ArmRangePercentage).toBeUndefined();
-            expect(result.calculationInputOptions.primaryWingspanSelected).toBeTruthy();
             expect(result.calculationInputOptions.useGFAMinBuffer).toBeTruthy();
         });
     });
@@ -148,7 +145,7 @@ describe("Calculate from measurements", () => {
                 wing2Weight: 77,
             };
 
-            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: true, calculatePrimary: true }) as TwoSeaterWeightAndBalanceResult;
+            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: true }) as TwoSeaterWeightAndBalanceResult;
 
             expect(result).toBeTruthy();
             expect(result.tailBallastAdjustedPilotWeights).toBeUndefined();
@@ -170,7 +167,7 @@ describe("Calculate from measurements", () => {
                 wing4Weight: 2,
             };
 
-            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: true, calculatePrimary: true }) as TwoSeaterWeightAndBalanceResult;
+            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: true }) as TwoSeaterWeightAndBalanceResult;
 
             expect(result).toBeTruthy();
     
@@ -202,7 +199,7 @@ describe("Calculate from measurements", () => {
                 wing2Weight: 93.5,
             };
 
-            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: true, calculatePrimary: true }) as TwoSeaterWeightAndBalanceResult;
+            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: true }) as TwoSeaterWeightAndBalanceResult;
 
             expect(result).toBeTruthy();
     
@@ -228,8 +225,8 @@ describe("Calculate from measurements", () => {
                 wing2Weight: 93.5,
             };
 
-            const result_default = calculateWeightAndBalance(datum_default, config, measured, { useGFAMinBuffer: true, calculatePrimary: true }) as TwoSeaterWeightAndBalanceResult;
-            const result_ranged = calculateWeightAndBalance(datum_ranged, config, measured, { useGFAMinBuffer: true, calculatePrimary: true }) as TwoSeaterWeightAndBalanceResult;
+            const result_default = calculateWeightAndBalance(datum_default, config, measured, { useGFAMinBuffer: true }) as TwoSeaterWeightAndBalanceResult;
+            const result_ranged = calculateWeightAndBalance(datum_ranged, config, measured, { useGFAMinBuffer: true }) as TwoSeaterWeightAndBalanceResult;
 
             expect(result_default).toBeTruthy();
             expect(result_ranged).toBeTruthy();
@@ -251,7 +248,6 @@ describe("Calculate from measurements", () => {
 
             // ensure we copy out the options too
             expect(result_ranged.calculationInputOptions.p1ArmRangePercentage).toBeUndefined();
-            expect(result_ranged.calculationInputOptions.primaryWingspanSelected).toBeTruthy();
             expect(result_ranged.calculationInputOptions.useGFAMinBuffer).toBeTruthy();
         });
     });

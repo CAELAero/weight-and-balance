@@ -1,4 +1,3 @@
-import { Certificate } from "crypto";
 import { CertificationCategory, DatumCalculationModel, loadDatumFromCSV } from "../../src";
 
 describe("Datum loader", () => {
@@ -27,18 +26,21 @@ describe("Datum loader", () => {
             expect(entry.maxNonLiftingPartsWeight).toBe(245);
             expect(entry.maxSeatWeight).toBe(110);
             expect(entry.minAllowedPilotWeight).toBe(70);
+            expect(entry.maxCockpitWeight).toBe(115);
             expect(entry.forwardCGLimit).toBe(158);
             expect(entry.aftCGLimit).toBe(336);
             expect(entry.pilot1Arm).toBe(-616);
             expect(entry.pilot1ArmMax).toBeUndefined();
             expect(entry.pilot2Arm).toBeUndefined();
-            expect(entry.cockpitBallastBlockArm).toBeUndefined();
-            expect(entry.tailBallastArm).toBeUndefined();
+            expect(entry.cockpitBallastBlockArms).toBeUndefined();
+            expect(entry.tailWingBallastCompensationArm).toBeUndefined();
+            expect(entry.tailCGAdjustBallastArm).toBeUndefined();
             expect(entry.tailBatteryArm).toBeUndefined();
             expect(entry.wingBallastArm).toBeUndefined();
             expect(entry.wingFuelArm).toBeUndefined();
-            expect(entry.baggageArm).toBeUndefined();
-            expect(entry.fuselageFuelArm).toBeUndefined();
+            expect(entry.baggageArms).toBeUndefined();
+            expect(entry.fuselageFuelArms).toBeUndefined();
+            expect(entry.fuselageBatteryArm).toBeUndefined();
             expect(entry.p1InstrumentPanelArm).toBeUndefined();
             expect(entry.distanceFrontWheelToDatum).toBe(120);
             expect(entry.distanceFrontWheelToRearWheel).toBe(3648);
@@ -50,6 +52,7 @@ describe("Datum loader", () => {
             expect(result.length).toBe(1);
 
             const entry = result[0];
+
             expect(entry.typeCertificateId).toBe("DG1000S");
             expect(entry.category).toBe(CertificationCategory.AEROBATIC);
             expect(entry.wingspan).toBe(18);
@@ -62,22 +65,40 @@ describe("Datum loader", () => {
             expect(entry.maxNonLiftingPartsWeight).toBe(469);
             expect(entry.maxSeatWeight).toBe(110);
             expect(entry.minAllowedPilotWeight).toBe(70);
+            expect(entry.maxCockpitWeight).toBe(115);
             expect(entry.forwardCGLimit).toBe(190);
             expect(entry.aftCGLimit).toBe(440);
             expect(entry.pilot1Arm).toBe(-1250);
             expect(entry.pilot1ArmMax).toBe(-1350);
             expect(entry.pilot2Arm).toBe(-272);
-            expect(entry.cockpitBallastBlockArm).toBe(-1960);
-            expect(entry.tailBallastArm).toBe(5400);
+            expect(entry.cockpitBallastBlockArms).toEqual(expect.arrayContaining([-1960]));
+            expect(entry.tailWingBallastCompensationArm).toBe(5400);
+            expect(entry.tailCGAdjustBallastArm).toBe(5450);
             expect(entry.tailBatteryArm).toBe(5390);
             expect(entry.wingBallastArm).toBe(200);
             expect(entry.wingFuelArm).toBeUndefined();
-            expect(entry.baggageArm).toBe(180);
-            expect(entry.fuselageFuelArm).toBe(-300);
+            expect(entry.baggageArms).toEqual(expect.arrayContaining([180]));
+            expect(entry.fuselageFuelArms).toEqual(expect.arrayContaining([300]));
+            expect(entry.fuselageBatteryArm).toBe(450);
             expect(entry.p1InstrumentPanelArm).toBe(-1700);
+            expect(entry.p2InstrumentPanelArm).toBe(-80);
             expect(entry.distanceFrontWheelToDatum).toBe(114);
             expect(entry.distanceFrontWheelToRearWheel).toBe(5189);
         });
+    });
+
+    it("Loads array values correctly", async() => {
+            const result = await loadDatumFromCSV("tests/datum/data/array_row.csv");    
+
+            expect(result.length).toBe(1);
+
+            const entry = result[0];
+
+            // Just test for the array handling.
+            expect(entry.typeCertificateId).toBe("DG1000S");
+            expect(entry.cockpitBallastBlockArms).toEqual(expect.arrayContaining([-1960, -900]));
+            expect(entry.baggageArms).toEqual(expect.arrayContaining([180, 431, 950]));
+            expect(entry.fuselageFuelArms).toEqual(expect.arrayContaining([300, 325]));
     });
 
     describe("Error Handling", () => {

@@ -555,7 +555,7 @@ function calculateTwoSeaterAdjustedWeights(
     tailWeights: number[],
     options: WeightAndBalanceOptions,
 ): Map<number, TwoSeaterPilotWeightTailBallastAdjustment> {
-    if (!datum.tailBallastArm) {
+    if (!datum.tailWingBallastCompensationArm) {
         console.log("No tail ballast arm provided, ignoring");
         return null;
     }
@@ -566,7 +566,7 @@ function calculateTwoSeaterAdjustedWeights(
 
     tailWeights.forEach((ballast) => {
         const adjusted_ge = ge + ballast;
-        const adjusted_xe = (ballast * datum.tailBallastArm + ge * xe) / adjusted_ge;
+        const adjusted_xe = (ballast * datum.tailWingBallastCompensationArm + ge * xe) / adjusted_ge;
         const adjusted_nlp_weight = nlpWeight + ballast;
 
         //console.log(`Adjusted values for ballast ${ballast}: ge ${adjusted_ge} Xe ${adjusted_xe} NLP ${adjusted_nlp_weight}`);
@@ -647,7 +647,7 @@ function calculateCockpitBallast(
     blockCount: number,
     blockWeight: number,
 ): WeightAndBalanceCockpitBallast[] {
-    if (!datum.cockpitBallastBlockArm) {
+    if (!datum.cockpitBallastBlockArms) {
         console.error("No ballast block arm defined");
         return null;
     }
@@ -665,9 +665,10 @@ function calculateCockpitBallast(
     const weight_chart: WeightAndBalanceCockpitBallast[] = [];
 
     //console.log("Calc: " + emptyWeight + " " + emptyCGArm + " " + xaft + " " + blockWeight + " " + p1ArmUsed);
+    console.log("Not handling multiple cockpit ballast arms right now " + JSON.stringify(datum.cockpitBallastBlockArms));
     for (let i = 1; i <= blockCount; i++) {
         const p1_min =
-            (emptyWeight * (emptyCGArm - xaft) - i * blockWeight * (xaft - datum.cockpitBallastBlockArm)) /
+            (emptyWeight * (emptyCGArm - xaft) - i * blockWeight * (xaft - datum.cockpitBallastBlockArms[0])) /
             (xaft - p1ArmUsed);
 
         weight_chart.push({ blockCount: i, minPilotWeight: Math.ceil(p1_min) });

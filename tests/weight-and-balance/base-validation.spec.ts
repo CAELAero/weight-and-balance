@@ -195,7 +195,7 @@ describe("Base validation", () => {
             const datum = LS6_DATUM;
             const config = LS6_CONFIG;
 
-            datum.cockpitBallastBlockArm = undefined;
+            datum.cockpitBallastBlockArms = undefined;
 
             const aircaft_weight = 277.9;
             const aircraft_arm = 608;

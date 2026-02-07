@@ -1,6 +1,5 @@
+import { convertFloatToString, convertIntToString, convertIntArrayToString, escapeString } from "../util/export-utils";
 import { WeightAndBalanceDatum } from "./datum";
-
-const FLOAT_FORMAT = new Intl.NumberFormat("en-IN", { maximumSignificantDigits: 3 });
 
 const HEADER = [
     "type certificate",
@@ -15,19 +14,23 @@ const HEADER = [
     "mnlp",
     "max seat",
     "min pilot",
+    "max cockpit",
     "fwd cg",
     "aft cg",
     "p1arm",
     "p1arm max",
     "p2arm",
     "cockpit ballast arm",
-    "tail ballast arm",
+    "tail wing ballast arm",
+    "tail cg ballast arm",
     "tail battery arm",
     "wing ballast arm",
     "baggage arm",
     "wing fuel arm",
     "fuselage fuel arm",
+    "fuselage battery arm",
     "p1 instrument arm",
+    "p2 instrument arm",
     "wheel to datum",
     "wheel to tailwheel",
 ];
@@ -52,19 +55,23 @@ export function exportDatumToCSV(configs: WeightAndBalanceDatum[]): string[] {
         row.push(convertIntToString(data.maxNonLiftingPartsWeight));
         row.push(convertIntToString(data.maxSeatWeight));
         row.push(convertIntToString(data.minAllowedPilotWeight));
+        row.push(convertIntToString(data.maxCockpitWeight));
         row.push(convertIntToString(data.forwardCGLimit));
         row.push(convertIntToString(data.aftCGLimit));
         row.push(convertIntToString(data.pilot1Arm));
         row.push(convertIntToString(data.pilot1ArmMax));
         row.push(convertIntToString(data.pilot2Arm));
-        row.push(convertIntToString(data.cockpitBallastBlockArm));
-        row.push(convertIntToString(data.tailBallastArm));
+        row.push(convertIntArrayToString(data.cockpitBallastBlockArms));
+        row.push(convertIntToString(data.tailWingBallastCompensationArm));
+        row.push(convertIntToString(data.tailCGAdjustBallastArm));
         row.push(convertIntToString(data.tailBatteryArm));
         row.push(convertIntToString(data.wingBallastArm));
-        row.push(convertIntToString(data.baggageArm));
+        row.push(convertIntArrayToString(data.baggageArms));
         row.push(convertIntToString(data.wingFuelArm));
-        row.push(convertIntToString(data.fuselageFuelArm));
+        row.push(convertIntArrayToString(data.fuselageFuelArms));
+        row.push(convertIntToString(data.fuselageBatteryArm));
         row.push(convertIntToString(data.p1InstrumentPanelArm));
+        row.push(convertIntToString(data.p2InstrumentPanelArm));
         row.push(convertIntToString(data.distanceFrontWheelToDatum));
         row.push(convertIntToString(data.distanceFrontWheelToRearWheel));
 
@@ -72,20 +79,4 @@ export function exportDatumToCSV(configs: WeightAndBalanceDatum[]): string[] {
     });
 
     return retval;
-}
-
-function convertIntToString(src?: number): string {
-    return src != undefined && src != null ? src.toFixed(0) : "";
-}
-
-function convertFloatToString(src?: number): string {
-    return src != undefined && src != null ? FLOAT_FORMAT.format(src) : "";
-}
-
-function escapeString(src: string): string {
-    if (src && src.indexOf(",") != -1) {
-        return '"' + src + '"';
-    } else {
-        return src;
-    }
 }

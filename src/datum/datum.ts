@@ -54,7 +54,11 @@ export interface WeightAndBalanceDatum {
 
     maxNonLiftingPartsWeight: number;
 
-    /** Max weight the seat is allowed to have on it */
+    /**
+     * Max weight the seat is allowed to have on it. Often set by JAR22/CS22 as a minimum
+     * standard to meet, but manufacturers will allow for higher. This impacts safety 
+     * items such as the harnesses and their fixings in the fuselage
+     */
     maxSeatWeight: number;
 
     /**
@@ -63,6 +67,13 @@ export interface WeightAndBalanceDatum {
      * may have a higher minimum pilot weight than this. It just can't be lower.
      */
     minAllowedPilotWeight: number;
+
+    /**
+     * Maxiumum total amount of cockpit load permitted. This may be pilot and baggage (inc O2
+     * bottles), but in 2 seaters there is often a combined pilot weight that cannot be
+     * exceeded.
+     */
+    maxCockpitWeight?: number;
 
     forwardCGLimit: number;
 
@@ -89,16 +100,24 @@ export interface WeightAndBalanceDatum {
     pilot2Arm?: number;
 
     /**
-     * If there is cockpit ballast, arm to the location of the ballast box.
+     * If there is cockpit ballast, arm to the location of the ballast boxs. Most aircraft
+     * only have a single location, but some older 2 seaters (eg TwinAstir) will have two
+     * separate locations which the ballast blocks are spread between.
      */
-    cockpitBallastBlockArm?: number;
+    cockpitBallastBlockArms?: number[];
 
     /**
-     * Arm to the tail ballast location, relative to the datum location. If there is
-     * two tail ballast locations (eg tank + blocks or two tanks) for now assume they
-     * have the same arm distance.
+     * Tail ballast location for the tank that is used to compensate for the forward CG
+     * shift when adding wing ballast. 
      */
-    tailBallastArm?: number;
+    tailWingBallastCompensationArm?: number;
+
+    /**
+     * Tail ballast location for adjusting the CG location independently of the wing
+     * ballast. Usually found in advanced modern gliders and is often not adjustable
+     * in flight.
+     */
+    tailCGAdjustBallastArm?: number;
 
     /**
      * Some aircraft have a removable tail battery that can be used to influence the pilot
@@ -111,22 +130,34 @@ export interface WeightAndBalanceDatum {
     wingBallastArm?: number;
 
     /**
-     *  If the cockpit can hold baggage, and the manufacturer provides an arm for the baggage location
-     * area, this is the distance.
+     * If the cockpit can hold baggage, and the manufacturer provides an arm for the baggage
+     * location area(s), this is the distance. Gliders may have multiple locations, such
+     * as bags and O2 bottles that can be removed. The array will describe each location
+     * sorted from front of the aircraft to the rear. 
      */
-    baggageArm?: number;
+    baggageArms?: number[];
 
     /**
-     * For aircraft with fuel tanks in the fuselage, the arm to the tank. Assumes a linear 
-     * arm from a regular shaped tank. 
+     * For aircraft with fuel tanks in the fuselage, the arm to the tank(s). Assumes a linear 
+     * arm from a regular shaped tank. If there are multiple tanks, sorted in order from
+     * front to rear of aircraft.
      */
-    fuselageFuelArm?: number;
+    fuselageFuelArms?: number[];
 
     /** If the wings can hold fuel, this is the arm for that fuel amount */
     wingFuelArm?: number;
 
+    /**
+     * Arm for any large batteries mounted in the fuselage. This is important for gliders
+     * with electrical propulsion where the batteries can be removed (FES/RES setups)
+     */
+    fuselageBatteryArm?: number;
+    
     /** If known, arm for the P1 instrument panel */
     p1InstrumentPanelArm?: number;
+    
+    /** If known for a 2 seater, arm for the P2 instrument panel */
+    p2InstrumentPanelArm?: number;
     
     distanceFrontWheelToDatum: number;
     distanceFrontWheelToRearWheel: number;

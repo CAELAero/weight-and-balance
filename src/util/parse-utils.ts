@@ -53,6 +53,37 @@ export function parseInt(src: any): number {
     return retval;
 }
 
+export function parseIntArray(src: any): number[] {
+    const raw = parseString(src);
+
+    let retval: number[] = undefined;
+
+    if (raw && raw.length > 0) {
+        const parts = raw.split(":");
+
+        retval = [];
+
+        parts.forEach((val) => {
+            try {
+                const parsed = Number.parseInt(val, 10);
+                if (!Number.isNaN(parsed)) {
+                    retval.push(parsed);
+                }
+            } catch (err) {
+                console.debug("Error parsing aircraft config field as an integer: " + raw, err);
+            }
+        });
+
+        // Last check. If we ended up with a bunch of dodgy numbers that none of them parsed as ints,
+        // then clear everything out.
+        if(retval.length == 0) {
+            retval = undefined;
+        }
+    }
+
+    return retval;
+}
+
 export function parseString(src: any): string {
     const src_type = typeof src;
 

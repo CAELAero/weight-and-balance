@@ -20,7 +20,9 @@ describe("Round trip datum import/export", () => {
             aftCGLimit: 336,
             pilot1Arm: -616,
             distanceFrontWheelToDatum: 120,
-            distanceFrontWheelToRearWheel: 3648
+            distanceFrontWheelToRearWheel: 3648,
+            cockpitBallastBlockArms: [ -1190, -1140],
+            baggageArms: [40, 950],
         };
 
         const output = exportDatumToCSV([JANTAR_DATUM]);

@@ -60,7 +60,7 @@ export const LS6_DATUM: WeightAndBalanceDatum = {
     pilot1Arm: -500,
     distanceFrontWheelToDatum: 179,
     distanceFrontWheelToRearWheel: 4181,
-    cockpitBallastBlockArm: -1400
+    cockpitBallastBlockArms: [-1400]
 };
 
 export const K21_DATUM: WeightAndBalanceDatum = {
@@ -81,7 +81,7 @@ export const K21_DATUM: WeightAndBalanceDatum = {
     pilot2Arm: -80,
     distanceFrontWheelToDatum: -1600,
     distanceFrontWheelToRearWheel: 6871,
-    cockpitBallastBlockArm: -2300
+    cockpitBallastBlockArms: [-2300]
 };
 
 export const DG1000_P1_RANGED_DATUM: WeightAndBalanceDatum = {
@@ -103,8 +103,8 @@ export const DG1000_P1_RANGED_DATUM: WeightAndBalanceDatum = {
     pilot2Arm: -272,
     distanceFrontWheelToDatum: 114,
     distanceFrontWheelToRearWheel: 5189,
-    cockpitBallastBlockArm: -1960,
-    tailBallastArm: 5400
+    cockpitBallastBlockArms: [-1960],
+    tailWingBallastCompensationArm: 5400
 };
 
 export const DG1000_P1_FIXED_DATUM: WeightAndBalanceDatum = {
@@ -125,8 +125,8 @@ export const DG1000_P1_FIXED_DATUM: WeightAndBalanceDatum = {
     pilot2Arm: -272,
     distanceFrontWheelToDatum: 114,
     distanceFrontWheelToRearWheel: 5189,
-    cockpitBallastBlockArm: -1960,
-    tailBallastArm: 5400
+    cockpitBallastBlockArms: [-1960],
+    tailWingBallastCompensationArm: 5400
 };
 
 export const JANTAR_CONFIG: AircraftConfiguration = {

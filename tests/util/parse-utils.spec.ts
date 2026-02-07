@@ -1,4 +1,4 @@
-import { parseBoolean, parseFloat, parseInt } from "../../src/util/parse-utils";
+import { parseBoolean, parseFloat, parseInt, parseIntArray } from "../../src/util/parse-utils";
 
 describe("Parse Utilities", () => {
     describe("parseBoolean", () => {
@@ -21,6 +21,19 @@ describe("Parse Utilities", () => {
                 expect(result).toBe(data.result);
 
             });
+        });
+    });
+
+    describe("parseIntArray", () => {
+        it("Parses a single value in the array", () => {
+            const result = parseIntArray("12");
+            expect(result.length).toBe(1);
+            expect(result).toEqual(expect.arrayContaining([12]));
+        });
+        it("Parses a single value in the array", () => {
+            const result = parseIntArray("-12:24:56");
+            expect(result.length).toBe(3);
+            expect(result).toEqual(expect.arrayContaining([-12, 24, 56]));
         });
     });
 
