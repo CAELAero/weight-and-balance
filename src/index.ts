@@ -7,8 +7,6 @@ export {
 } from "./util/certifcation-category";
 
 export { encodeTypeCertificateId } from "./util/type-cert-utils";
-export { exportAircraftConfigToCSV } from "./configuration/configuration-exporter";
-export { loadAircraftConfigFromCSV } from "./configuration/configuration-loader";
 
 export {
     SeatingConfiguration,

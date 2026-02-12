@@ -108,16 +108,18 @@ export interface WeightAndBalanceDatum {
 
     /**
      * Tail ballast location for the tank that is used to compensate for the forward CG
-     * shift when adding wing ballast. 
+     * shift when adding wing ballast. These tanks will be emptied in flight as the wing
+     * ballast tanks are emptied.
      */
     tailWingBallastCompensationArm?: number;
 
     /**
      * Tail ballast location for adjusting the CG location independently of the wing
-     * ballast. Usually found in advanced modern gliders and is often not adjustable
-     * in flight.
+     * ballast. Usually found in advanced modern gliders and is defined as the ballast 
+     * that is not adjustable in flight. Some modern gliders, like the JS3 can have 
+     * multiple tanks at different arm lengths.
      */
-    tailCGAdjustBallastArm?: number;
+    tailCGAdjustBallastArm?: number[];
 
     /**
      * Some aircraft have a removable tail battery that can be used to influence the pilot
@@ -152,7 +154,7 @@ export interface WeightAndBalanceDatum {
      * with electrical propulsion where the batteries can be removed (FES/RES setups)
      */
     fuselageBatteryArm?: number;
-    
+
     /** If known, arm for the P1 instrument panel */
     p1InstrumentPanelArm?: number;
     

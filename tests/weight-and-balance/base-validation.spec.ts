@@ -1,14 +1,14 @@
 import { generateWeightAndBalancePlacardData }  from "../../src/weight-and-balance/calculator";
 import { SingleSeaterWeightAndBalanceResult, TwoSeaterWeightAndBalanceResult } from "../../src/weight-and-balance/result-types";
 
-import { JANTAR_DATUM, JANTAR_CONFIG, DG1000_CONFIG, DG1000_P1_RANGED_DATUM, DG1000_P1_FIXED_DATUM, K21_CONFIG, K21_DATUM, LS6_CONFIG, LS6_DATUM } from "./data-gen";
+import { JANTAR_DATUM, JANTAR_CONFIG, DG1000_CONFIG, DG1000_P1_RANGED_DATUM, DG1000_P1_FIXED_DATUM, K21_CONFIG, K21_DATUM, LS6_CONFIG, LS6_DATUM, T31_DATUM, T31_CONFIG } from "./data-gen";
 
 describe("Base validation", () => {
     describe("Single Seater", () => {
         it("Basic setup, no ballast", () => {
             const datum = JANTAR_DATUM;
             const config = JANTAR_CONFIG;
-            config.wingMaxBallastAmount = 0;
+            config.wingspanOptions[0].maxBallastAmount = 0;
 
             const aircaft_weight = 279;
             const aircraft_arm = 551;
@@ -49,7 +49,7 @@ describe("Base validation", () => {
             if(result.allowedWingBallast) {
 
                 expect(result.allowedWingBallast[0].pilotWeight).toBe(result.minPilotWeight);
-                expect(result.allowedWingBallast[0].maxBallast).toBe(config.wingMaxBallastAmount);
+                expect(result.allowedWingBallast[0].maxBallast).toBe(config.wingspanOptions[0].maxBallastAmount);
 
                 const w_ballast_len = result.allowedWingBallast.length - 1;
                 const max_ballast = Math.floor(datum.maxAllUpWeight - result.maxPilotWeight - result.emptyWeight);
@@ -127,7 +127,7 @@ describe("Base validation", () => {
             expect(result.allowedWingBallast).toBeDefined();
 
             if(result.allowedWingBallast) {
-                expect(result.allowedWingBallast[0].maxBallast).toBe(config.wingMaxBallastAmount);
+                expect(result.allowedWingBallast[0].maxBallast).toBe(config.wingspanOptions[0].maxBallastAmount);
                 expect(result.allowedWingBallast[0].pilotWeight).toBe(datum.minAllowedPilotWeight);
             }
         });
@@ -211,7 +211,7 @@ describe("Base validation", () => {
             const datum = LS6_DATUM;
             const config = LS6_CONFIG;
 
-            config.cockpitBallastBlockCount = 0;
+            config.cockpitBallast = [];
 
             const aircaft_weight = 277.9;
             const aircraft_arm = 608;
@@ -227,7 +227,7 @@ describe("Base validation", () => {
             const datum = LS6_DATUM;
             const config = LS6_CONFIG;
 
-            config.cockpitBallastWeightPerBlock = 0;
+            config.cockpitBallast = [];
             
             const aircaft_weight = 277.9;
             const aircraft_arm = 608;

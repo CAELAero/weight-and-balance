@@ -2,14 +2,14 @@ import { calculateWeightAndBalance }  from "../../src/weight-and-balance/calcula
 import { SingleSeaterWeightAndBalanceResult, TwoSeaterWeightAndBalanceResult } from "../../src/weight-and-balance/result-types";
 import { WeightAndBalanceMeasurement } from "../../src/weight-and-balance/measurements";
 
-import { JANTAR_DATUM, JANTAR_CONFIG, DG1000_CONFIG, DG1000_P1_RANGED_DATUM, DG1000_P1_FIXED_DATUM, K21_CONFIG, K21_DATUM, LS6_CONFIG, LS6_DATUM } from "./data-gen";
+import { JANTAR_DATUM, JANTAR_CONFIG, DG1000_CONFIG, DG1000_P1_RANGED_DATUM, DG1000_P1_FIXED_DATUM, K21_CONFIG, K21_DATUM, LS6_CONFIG, LS6_DATUM, T31_DATUM, T31_CONFIG } from "./data-gen";
 
 describe("Calculate from measurements", () => {
     describe("Single Seater", () => {
         it("Basic 2 piece wing, no ballast", () => {
             const datum = JANTAR_DATUM;
             const config = JANTAR_CONFIG;
-            config.wingMaxBallastAmount = 0;
+            config.wingspanOptions[0].maxBallastAmount = 0;
 
             const measured: WeightAndBalanceMeasurement = {
                 undercarriage1Weight: 246,
@@ -89,7 +89,7 @@ describe("Calculate from measurements", () => {
             if(result.allowedWingBallast) {
 
                 expect(result.allowedWingBallast[0].pilotWeight).toBe(result.minPilotWeight);
-                expect(result.allowedWingBallast[0].maxBallast).toBe(config.wingMaxBallastAmount);
+                expect(result.allowedWingBallast[0].maxBallast).toBe(config.wingspanOptions[0].maxBallastAmount);
 
                 const w_ballast_len = result.allowedWingBallast.length - 1;
                 const max_ballast = Math.floor(datum.maxAllUpWeight - result.maxPilotWeight - result.emptyWeight);
@@ -182,7 +182,7 @@ describe("Calculate from measurements", () => {
             expect(result.allowedWingBallast).toBeDefined();
 
             if(result.allowedWingBallast) {
-                expect(result.allowedWingBallast[0].maxBallast).toBe(config.wingMaxBallastAmount);
+                expect(result.allowedWingBallast[0].maxBallast).toBe(config.wingspanOptions[0].maxBallastAmount);
                 expect(result.allowedWingBallast[0].pilotWeight).toBe(datum.minAllowedPilotWeight);
             }
         });
@@ -249,6 +249,47 @@ describe("Calculate from measurements", () => {
             // ensure we copy out the options too
             expect(result_ranged.calculationInputOptions.p1ArmRangePercentage).toBeUndefined();
             expect(result_ranged.calculationInputOptions.useGFAMinBuffer).toBeTruthy();
+        });
+
+        it("Handles rear pilot located behind rear CG", () => {
+            const datum = T31_DATUM;
+            const config = T31_CONFIG;
+
+            const measured: WeightAndBalanceMeasurement = {
+                undercarriage1Weight: 152.2,
+                undercarriage2Weight: 45.8,
+                wing1Weight: 0,
+            };
+
+            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: false, placardWeightIncremments: 5 }) as TwoSeaterWeightAndBalanceResult;
+            expect(result).toBeTruthy();
+    
+            // console.log(JSON.stringify(result, null, 2));
+
+            const solo_aft = (result.emptyCGArm * result.emptyWeight + result.soloMinPilotWeight * datum.pilot1Arm) / (result.emptyWeight + result.soloMinPilotWeight);
+            const solo_fwd = (result.emptyCGArm * result.emptyWeight + result.soloMaxPilotWeight * datum.pilot1Arm) / (result.emptyWeight + result.soloMaxPilotWeight);
+
+            expect(solo_fwd).toBeGreaterThanOrEqual(datum.forwardCGLimit);
+            expect(solo_aft).toBeLessThanOrEqual(datum.aftCGLimit);
+
+            expect(result.dualPilotWeightRanges.length).toBeGreaterThan(0);
+
+            // console.log("Solo: " + result.soloMinPilotWeight + " " + result.soloMaxPilotWeight + "\n" +
+            //             "Forward "+ Math.floor(solo_fwd) + " required " + datum.forwardCGLimit + "\n" +
+            //             "Aft "+ Math.ceil(solo_aft) + " required " + datum.aftCGLimit);
+
+            result.dualPilotWeightRanges.forEach((entry) => {
+                const dual_fwd = (result.emptyCGArm * result.emptyWeight + entry.pilot1Weight * datum.pilot1Arm + entry.minPilot2Weight * (datum.pilot2Arm || 0)) / (result.emptyWeight + entry.pilot1Weight + entry.minPilot2Weight);
+                const dual_aft = (result.emptyCGArm * result.emptyWeight + entry.pilot1Weight * datum.pilot1Arm + entry.maxPilot2Weight * (datum.pilot2Arm || 0)) / (result.emptyWeight + entry.pilot1Weight + entry.maxPilot2Weight);
+
+
+                // console.log("Dual. P1: " + entry.pilot1Weight +  "\n" + 
+                //             "Forward at " + entry.minPilot2Weight + ": " + Math.floor(dual_fwd) + " required " + datum.forwardCGLimit + "\n" +
+                //             "Aft at     " + entry.maxPilot2Weight + ": "+ Math.ceil(dual_aft) + " required " + datum.aftCGLimit);
+
+                expect(dual_fwd).toBeGreaterThanOrEqual(datum.forwardCGLimit);
+                expect(dual_aft).toBeLessThanOrEqual(datum.aftCGLimit);
+            });
         });
     });
 

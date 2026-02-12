@@ -63,7 +63,7 @@ export function exportDatumToCSV(configs: WeightAndBalanceDatum[]): string[] {
         row.push(convertIntToString(data.pilot2Arm));
         row.push(convertIntArrayToString(data.cockpitBallastBlockArms));
         row.push(convertIntToString(data.tailWingBallastCompensationArm));
-        row.push(convertIntToString(data.tailCGAdjustBallastArm));
+        row.push(convertIntArrayToString(data.tailCGAdjustBallastArm));
         row.push(convertIntToString(data.tailBatteryArm));
         row.push(convertIntToString(data.wingBallastArm));
         row.push(convertIntArrayToString(data.baggageArms));

@@ -52,7 +52,7 @@ export async function loadDatumFromCSV(
             const p2_arm = parseInt(row[17]);
             const cockpit_arm = parseIntArray(row[18]);
             const tail_wing_ballast_arm = parseInt(row[19]);
-            const tail_cg_ballast_arm = parseInt(row[20]);
+            const tail_cg_ballast_arm = parseIntArray(row[20]);
             const tail_battery_arm = parseInt(row[21]);
             const wing_ballast_arm = parseInt(row[22]);
             const baggage_arm = parseIntArray(row[23]);

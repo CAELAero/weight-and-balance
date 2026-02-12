@@ -7,7 +7,7 @@ describe("Update with component change", () => {
     it("Returns the same result if no item change data", () => {
         const datum = JANTAR_DATUM;
         const config = JANTAR_CONFIG;
-        config.wingMaxBallastAmount = 0;
+            config.wingspanOptions[0].maxBallastAmount = 0;
 
         const change_request: WeightAndBalanceComponentChange = {
             aircraftWeight: 279,
@@ -33,7 +33,7 @@ describe("Update with component change", () => {
         // here should result in returning to the original weight and balance arm.
         const datum = JANTAR_DATUM;
         const config = JANTAR_CONFIG;
-        config.wingMaxBallastAmount = 0;
+            config.wingspanOptions[0].maxBallastAmount = 0;
 
         const change_request: WeightAndBalanceComponentChange = {
             aircraftWeight: 279,

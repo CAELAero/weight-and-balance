@@ -73,7 +73,7 @@ describe("Datum loader", () => {
             expect(entry.pilot2Arm).toBe(-272);
             expect(entry.cockpitBallastBlockArms).toEqual(expect.arrayContaining([-1960]));
             expect(entry.tailWingBallastCompensationArm).toBe(5400);
-            expect(entry.tailCGAdjustBallastArm).toBe(5450);
+            expect(entry.tailCGAdjustBallastArm).toEqual(expect.arrayContaining([5450]));
             expect(entry.tailBatteryArm).toBe(5390);
             expect(entry.wingBallastArm).toBe(200);
             expect(entry.wingFuelArm).toBeUndefined();
