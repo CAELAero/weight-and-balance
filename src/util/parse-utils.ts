@@ -76,7 +76,7 @@ export function parseIntArray(src: any): number[] {
 
         // Last check. If we ended up with a bunch of dodgy numbers that none of them parsed as ints,
         // then clear everything out.
-        if(retval.length == 0) {
+        if (retval.length == 0) {
             retval = undefined;
         }
     }

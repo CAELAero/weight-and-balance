@@ -52,15 +52,15 @@ interface WingspanDetails {
     span: number;
 
     /** Max amount of water ballast that can be carried for this wingspan */
-    maxBallastAmount:number;
+    maxBallastAmount: number;
 
     /**
      * Used to describe if an aircraft has separate winglet and flat tips in a
      * given length wing. Mostly used on older generation flapped aircraft, or
-     * the DG300 where you can have 15m flat and 15m Winglets. 
+     * the DG300 where you can have 15m flat and 15m Winglets.
      */
     hasWinglets: boolean;
-    
+
     /** If the wing can carry fuel, total amount for both wings */
     fuelAmount?: number;
 }
@@ -69,10 +69,10 @@ interface WingspanDetails {
  * Represents the configuration of an aircraft based on type certificate. This represents the combinations
  * the type cert is capable of having. However, an individual aircraft may not have all of these configuration
  * options - eg DG300s could be ordered with or without a tail tank.
- * 
+ *
  * Some values here are an array. This corresponds to the configuration of the aircraft that may have multiple
  * of that items, such as baggage areas. Since this is used in conjunction with the W&B datum, the values
- * in the array should correspond to the datum position in the aircraft, from front to rear. 
+ * in the array should correspond to the datum position in the aircraft, from front to rear.
  */
 export interface AircraftConfiguration {
     /**
@@ -89,7 +89,7 @@ export interface AircraftConfiguration {
      */
     variation?: string;
 
-    /** 
+    /**
      * How many different wingspans this aircraft can have. Typically 1 or 2, but some types
      * will have 3 (eg DG1000 or ASH25). This array must always be at least length 1.
      */
@@ -170,7 +170,7 @@ export interface AircraftConfiguration {
      * Cockpit ballast blocks that can be installed. Most gliders will only
      * have a single configuration, but a few will have two sets. If there
      * are two sets, but of the same weight per block, there will still be
-     * two entries here, to line up with the different ballast block arms. 
+     * two entries here, to line up with the different ballast block arms.
      */
     cockpitBallast?: BallastBlockCapacity[];
 
@@ -188,8 +188,8 @@ export interface AircraftConfiguration {
      * weight and balance of the glider. Do not include fixed batteries,
      * such as avionics batteries or those with IC engines that stay in the
      * glider as part of the motor system. If the motor is removed, then
-     * calculate a full new W&B.Some gliders will have more than one 
-     * battery, so this allows for it. 
+     * calculate a full new W&B.Some gliders will have more than one
+     * battery, so this allows for it.
      */
     fuselageBatteryWeights?: number[];
 
@@ -197,7 +197,7 @@ export interface AircraftConfiguration {
      * If there's dedicated baggage areas (defined by arm definitions in the
      * W&B datum, these are the max allowable values. Oxygen bottle fittings
      * are considered baggage from the W&B datum perspective, so should
-     * be included here. 
+     * be included here.
      */
     baggage?: number[];
 }

@@ -9,7 +9,7 @@ export function convertFloatToString(src?: number): string {
 }
 
 export function convertIntArrayToString(src?: number[]): string {
-    if(src == undefined || src == null || src.length == 0) {
+    if (src == undefined || src == null || src.length == 0) {
         return "";
     }
 

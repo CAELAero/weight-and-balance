@@ -18,8 +18,8 @@ export interface WeightAndBalanceBallastAmount {
  * Modified pilot weights based on the amount of ballast in the tail. Note that in aircraft
  * that have 2 tail ballast tanks for CG adjustment, this is the total amount of water
  * between both tanks. It is up to the pilot to decide how to distribute the weight between
- * those tanks. 
- * 
+ * those tanks.
+ *
  * Note that this is not used for tail batteries that might be removable.
  */
 export interface SingleSeaterPilotWeightTailBallastAdjustment {
@@ -32,7 +32,7 @@ export interface SingleSeaterPilotWeightTailBallastAdjustment {
 /**
  * Represents a single set of ballast blocks of a particular weight/size that can
  * be fitted to the aircraft. The label is for advisory purposes only when generating
- * cockpit placards. 
+ * cockpit placards.
  */
 export interface FittedBallastBlock {
     label: string;
@@ -59,7 +59,7 @@ export interface WeightAndBalancePlacardData {
 
     maxFuselageLoad: number;
 
-    /** 
+    /**
      * A system assigned label that can be used for this data. Comes from internally knowing which
      * variation is being used, for example removal of a tail battery.
      */
@@ -73,7 +73,7 @@ export interface WeightAndBalancePlacardData {
     allowedTailBallast?: WeightAndBalanceBallastAmount[];
 
     /**
-     * If the glider can take fuel in the fuselage, this is the table for 
+     * If the glider can take fuel in the fuselage, this is the table for
      * fuel to cockpit load chart. Typically this is used for TMGs, but can
      * apply to SLGs that have significant fuel amounts. This is not used for
      * electric motor setups where the batteries are removable.
@@ -88,7 +88,7 @@ export interface WeightAndBalanceResult extends WeightAndBalancePlacardData {
     /** The JAR22 certification category, used to uniquely identify which variation was used for calculation */
     category: CertificationCategory;
 
-    /** 
+    /**
      * Which wingspan this was calculated for. Allows for unique labelling of variations in
      * cockpit placard data.
      */
@@ -129,7 +129,6 @@ export interface SingleSeaterPlacardData extends WeightAndBalancePlacardData {
     maxPilotWeight: number;
 }
 export interface SingleSeaterWeightAndBalanceResult extends WeightAndBalanceResult {
-
     /** Minimum pilot weight assuming no ballast blocks are fitted */
     minPilotWeight: number;
 
@@ -145,15 +144,15 @@ export interface SingleSeaterWeightAndBalanceResult extends WeightAndBalanceResu
     /**
      * If there is a rear baggage compartment, this is how the pilot weights change
      */
-    baggageAdjustedPilotWeights?:SingleSeaterPilotWeightTailBallastAdjustment;
+    baggageAdjustedPilotWeights?: SingleSeaterPilotWeightTailBallastAdjustment;
 
     /**
      * When the glider contains batteries that are removable, this is the adjusted
-     * min and max cockpit weights for when the batteries have been removed, since 
+     * min and max cockpit weights for when the batteries have been removed, since
      * the assumption is that the normal aircraft configuration, and as originally
-     * weighed, included the batteries. 
-     * 
-     * The batteries are typically well behind the 
+     * weighed, included the batteries.
+     *
+     * The batteries are typically well behind the
      * CG location, either in the fuselage for FES/RES setups, or in the fin, which
      * is common in many single seaters. Note that this doesn't have to be a battery
      * but can be a single lump of weight in the battery slot which has been removed.

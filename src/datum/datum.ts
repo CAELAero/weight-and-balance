@@ -16,7 +16,7 @@ export const reverseCalculationModelMap = new Map<string, DatumCalculationModel>
  * what calculation is to be done, 3 parts will uniquely identify the aircraft - the type
  * certification ID, the JAR22 category, and also a wingspan. Most modern aircraft will have
  * multiple wingspan options, which can, sometimes, lead to different datum requirements
- * particularly dry or all up weights. 
+ * particularly dry or all up weights.
  */
 export interface WeightAndBalanceDatum {
     /**
@@ -56,7 +56,7 @@ export interface WeightAndBalanceDatum {
 
     /**
      * Max weight the seat is allowed to have on it. Often set by JAR22/CS22 as a minimum
-     * standard to meet, but manufacturers will allow for higher. This impacts safety 
+     * standard to meet, but manufacturers will allow for higher. This impacts safety
      * items such as the harnesses and their fixings in the fuselage
      */
     maxSeatWeight: number;
@@ -115,8 +115,8 @@ export interface WeightAndBalanceDatum {
 
     /**
      * Tail ballast location for adjusting the CG location independently of the wing
-     * ballast. Usually found in advanced modern gliders and is defined as the ballast 
-     * that is not adjustable in flight. Some modern gliders, like the JS3 can have 
+     * ballast. Usually found in advanced modern gliders and is defined as the ballast
+     * that is not adjustable in flight. Some modern gliders, like the JS3 can have
      * multiple tanks at different arm lengths.
      */
     tailCGAdjustBallastArm?: number[];
@@ -135,12 +135,12 @@ export interface WeightAndBalanceDatum {
      * If the cockpit can hold baggage, and the manufacturer provides an arm for the baggage
      * location area(s), this is the distance. Gliders may have multiple locations, such
      * as bags and O2 bottles that can be removed. The array will describe each location
-     * sorted from front of the aircraft to the rear. 
+     * sorted from front of the aircraft to the rear.
      */
     baggageArms?: number[];
 
     /**
-     * For aircraft with fuel tanks in the fuselage, the arm to the tank(s). Assumes a linear 
+     * For aircraft with fuel tanks in the fuselage, the arm to the tank(s). Assumes a linear
      * arm from a regular shaped tank. If there are multiple tanks, sorted in order from
      * front to rear of aircraft.
      */
@@ -157,10 +157,10 @@ export interface WeightAndBalanceDatum {
 
     /** If known, arm for the P1 instrument panel */
     p1InstrumentPanelArm?: number;
-    
+
     /** If known for a 2 seater, arm for the P2 instrument panel */
     p2InstrumentPanelArm?: number;
-    
+
     distanceFrontWheelToDatum: number;
     distanceFrontWheelToRearWheel: number;
 }
