@@ -153,6 +153,12 @@ export interface AircraftConfiguration {
     tailWingBallastCompensationAmount?: number;
 
     /**
+     * Weight of any removable battery (or replacement weight) that can
+     * be located in the fin.
+     */
+    tailBatteryWeight?: number;
+
+    /**
      * The number of panels that are used for the whole wing. Typically is an
      * even number since most aircraft do not have a single central section that
      * tips attach to. However, some aircraft, particularly older wooden aircraft
@@ -182,10 +188,10 @@ export interface AircraftConfiguration {
      * weight and balance of the glider. Do not include fixed batteries,
      * such as avionics batteries or those with IC engines that stay in the
      * glider as part of the motor system. If the motor is removed, then
-     * calculate a full new W&B. For the moment, this assumes both batteries
-     * are at the same arm distance. 
+     * calculate a full new W&B.Some gliders will have more than one 
+     * battery, so this allows for it. 
      */
-    fuselageBatteryWeight?: number[];
+    fuselageBatteryWeights?: number[];
 
     /**
      * If there's dedicated baggage areas (defined by arm definitions in the

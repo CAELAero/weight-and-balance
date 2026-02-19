@@ -35,6 +35,7 @@ export {
 } from "./weight-and-balance/measurements";
 
 export {
+    type WeightAndBalanceMoment,
     type WeightAndBalanceCockpitBallast,
     type WeightAndBalanceBallastAmount,
     type SingleSeaterPilotWeightTailBallastAdjustment,

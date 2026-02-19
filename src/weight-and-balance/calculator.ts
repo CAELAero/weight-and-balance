@@ -7,9 +7,11 @@ import {
 } from "../configuration/aircraft-configuration";
 
 import { WeightAndBalanceDatum } from "../datum/datum";
+import { CertificationCategory } from "../util/certifcation-category";
 import { WeightAndBalanceMeasurement, WeightAndBalanceComponentChange } from "./measurements";
 import {
     FittedBallastBlock,
+    SingleSeaterPlacardData,
     SingleSeaterWeightAndBalanceResult,
     TwoSeaterPilotWeightTailBallastAdjustment,
     TwoSeaterWeightAndBalanceResult,
@@ -51,18 +53,57 @@ export interface WeightAndBalanceOptions {
 
     /**
      * If there are more than one wingspan option in the aircraft configuration, use this index in the
-     * list. If not provided, calculation will default to the first index.
+     * list. If not provided, calculation will default to index zero.
      */
     wingspanSelected?: number;
+
+    /**
+     * if the aircraft can have a tail battery fitted, do we assume the weighing data provided has the
+     * battery fitted, or do we assume it is not fitted. This influences the variation output that is
+     * generated, and thus placarding. If not provided, assumes the battery is fitted by default (true).
+     */
+    defaultWithBatteryFitted?: boolean;
 }
 
 const DEFAULT_OPTIONS: WeightAndBalanceOptions = {
     useGFAMinBuffer: false,
     minAllowedWeightDifference: 10,
     placardWeightIncremments: 10,
-    wingspanSelected: 0
+    wingspanSelected: 0,
+    defaultWithBatteryFitted: true,
     // p1ArmRangePercentage: Do not set this to allow for the conservative calculation basis if a range is provided.
 };
+
+/**
+ * Internal data transfer object to help calcuations.
+ */
+interface FuelMoments {
+    fuselageWeight: number;
+    fuselageMoment: number;
+    wingWeight: number;
+    wingMoment: number;
+}
+
+interface BaseCGPlacardData {
+    maxFuselageLoad: number;
+    /** Minimum pilot weight assuming no ballast blocks are fitted */
+    minPilotWeight: number;
+
+    /** Maximum pilot weight, not including baggage weights */
+    maxPilotWeight: number;
+
+    /**
+     * If the calculation used the min-max method for a P1 arm, this will be set to true. If so,
+     * then pilot1ArmUsed will reference the arm length closest to the datum.
+     */
+    pilotArmMinMaxUsed: boolean;
+
+    /**
+     * The selected arm distance used for P1 calculation. This can vary if a range is defined in
+     * aircraft datum, and the user has selected a percentage range.
+     */
+    pilot1ArmUsed: number;
+}
 
 /**
  * From a pre-calculated empty weight, arm and Non-Lifting Parts weight, create the W&B
@@ -103,7 +144,7 @@ export function generateWeightAndBalancePlacardData(
             real_options,
         );
     } else {
-        retval = calculateSingleSeater(
+        retval = calculateSingleSeaterResult(
             datum,
             config,
             aircraftEmptyWeight,
@@ -124,7 +165,7 @@ export function generateWeightAndBalancePlacardData(
  *
  * @param datum Datum details for the requested type certificate
  * @param config Configuration of this aircraft of this type certificate
- * @param change
+ * @param changen Details of what changed
  * @param options A list of options for calculating the weight and balance results
  * @returns A full calculated list of weight and balance placard details, if the input
  *    measurements permit a safe aircraft to fly.
@@ -317,7 +358,7 @@ function calculateBaseCGLimits(
     xaft: number,
     nlpWeight: number,
     p1ArmRangePercentage?: number,
-): SingleSeaterWeightAndBalanceResult {
+): BaseCGPlacardData {
     let min_arm = datum.pilot1Arm;
     let max_arm = datum.pilot1Arm;
 
@@ -344,26 +385,18 @@ function calculateBaseCGLimits(
     //console.log(`P1 auw: ${max_auw}\nP1 Dry: ${max_dry}\n P1 NLP: ${max_nlp}\nP1 CG: ${max_cg}`);
     const max_weight = Math.min(max_auw, max_dry, max_nlp, max_cg);
 
-    const retval: SingleSeaterWeightAndBalanceResult = {
-        maxAllUpWeight: datum.maxAllUpWeight,
+    const retval: BaseCGPlacardData = {
         minPilotWeight: min_weight,
         maxPilotWeight: max_weight,
-        emptyCGArm: xe,
-        emptyWeight: ge,
-        nonLiftingPartsWeight: nlpWeight,
-        pilot1ArmUsed: min_arm,
-        pilotArmMinMaxUsed: !p1ArmRangePercentage,
         maxFuselageLoad: Math.floor(Math.min(max_auw, max_dry, max_nlp)),
-        calculationInputOptions: {
-            useGFAMinBuffer: false,
-            p1ArmRangePercentage: p1ArmRangePercentage,
-        },
+        pilotArmMinMaxUsed: !p1ArmRangePercentage,
+        pilot1ArmUsed: min_arm,
     };
 
     return retval;
 }
 
-function calculateSingleSeater(
+function calculateSingleSeaterResult(
     datum: WeightAndBalanceDatum,
     config: AircraftConfiguration,
     ge: number,
@@ -372,20 +405,93 @@ function calculateSingleSeater(
     nlpWeight: number,
     options: WeightAndBalanceOptions,
 ): SingleSeaterWeightAndBalanceResult {
-    const retval = calculateBaseCGLimits(datum, ge, xe, xaft, nlpWeight, options.p1ArmRangePercentage);
+    const base_result = calculateSingleSeaterPlacardDataVariation(datum, config, ge, xe, xaft, nlpWeight, options);
 
     // clean up the numbers to whole numbers here.
-    retval.minPilotWeight = Math.ceil(Math.max(retval.minPilotWeight, datum.minAllowedPilotWeight));
-    retval.maxPilotWeight = Math.floor(Math.min(retval.maxPilotWeight, datum.maxSeatWeight));
-    retval.emptyCGArm = Math.round(retval.emptyCGArm);
+    const retval: SingleSeaterWeightAndBalanceResult = {
+        minPilotWeight: Math.ceil(Math.max(base_result.minPilotWeight, datum.minAllowedPilotWeight)),
+        maxPilotWeight: Math.floor(Math.min(base_result.maxPilotWeight, datum.maxSeatWeight)),
+        emptyCGArm: Math.round(xe),
+        emptyWeight: ge,
+        category: CertificationCategory.UTILITY,
+        wingspan: 0,
+        calculationInputOptions: {
+            useGFAMinBuffer: false,
+            p1ArmRangePercentage: options.p1ArmRangePercentage,
+            defaultWithBatteryFitted: options.defaultWithBatteryFitted
+        },
+        maxAllUpWeight: datum.maxAllUpWeight,
+        nonLiftingPartsWeight: nlpWeight,
+        pilotArmMinMaxUsed: false,
+        pilot1ArmUsed: 0,
+        maxFuselageLoad: base_result.maxFuselageLoad,
+        allowedWingBallast: base_result.allowedWingBallast,
+        allowedTailBallast: base_result.allowedTailBallast,
+        allowedFuelLoad: base_result.allowedFuelLoad,
+        cockpitBallast: base_result.cockpitBallast
+    };
+
+    // For now assume simple setup - either we have big batteries in the rear
+    // of the fuselage, or we have smaller battery setup in the fin. No evidence
+    // yet of aircraft having both at the same time.
+    if(datum.tailBatteryArm) {
+        // adjust the Xe and Ge and recalculate the core CG requirements. 
+        const new_weight = options.defaultWithBatteryFitted ? ge - config.tailBatteryWeight : ge + config.tailBatteryWeight;
+        const new_arm = (xe * ge + datum.tailBatteryArm * config.tailBatteryWeight) / new_weight;
+        const new_nlp = options.defaultWithBatteryFitted ? nlpWeight - config.tailBatteryWeight : nlpWeight + config.tailBatteryWeight;
+
+        retval.variations = [ calculateSingleSeaterPlacardDataVariation(datum, config, new_weight, new_arm, xaft, new_nlp, options)];
+        retval.variations[0].label = options.defaultWithBatteryFitted ? "Without Tail Battery Fitted" : "With Tail Battery Fitted";
+    } else if(datum.fuselageBatteryArm) {
+        let total_weight = 0;
+        let total_moment = 0;
+        retval.variations = [];
+
+        for(let i = 0; i < config.fuselageBatteryWeights.length; i++) {
+            total_weight += config.fuselageBatteryWeights[i];
+            total_moment += datum.fuselageBatteryArm * config.fuselageBatteryWeights[i];
+
+            const new_weight = ge - total_weight;
+            const new_arm = (xe * ge + total_moment) / new_weight;
+            const new_nlp = nlpWeight - total_weight;
+
+            retval.variations.push(calculateSingleSeaterPlacardDataVariation(datum, config, new_weight, new_arm, xaft, new_nlp, options))
+            retval.variations[i].label = i > 0 ? `${i + 1} Batteries Removed` : '1 Battery Removed';
+        }
+    }
+
+
+    // Update the options selected here
+    retval.calculationInputOptions.useGFAMinBuffer = options.useGFAMinBuffer || false;
+
+    return retval;
+}
+
+function calculateSingleSeaterPlacardDataVariation(
+    datum: WeightAndBalanceDatum,
+    config: AircraftConfiguration,
+    ge: number,
+    xe: number,
+    xaft: number,
+    nlpWeight: number,
+    options: WeightAndBalanceOptions,
+): SingleSeaterPlacardData {
+    const base_result = calculateBaseCGLimits(datum, ge, xe, xaft, nlpWeight, options.p1ArmRangePercentage);
+
+    // clean up the numbers to whole numbers here.
+    const retval: SingleSeaterPlacardData = {
+        minPilotWeight: Math.ceil(Math.max(base_result.minPilotWeight, datum.minAllowedPilotWeight)),
+        maxPilotWeight: Math.floor(Math.min(base_result.maxPilotWeight, datum.maxSeatWeight)),
+        maxFuselageLoad: base_result.maxFuselageLoad,
+    }
 
     const max_wing_ballast = calculateMaxWingBallast(config, options);
 
     if (max_wing_ballast > 0) {
         retval.allowedWingBallast = calculateWaterBallast(
             datum,
-            retval.minPilotWeight,
-            retval.maxPilotWeight,
+            base_result.minPilotWeight,
+            base_result.maxPilotWeight,
             ge,
             max_wing_ballast,
             options,
@@ -396,15 +502,12 @@ function calculateSingleSeater(
         retval.cockpitBallast = calculateCockpitBallast(
             datum,
             ge,
-            retval.emptyCGArm,
+            xe,
             xaft,
-            retval.pilot1ArmUsed,
+            base_result.pilot1ArmUsed,
             config.cockpitBallast,
         );
     }
-
-    // Update the options selected here
-    retval.calculationInputOptions.useGFAMinBuffer = options.useGFAMinBuffer || false;
 
     return retval;
 }
@@ -424,12 +527,14 @@ function calculateTwoSeater(
         return null;
     }
 
+    const max_cockpit_weight = datum.maxCockpitWeight || datum.maxSeatWeight * 2;
+
     const base_pilot = calculateBaseCGLimits(datum, ge, xe, xaft, nlpWeight, options.p1ArmRangePercentage);
-    const dual_range = calculateTwoSeaterP2(datum, ge, xe, xaft, nlpWeight, base_pilot.minPilotWeight, options);
+    const dual_range = calculateTwoSeaterP2(datum, ge, xe, xaft, nlpWeight, base_pilot.minPilotWeight, max_cockpit_weight, options);
 
     const retval: TwoSeaterWeightAndBalanceResult = {
         maxAllUpWeight: datum.maxAllUpWeight,
-        emptyCGArm: Math.round(base_pilot.emptyCGArm),
+        emptyCGArm: Math.round(xe),
         emptyWeight: ge,
         nonLiftingPartsWeight: nlpWeight,
         pilot1ArmUsed: base_pilot.pilot1ArmUsed,
@@ -442,12 +547,14 @@ function calculateTwoSeater(
             useGFAMinBuffer: options.useGFAMinBuffer,
             p1ArmRangePercentage: options.p1ArmRangePercentage,
         },
+        category: CertificationCategory.UTILITY,
+        wingspan: 0
     };
 
     if (dual_range.length == 0) {
         console.info("Zero range for " + ge + " xe " + xe);
     }
-
+    
     const max_wing_ballast = calculateMaxWingBallast(config, options)
     if (dual_range.length > 0 && (max_wing_ballast) > 0) {
         // Set max pilot weight here to be the sum of both pilots when maxed out
@@ -567,6 +674,7 @@ function calculateTwoSeaterAdjustedWeights(
     const retval: Map<number, TwoSeaterPilotWeightTailBallastAdjustment> = new Map();
     //console.log("Tail weight list " + JSON.stringify(tailWeights));
     //console.log(`Base values: ge ${ge} Xe ${xe} NLP ${nlpWeight}`);
+    const max_cockpit_weight = datum.maxCockpitWeight || datum.maxSeatWeight * 2;
 
     tailWeights.forEach((ballast_data) => {
         const adjusted_ge = ge + ballast_data[1];
@@ -576,7 +684,7 @@ function calculateTwoSeaterAdjustedWeights(
         //console.log(`Adjusted values for ballast ${ballast}: ge ${adjusted_ge} Xe ${adjusted_xe} NLP ${adjusted_nlp_weight}`);
         const base_pilot = 
             calculateBaseCGLimits(datum, adjusted_ge, adjusted_xe, xaft, adjusted_nlp_weight, options.p1ArmRangePercentage );
-        const dual_range = calculateTwoSeaterP2(datum, adjusted_ge, adjusted_xe, xaft, adjusted_nlp_weight, base_pilot.minPilotWeight, options);
+        const dual_range = calculateTwoSeaterP2(datum, adjusted_ge, adjusted_xe, xaft, adjusted_nlp_weight, base_pilot.minPilotWeight, max_cockpit_weight, options);
 
         const data: TwoSeaterPilotWeightTailBallastAdjustment = {
             ballastAmount: ballast_data[1],
@@ -591,6 +699,40 @@ function calculateTwoSeaterAdjustedWeights(
     return retval;
 }
 
+function calculateFuelMoment(datum: WeightAndBalanceDatum, config: AircraftConfiguration, options: WeightAndBalanceOptions): FuelMoments {
+    let total_moment = 0;
+    let total_weight = 0;
+
+    let total = datum.fuselageFuelArms?.length || 0;
+
+    for(let i = 0; i < total; i++) {
+        total_moment += datum.fuselageFuelArms[i] * config.fuselageFuelAmount[i];
+        total_weight += config.fuselageFuelAmount[i];
+    }
+
+    let wing_moment = 0
+    let wing_weight = 0;
+
+    if(datum.wingFuelArm) {
+        wing_moment = datum.wingFuelArm * (config.wingspanOptions[options.wingspanSelected].fuelAmount || 0);
+        wing_weight = config.wingspanOptions[options.wingspanSelected].fuelAmount || 0;
+    }
+
+    const retval: FuelMoments = {
+        fuselageMoment: total_moment,
+        fuselageWeight: total_weight,
+        wingMoment: wing_moment,
+        wingWeight: wing_weight
+    }
+
+    return retval;
+}
+
+/**
+ * Builds the table for the water ballast setup. This calculates both wing ballast amount
+ * and tail ballast to compensate using the datum.tailBallastCompensationArm values. 
+ * It does not use the CG values. 
+ */
 function calculateWaterBallast(
     datum: WeightAndBalanceDatum,
     minPilotWeight: number,
@@ -599,7 +741,7 @@ function calculateWaterBallast(
     maxBallastAmount: number,
     options: WeightAndBalanceOptions,
 ): WeightAndBalanceBallastAmount[] {
-    let pilot_weight = minPilotWeight;
+    let pilot_weight = Math.ceil(minPilotWeight);
 
     // calculate it for every pilot weight at 5kg intervals.
     let ballast_amount = Math.min(datum.maxAllUpWeight - pilot_weight - emptyWeight, maxBallastAmount);
@@ -611,8 +753,7 @@ function calculateWaterBallast(
         },
     ];
 
-    pilot_weight =
-        minPilotWeight - (minPilotWeight % options.placardWeightIncremments) + options.placardWeightIncremments;
+    pilot_weight = pilot_weight - (pilot_weight % options.placardWeightIncremments) + options.placardWeightIncremments;
 
     do {
         ballast_amount = Math.min(datum.maxAllUpWeight - pilot_weight - emptyWeight, maxBallastAmount);
@@ -625,10 +766,12 @@ function calculateWaterBallast(
 
     // If we bounce over the maxPilotWeight, make up for that here to put it on the exact limit
     if (pilot_weight > maxPilotWeight) {
-        ballast_amount = Math.min(datum.maxAllUpWeight - maxPilotWeight - emptyWeight, maxBallastAmount);
+
+        const max_pilot = Math.floor(maxPilotWeight);
+        ballast_amount = Math.min(datum.maxAllUpWeight - max_pilot - emptyWeight, maxBallastAmount);
         ballast_amount = Math.floor(ballast_amount);
 
-        weight_chart.push({ pilotWeight: maxPilotWeight, maxBallast: ballast_amount });
+        weight_chart.push({ pilotWeight: max_pilot, maxBallast: ballast_amount });
     }
 
     //console.log("Weight chart: " + JSON.stringify(weight_chart, null, 2));
@@ -692,6 +835,7 @@ function calculateTwoSeaterP2(
     xaft: number,
     nlpWeight: number,
     minSoloPilotWeight: number,
+    maxCockpitWeight: number,
     options: WeightAndBalanceOptions,
 ): TwoSeatWeightRange[] {
     const dual_range: TwoSeatWeightRange[] = [];
@@ -742,7 +886,11 @@ function calculateTwoSeaterP2(
                     minPilot2Weight: Math.ceil(Math.max(p2_min, 0)),
                     maxPilot2Weight: Math.floor(Math.min(max_weight, datum.maxSeatWeight))
                 };
-                dual_range.push(range);
+
+                // Only add this if the total cockpit weight doesn't breach the limits.
+                if(abs_min_p1 + range.maxPilot2Weight <= maxCockpitWeight) {
+                    dual_range.push(range);
+                }
             }
 
             abs_min_p1 += options.placardWeightIncremments;
@@ -783,10 +931,16 @@ function calculateTwoSeaterP2(
                 const range: TwoSeatWeightRange = {
                     pilot1Weight: abs_min_p1,
                     minPilot2Weight: Math.ceil(nom_min),
-                    maxPilot2Weight: Math.ceil(nom_max)
+                    maxPilot2Weight: Math.floor(nom_max)
                     // minPilot2Weight: Math.ceil(Math.min(nom_min, nom_max)),
                     // maxPilot2Weight: Math.floor(Math.max(nom_min, nom_max))
                 };
+
+                // Only add this if the total cockpit weight doesn't breach the limits.
+                if(abs_min_p1 + range.maxPilot2Weight <= maxCockpitWeight) {
+                    dual_range.push(range);
+                }
+
                 dual_range.push(range);
             }
 
@@ -926,3 +1080,4 @@ function convertP1ArmPercentage(value: number): number {
     // than whole numbers
     return value > 1 ? value / 100 : value;
 }
+

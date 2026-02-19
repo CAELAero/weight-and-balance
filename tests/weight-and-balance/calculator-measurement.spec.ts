@@ -91,7 +91,7 @@ describe("Calculate from measurements", () => {
                 expect(result.allowedWingBallast[0].pilotWeight).toBe(result.minPilotWeight);
                 expect(result.allowedWingBallast[0].maxBallast).toBe(config.wingspanOptions[0].maxBallastAmount);
 
-                const w_ballast_len = result.allowedWingBallast.length - 1;
+                const w_ballast_len = result.allowedWingBallast.length - 1;                
                 const max_ballast = Math.floor(datum.maxAllUpWeight - result.maxPilotWeight - result.emptyWeight);
 
                 expect(result.allowedWingBallast[w_ballast_len].pilotWeight).toBe(result.maxPilotWeight);

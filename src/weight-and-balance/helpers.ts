@@ -1,5 +1,5 @@
 import { WeightAndBalanceDatum } from "../datum/datum";
-import { WeightAndBalanceResult } from "./result-types";
+import { WeightAndBalanceMoment } from "./result-types";
 
 /**
  * Calculate the arm for an object in the aircraft by looking at the moment change
@@ -14,19 +14,19 @@ import { WeightAndBalanceResult } from "./result-types";
  * @returns The arm calculated from the two weighings
  */
 export function calculateArm(
-    emptyResult: WeightAndBalanceResult, 
-    withObjectResult: WeightAndBalanceResult): number {
+    emptyResult: WeightAndBalanceMoment, 
+    withObjectResult: WeightAndBalanceMoment): number {
 
-    const objectWeightDifference = withObjectResult.emptyWeight - emptyResult.emptyWeight;
+    const objectWeightDifference = withObjectResult.weight - emptyResult.weight;
 
     // Avoid dividing by zero. as we don't want to create black holes. Just
     // return the original arm
     if(objectWeightDifference == 0) {
-        return emptyResult.emptyCGArm;
+        return emptyResult.arm;
     }
 
     // Equation 26 
-    const xp = ((withObjectResult.emptyCGArm * withObjectResult.emptyWeight) - (emptyResult.emptyCGArm * emptyResult.emptyWeight)) / objectWeightDifference;
+    const xp = ((withObjectResult.arm * withObjectResult.weight) - (emptyResult.arm * emptyResult.weight)) / objectWeightDifference;
 
     return xp;
 }
@@ -56,7 +56,7 @@ export function calculateArm(
  */
 export function calculateTailBallastAmountForCGPosition(
     datum: WeightAndBalanceDatum, 
-    emptyResult: WeightAndBalanceResult, 
+    emptyResult: WeightAndBalanceMoment,
     cockpitWeight: number,
     macPercent: number
 ): number {
