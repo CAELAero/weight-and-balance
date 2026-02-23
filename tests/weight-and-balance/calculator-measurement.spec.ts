@@ -2,12 +2,12 @@ import { calculateWeightAndBalance }  from "../../src/weight-and-balance/calcula
 import { SingleSeaterWeightAndBalanceResult, TwoSeaterWeightAndBalanceResult } from "../../src/weight-and-balance/result-types";
 import { WeightAndBalanceMeasurement } from "../../src/weight-and-balance/measurements";
 
-import { JANTAR_DATUM, JANTAR_CONFIG, DG1000_CONFIG, DG1000_P1_RANGED_DATUM, DG1000_P1_FIXED_DATUM, K21_CONFIG, K21_DATUM, LS6_CONFIG, LS6_DATUM, T31_DATUM, T31_CONFIG } from "./data-gen";
+import { JANTAR2_DATUM, JANTAR_CONFIG, DG1000_CONFIG, DG1000_P1_RANGED_DATUM, DG1000_P1_FIXED_DATUM, K21_CONFIG, K21_DATUM, LS6_CONFIG, LS6_DATUM, T31_DATUM, T31_CONFIG } from "./data-gen";
 
 describe("Calculate from measurements", () => {
     describe("Single Seater", () => {
         it("Basic 2 piece wing, no ballast", () => {
-            const datum = JANTAR_DATUM;
+            const datum = JANTAR2_DATUM;
             const config = JANTAR_CONFIG;
             config.wingspanOptions[0].maxBallastAmount = 0;
 
@@ -89,13 +89,13 @@ describe("Calculate from measurements", () => {
             if(result.allowedWingBallast) {
 
                 expect(result.allowedWingBallast[0].pilotWeight).toBe(result.minPilotWeight);
-                expect(result.allowedWingBallast[0].maxBallast).toBe(config.wingspanOptions[0].maxBallastAmount);
+                expect(result.allowedWingBallast[0].maxWingBallast).toBe(config.wingspanOptions[0].maxBallastAmount);
 
                 const w_ballast_len = result.allowedWingBallast.length - 1;                
                 const max_ballast = Math.floor(datum.maxAllUpWeight - result.maxPilotWeight - result.emptyWeight);
 
                 expect(result.allowedWingBallast[w_ballast_len].pilotWeight).toBe(result.maxPilotWeight);
-                expect(result.allowedWingBallast[w_ballast_len].maxBallast).toBe(max_ballast);
+                expect(result.allowedWingBallast[w_ballast_len].maxWingBallast).toBe(max_ballast);
             }
 
             // ensure we copy out the options too
@@ -182,7 +182,7 @@ describe("Calculate from measurements", () => {
             expect(result.allowedWingBallast).toBeDefined();
 
             if(result.allowedWingBallast) {
-                expect(result.allowedWingBallast[0].maxBallast).toBe(config.wingspanOptions[0].maxBallastAmount);
+                expect(result.allowedWingBallast[0].maxWingBallast).toBe(config.wingspanOptions[0].maxBallastAmount);
                 expect(result.allowedWingBallast[0].pilotWeight).toBe(datum.minAllowedPilotWeight);
             }
         });
@@ -261,7 +261,7 @@ describe("Calculate from measurements", () => {
                 wing1Weight: 0,
             };
 
-            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: false, placardWeightIncremments: 5 }) as TwoSeaterWeightAndBalanceResult;
+            const result = calculateWeightAndBalance(datum, config, measured, { useGFAMinBuffer: false, placardCockpitWeightIncremments: 5 }) as TwoSeaterWeightAndBalanceResult;
             expect(result).toBeTruthy();
     
             // console.log(JSON.stringify(result, null, 2));

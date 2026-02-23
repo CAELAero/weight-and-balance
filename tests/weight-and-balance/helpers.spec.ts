@@ -1,5 +1,5 @@
 import { WeightAndBalanceMoment, calculateArm, calculateTailBallastAmountForCGPosition } from "../../src";
-import { JANTAR_DATUM } from "./data-gen";
+import { JANTAR2_DATUM } from "./data-gen";
 
 describe("Helpers", () => {
     describe("calculateArm", () => {
@@ -22,7 +22,7 @@ describe("Helpers", () => {
             // Bolted to the fin post, so shouldn't be any closer than the rear wheel location
             // relative to the datum. Probably could get more specific here and make sure 
             // it is not too large. 
-            const tail_wheel_arm = JANTAR_DATUM.distanceFrontWheelToDatum + JANTAR_DATUM.distanceFrontWheelToRearWheel;
+            const tail_wheel_arm = JANTAR2_DATUM.distanceFrontWheelToDatum + JANTAR2_DATUM.distanceFrontWheelToRearWheel;
             expect(result).toBeGreaterThanOrEqual(tail_wheel_arm);
             expect(result).toBeLessThanOrEqual(tail_wheel_arm + 150);
         });
@@ -47,7 +47,7 @@ describe("Helpers", () => {
                     weight: 276,
                 };
 
-                expect(() => { calculateTailBallastAmountForCGPosition(JANTAR_DATUM, empty_result, 90, -1)}).toThrow();
+                expect(() => { calculateTailBallastAmountForCGPosition(JANTAR2_DATUM, empty_result, 90, -1)}).toThrow();
             });
 
             it("Rejects MAC > 100", () => {
@@ -56,7 +56,7 @@ describe("Helpers", () => {
                     weight: 276,
                 };
 
-                expect(() => { calculateTailBallastAmountForCGPosition(JANTAR_DATUM, empty_result, 90, 102)}).toThrow();
+                expect(() => { calculateTailBallastAmountForCGPosition(JANTAR2_DATUM, empty_result, 90, 102)}).toThrow();
             });
 
             it("Cockpit weight > max seat weight", () => {
@@ -65,7 +65,7 @@ describe("Helpers", () => {
                     weight: 276,
                 };
 
-                expect(isNaN(calculateTailBallastAmountForCGPosition(JANTAR_DATUM, empty_result, JANTAR_DATUM.maxSeatWeight + 1, 70))).toBeTruthy();
+                expect(isNaN(calculateTailBallastAmountForCGPosition(JANTAR2_DATUM, empty_result, JANTAR2_DATUM.maxSeatWeight + 1, 70))).toBeTruthy();
             });
 
             it("Cockpit weight < min seat weight", () => {
@@ -74,7 +74,7 @@ describe("Helpers", () => {
                     weight: 276,
                 };
 
-                expect(isNaN(calculateTailBallastAmountForCGPosition(JANTAR_DATUM, empty_result, JANTAR_DATUM.minAllowedPilotWeight - 1, 70))).toBeTruthy();
+                expect(isNaN(calculateTailBallastAmountForCGPosition(JANTAR2_DATUM, empty_result, JANTAR2_DATUM.minAllowedPilotWeight - 1, 70))).toBeTruthy();
             });            
         });
     })

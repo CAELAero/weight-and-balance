@@ -2,7 +2,7 @@ import { CertificationCategory } from "../../src/util/certifcation-category";
 import { AircraftConfiguration, SeatingConfiguration, TailBallastType, UndercarriageConfiguration } from "../../src/configuration/aircraft-configuration";
 import { DatumCalculationModel, WeightAndBalanceDatum } from "../../src/datum/datum";
 
-export const JANTAR_DATUM: WeightAndBalanceDatum = {
+export const JANTAR2_DATUM: WeightAndBalanceDatum = {
     typeCertificateId: "SZD 48-1",
     category: CertificationCategory.UTILITY,
     wingspan: 15,
@@ -18,6 +18,26 @@ export const JANTAR_DATUM: WeightAndBalanceDatum = {
     forwardCGLimit: 158,
     aftCGLimit: 336,
     pilot1Arm: -616,
+    distanceFrontWheelToDatum: 120,
+    distanceFrontWheelToRearWheel: 3648
+};
+
+export const JANTAR3_DATUM: WeightAndBalanceDatum = {
+    typeCertificateId: "SZD 48-3",
+    category: CertificationCategory.UTILITY,
+    wingspan: 15,
+    location: "1",
+    levellingInstructions: "flat",
+    calculationModel: DatumCalculationModel.MODEL_1,
+    maxAllUpWeight: 540,
+    maxDryWeight: 390,
+    maxNonLiftingPartsWeight: 243,
+    maxSeatWeight: 110,
+    minAllowedPilotWeight: 70,
+    forwardCGLimit: 158,
+    aftCGLimit: 336,
+    pilot1Arm: -605,
+    pilot1ArmMax: -713,
     distanceFrontWheelToDatum: 120,
     distanceFrontWheelToRearWheel: 3648
 };
@@ -39,8 +59,11 @@ export const DG300_DATUM: WeightAndBalanceDatum = {
     aftCGLimit: 325,
     pilot1Arm: -549,
     distanceFrontWheelToDatum: 120,
-    distanceFrontWheelToRearWheel: 3648
-    // tail tank arm: 4180
+    distanceFrontWheelToRearWheel: 3648,
+    tailWingBallastCompensationArm :4180,
+    wingBallastArm: 160,
+    cockpitBallastBlockArms: [ -1250 ],
+    baggageArms: [ 140 ]
 };
 
 export const LS6_DATUM: WeightAndBalanceDatum = {
@@ -60,7 +83,8 @@ export const LS6_DATUM: WeightAndBalanceDatum = {
     pilot1Arm: -500,
     distanceFrontWheelToDatum: 179,
     distanceFrontWheelToRearWheel: 4181,
-    cockpitBallastBlockArms: [-1400]
+    cockpitBallastBlockArms: [-1400],
+    tailWingBallastCompensationArm: 4181, // unknown, so just use the same as the tailwheel distance.
 };
 
 export const K21_DATUM: WeightAndBalanceDatum = {
@@ -127,8 +151,10 @@ export const DG1000_P1_FIXED_DATUM: WeightAndBalanceDatum = {
     distanceFrontWheelToDatum: 114,
     distanceFrontWheelToRearWheel: 5189,
     cockpitBallastBlockArms: [-1960],
+    wingBallastArm: 206,
     tailWingBallastCompensationArm: 5260,
-    tailCGAdjustBallastArm: [ 5400 ]
+    tailCGAdjustBallastArm: [ 5400 ],
+    baggageArms: [ 270 ]
 };
 
 export const T31_DATUM: WeightAndBalanceDatum = {
@@ -168,8 +194,8 @@ export const JANTAR_CONFIG: AircraftConfiguration = {
 export const LS6_CONFIG: AircraftConfiguration = {
     typeCertificateId: "LS6C",
     wingspanOptions: [
-        { span: 15, maxBallastAmount: 140, hasWinglets:false },
-        { span: 17.5, maxBallastAmount: 140, hasWinglets:false }
+        { span: 15, maxBallastAmount: 140, hasWinglets: false },
+        { span: 17.5, maxBallastAmount: 140, hasWinglets: false }
     ],
     hasFlaps: true,
     hasElevatorTrim: false,
@@ -178,9 +204,10 @@ export const LS6_CONFIG: AircraftConfiguration = {
     undercarriageType: UndercarriageConfiguration.INLINE,
     seatingType: SeatingConfiguration.SINGLE,
     wingPanelCount: 4,
-    cockpitBallast: [ {label: "", maxBlockCount: 5, weightPerBlock: 1 }],
-    tailCGAdjustBallastType: TailBallastType.WATER,
-    tailCGAdjustBallastCapacity: [5.5]
+    cockpitBallast: [{ label: "", maxBlockCount: 5, weightPerBlock: 1 }],
+    tailCGAdjustBallastType: TailBallastType.NONE,
+    tailWingBallastCompensationAmount: 5.5,
+    tailCGAdjustBallastCapacity: null
 };
 
 export const K21_CONFIG: AircraftConfiguration = {
@@ -200,6 +227,27 @@ export const K21_CONFIG: AircraftConfiguration = {
     tailCGAdjustBallastCapacity: null
 };
 
+export const DG300_CONFIG: AircraftConfiguration = {
+    typeCertificateId: "DG300",
+    wingspanOptions: [ 
+        { span: 15, maxBallastAmount: 0, hasWinglets: true },
+        { span: 15, maxBallastAmount: 130, hasWinglets: false },
+        { span: 15, maxBallastAmount: 190, hasWinglets: false }
+    ],
+    hasFlaps: false,
+    hasElevatorTrim: false,
+    hasRudderVators: false,
+    hasFixedUndercarriage: false,
+    undercarriageType: UndercarriageConfiguration.INLINE,
+    seatingType: SeatingConfiguration.SINGLE,
+    wingPanelCount: 4,
+    cockpitBallast: [ { label: "", maxBlockCount: 3, weightPerBlock: 2.16}],
+    tailCGAdjustBallastType: TailBallastType.NONE,
+    tailCGAdjustBallastCapacity: null,
+    tailWingBallastCompensationAmount: 5.5,
+    baggage: [15],
+}
+
 export const DG1000_CONFIG: AircraftConfiguration = {
     typeCertificateId: "DG1000S",
     wingspanOptions: [
@@ -216,7 +264,8 @@ export const DG1000_CONFIG: AircraftConfiguration = {
     wingPanelCount: 4,
     cockpitBallast: [ {label: "", maxBlockCount: 4, weightPerBlock: 2.4 }],
     tailCGAdjustBallastType: TailBallastType.BLOCKS,
-    tailCGAdjustBallastCapacity: [ { label: "Large", weightPerBlock: 2.4, maxBlockCount: 4 }, { label: "Small", weightPerBlock: 1.2, maxBlockCount: 2 }]
+    tailCGAdjustBallastCapacity: [ { label: "Large", weightPerBlock: 2.4, maxBlockCount: 4 }, { label: "Small", weightPerBlock: 1.2, maxBlockCount: 2 }],
+    tailWingBallastCompensationAmount: 5.5
 };
 
 export const T31_CONFIG: AircraftConfiguration = {

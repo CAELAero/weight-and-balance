@@ -9,9 +9,23 @@ export interface WeightAndBalanceCockpitBallast {
     minPilotWeight: number;
 }
 
+/**
+ * Represents a disposable ballast configuration of the aircraft. 
+ */
 export interface WeightAndBalanceBallastAmount {
-    maxBallast: number;
+    /** The pilot weight that the ballast calculations were made for */
     pilotWeight: number;
+
+    /** Maximum amount of wing ballast permitted */
+    maxWingBallast: number;
+}
+
+/**
+ * Wing ballast to tail ballast ratio.
+ */
+export interface WingBallastCompensation {
+    wingBallastAmount: number,
+    tailBallastAmount: number
 }
 
 /**
@@ -70,7 +84,12 @@ export interface WeightAndBalancePlacardData {
     cockpitBallast?: WeightAndBalanceCockpitBallast[];
 
     allowedWingBallast?: WeightAndBalanceBallastAmount[];
-    allowedTailBallast?: WeightAndBalanceBallastAmount[];
+
+    /** 
+     * Table for neutral compensation of the wing ballast. Only defined if a disposable
+     * tail tank is permitted.
+     */
+    allowedTailBallast?: WingBallastCompensation[];
 
     /**
      * If the glider can take fuel in the fuselage, this is the table for

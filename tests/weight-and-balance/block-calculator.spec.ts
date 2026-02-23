@@ -1,5 +1,5 @@
 import { BallastBlockCapacity } from "../../src/configuration/aircraft-configuration";
-import { calculateBlockCombos }  from "../../src/weight-and-balance/calculator";
+import { calculateBlockCombos }  from "../../src/weight-and-balance/calculator-common";
 
 describe("Block combination calculator", () => {
     it("Single block size", () => {

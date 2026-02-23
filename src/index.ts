@@ -13,7 +13,6 @@ export {
     reverseSeatingConfigurationMap,
     reverseTailBallastTypeMap,
     type BallastBlockCapacity,
-    type WingBallastCompensation,
     type AircraftConfiguration,
 } from "./configuration/aircraft-configuration";
 
@@ -31,6 +30,7 @@ export {
     type WeightAndBalanceMoment,
     type WeightAndBalanceCockpitBallast,
     type WeightAndBalanceBallastAmount,
+    type WingBallastCompensation,
     type SingleSeaterPilotWeightTailBallastAdjustment,
     type TwoSeaterPilotWeightTailBallastAdjustment,
     type WeightAndBalanceResult,
@@ -41,7 +41,10 @@ export {
 } from "./weight-and-balance/result-types";
 
 export {
-    type WeightAndBalanceOptions,
+        type WeightAndBalanceOptions,
+} from "./weight-and-balance/calculator-common";
+
+export {
     generateWeightAndBalancePlacardData,
     updateWeightAndBalance,
     calculateWeightAndBalance,

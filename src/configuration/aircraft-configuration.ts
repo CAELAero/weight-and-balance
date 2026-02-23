@@ -39,14 +39,6 @@ export interface BallastBlockCapacity {
     maxBlockCount: number;
 }
 
-/**
- * Mapping from wing ballast to tail ballast amount.
- */
-export interface WingBallastCompensation {
-    wingBallastAmount: number;
-    tailBallastAmount: number;
-}
-
 interface WingspanDetails {
     /** Total span of the wings for this configuration */
     span: number;

@@ -1,11 +1,11 @@
 import { updateWeightAndBalance }  from "../../src/weight-and-balance/calculator";
 import { SingleSeaterWeightAndBalanceResult } from "../../src/weight-and-balance/result-types";
 import { WeightAndBalanceComponentChange } from "../../src/weight-and-balance/measurements";
-import { JANTAR_DATUM, JANTAR_CONFIG } from "./data-gen";
+import { JANTAR2_DATUM, JANTAR_CONFIG } from "./data-gen";
 
 describe("Update with component change", () => {
     it("Returns the same result if no item change data", () => {
-        const datum = JANTAR_DATUM;
+        const datum = JANTAR2_DATUM;
         const config = JANTAR_CONFIG;
             config.wingspanOptions[0].maxBallastAmount = 0;
 
@@ -31,7 +31,7 @@ describe("Update with component change", () => {
         // This example comes from IZX calculated numbers from the original weight and balance. 
         // Later 3kg of lead was added to the tail, so this is the reverse calculation. The numbers
         // here should result in returning to the original weight and balance arm.
-        const datum = JANTAR_DATUM;
+        const datum = JANTAR2_DATUM;
         const config = JANTAR_CONFIG;
             config.wingspanOptions[0].maxBallastAmount = 0;
 
