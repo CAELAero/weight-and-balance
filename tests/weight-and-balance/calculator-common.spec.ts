@@ -135,7 +135,7 @@ describe("Common Calculator Functions", () => {
 
             const result = calculateG2(INPUT_CONFIG, SRC_MEASUREMENTS);
 
-            expect(result).toBe(SRC_MEASUREMENTS.undercarriage2Weight + SRC_MEASUREMENTS.undercarriage3Weight);
+            expect(result).toBe(SRC_MEASUREMENTS.undercarriage2Weight + (SRC_MEASUREMENTS.undercarriage3Weight || 0));
         });
 
         it("Calculates Trike tailwheel value", () => {

@@ -544,7 +544,7 @@ export function calculateBlockCombos(blocks: BallastBlockCapacity[]): FittedBall
 export function calculateMaxWingBallast(config: AircraftConfiguration, options: WeightAndBalanceOptions): number {
     let retval = 0;
 
-    if (config.wingspanOptions.length > 1) {
+    if (config.wingspanOptions.length > 1 && options.wingspanSelected) {
         retval = config.wingspanOptions[options.wingspanSelected]?.maxBallastAmount;
     } else {
         retval = config.wingspanOptions[0].maxBallastAmount;
