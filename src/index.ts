@@ -40,9 +40,7 @@ export {
     type TwoSeaterWeightAndBalanceResult,
 } from "./weight-and-balance/result-types";
 
-export {
-        type WeightAndBalanceOptions,
-} from "./weight-and-balance/calculator-common";
+export { type WeightAndBalanceOptions } from "./weight-and-balance/calculator-common";
 
 export {
     generateWeightAndBalancePlacardData,

@@ -1,18 +1,15 @@
-import {
-    AircraftConfiguration,
-    BallastBlockCapacity,
-    TailBallastType,
-} from "../configuration/aircraft-configuration";
+import { AircraftConfiguration, BallastBlockCapacity, TailBallastType } from "../configuration/aircraft-configuration";
 
 import { WeightAndBalanceDatum } from "../datum/datum";
 import { CertificationCategory } from "../util/certifcation-category";
-import { calculateBaseCGLimits, calculateCockpitBallast, calculateMaxWingBallast, calculateWingWaterBallast, WeightAndBalanceOptions } from "./calculator-common";
 import {
-    FittedBallastBlock,
-    SingleSeaterPlacardData,
-    SingleSeaterWeightAndBalanceResult,
-} from "./result-types";
-
+    calculateBaseCGLimits,
+    calculateCockpitBallast,
+    calculateMaxWingBallast,
+    calculateWingWaterBallast,
+    WeightAndBalanceOptions,
+} from "./calculator-common";
+import { FittedBallastBlock, SingleSeaterPlacardData, SingleSeaterWeightAndBalanceResult } from "./result-types";
 
 export function calculateSingleSeaterResult(
     datum: WeightAndBalanceDatum,

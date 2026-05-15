@@ -1,19 +1,15 @@
-import {
-    AircraftConfiguration,
-    BallastBlockCapacity,
-    TailBallastType,
-} from "../configuration/aircraft-configuration";
+import { AircraftConfiguration, BallastBlockCapacity, TailBallastType } from "../configuration/aircraft-configuration";
 
 import { WeightAndBalanceDatum } from "../datum/datum";
 import { CertificationCategory } from "../util/certifcation-category";
-import { 
-    calculateBaseCGLimits, 
-    calculateBlockCombos, 
-    calculateCockpitBallast, 
-    calculateMaxWingBallast, 
-    calculateWingWaterBallast, 
-    convertP1ArmPercentage, 
-    WeightAndBalanceOptions
+import {
+    calculateBaseCGLimits,
+    calculateBlockCombos,
+    calculateCockpitBallast,
+    calculateMaxWingBallast,
+    calculateWingWaterBallast,
+    convertP1ArmPercentage,
+    WeightAndBalanceOptions,
 } from "./calculator-common";
 import {
     FittedBallastBlock,
@@ -39,7 +35,16 @@ export function calculateTwoSeater(
     const max_cockpit_weight = datum.maxCockpitWeight || datum.maxSeatWeight * 2;
 
     const base_pilot = calculateBaseCGLimits(datum, ge, xe, xaft, nlpWeight, options.p1ArmRangePercentage);
-    const dual_range = calculateTwoSeaterP2(datum, ge, xe, xaft, nlpWeight, base_pilot.minPilotWeight, max_cockpit_weight, options);
+    const dual_range = calculateTwoSeaterP2(
+        datum,
+        ge,
+        xe,
+        xaft,
+        nlpWeight,
+        base_pilot.minPilotWeight,
+        max_cockpit_weight,
+        options,
+    );
 
     const retval: TwoSeaterWeightAndBalanceResult = {
         maxAllUpWeight: datum.maxAllUpWeight,
@@ -247,7 +252,6 @@ function calculateTwoSeaterP2(
     maxCockpitWeight: number,
     options: WeightAndBalanceOptions,
 ): TwoSeatWeightRange[] {
-    
     const dual_range: TwoSeatWeightRange[] = [];
 
     // Min seat range is calculated for solo pilot above, but with a sufficiently heavy pilot
@@ -303,7 +307,9 @@ function calculateTwoSeaterP2(
                 if (abs_min_p1 + range.maxPilot2Weight <= maxCockpitWeight) {
                     dual_range.push(range);
                 } else {
-                    console.log("Ignoring range " + abs_min_p1 + " " + range.maxPilot2Weight + " vs " + maxCockpitWeight);
+                    console.log(
+                        "Ignoring range " + abs_min_p1 + " " + range.maxPilot2Weight + " vs " + maxCockpitWeight,
+                    );
                 }
             }
 

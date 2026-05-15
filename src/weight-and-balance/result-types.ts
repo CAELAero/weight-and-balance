@@ -10,7 +10,7 @@ export interface WeightAndBalanceCockpitBallast {
 }
 
 /**
- * Represents a disposable ballast configuration of the aircraft. 
+ * Represents a disposable ballast configuration of the aircraft.
  */
 export interface WeightAndBalanceBallastAmount {
     /** The pilot weight that the ballast calculations were made for */
@@ -24,8 +24,8 @@ export interface WeightAndBalanceBallastAmount {
  * Wing ballast to tail ballast ratio.
  */
 export interface WingBallastCompensation {
-    wingBallastAmount: number,
-    tailBallastAmount: number
+    wingBallastAmount: number;
+    tailBallastAmount: number;
 }
 
 /**
@@ -85,7 +85,7 @@ export interface WeightAndBalancePlacardData {
 
     allowedWingBallast?: WeightAndBalanceBallastAmount[];
 
-    /** 
+    /**
      * Table for neutral compensation of the wing ballast. Only defined if a disposable
      * tail tank is permitted.
      */

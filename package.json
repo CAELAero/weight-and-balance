@@ -1,7 +1,7 @@
 {
   "name": "@cael-aero/weight-and-balance",
   "description": "Aircraft Weight and Balance calculator",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "license": "BSD-3-Clause",
   "readme": "README.md",

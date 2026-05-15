@@ -32,7 +32,7 @@ export interface WeightAndBalanceOptions {
     placardCockpitWeightIncremments?: number;
 
     /**
-     * Increments in the water ballast placards for the wing ballast amounts. By default uses 
+     * Increments in the water ballast placards for the wing ballast amounts. By default uses
      * increments of 20.
      */
     placardWingBallastWeightIncrememnts?: number;
@@ -299,7 +299,10 @@ export function calculateWingWaterBallast(
         },
     ];
 
-    pilot_weight = pilot_weight - (pilot_weight % options.placardCockpitWeightIncremments) + options.placardCockpitWeightIncremments;
+    pilot_weight =
+        pilot_weight -
+        (pilot_weight % options.placardCockpitWeightIncremments) +
+        options.placardCockpitWeightIncremments;
 
     do {
         ballast_amount = Math.min(datum.maxAllUpWeight - pilot_weight - emptyWeight, maxWingBallastAmount);
@@ -307,7 +310,7 @@ export function calculateWingWaterBallast(
 
         weight_chart.push({ pilotWeight: pilot_weight, maxWingBallast: ballast_amount });
 
-        pilot_weight += (options.placardCockpitWeightIncremments || 10);
+        pilot_weight += options.placardCockpitWeightIncremments || 10;
     } while (pilot_weight <= maxPilotWeight);
 
     // If we bounce over the maxPilotWeight, make up for that here to put it on the exact limit
@@ -326,38 +329,37 @@ export function calculateWingWaterBallast(
     return weight_chart;
 }
 
-/** 
+/**
  * For a given wing ballast amount, calculate the amount of tail ballast that would result in a zero
- * offset to the CG. 
- * 
- * @param datum 
- * @param maxTailBallastAmount 
- * @param maxWingBallastAmount 
- * @param options 
+ * offset to the CG.
+ *
+ * @param datum
+ * @param maxTailBallastAmount
+ * @param maxWingBallastAmount
+ * @param options
  */
 export function calculateTailWingCompensationBallast(
-    datum: WeightAndBalanceDatum, 
-    maxWingBallastAmount?: number, 
+    datum: WeightAndBalanceDatum,
+    maxWingBallastAmount?: number,
     maxTailBallastAmount?: number,
     options?: WeightAndBalanceOptions,
 ): WingBallastCompensation[] {
-
-    if(!datum.wingBallastArm) {
+    if (!datum.wingBallastArm) {
         console.log("Missing wing ballast arm to calculate tail ballast");
         return undefined;
     }
 
-    if(!datum.tailWingBallastCompensationArm) {
+    if (!datum.tailWingBallastCompensationArm) {
         console.log("Missing tail ballast arm to calculate tail ballast");
         return undefined;
     }
 
-    if(!maxTailBallastAmount) {
+    if (!maxTailBallastAmount) {
         console.log("Missing max tail ballast amount");
         return undefined;
     }
 
-    if(!maxWingBallastAmount) {
+    if (!maxWingBallastAmount) {
         console.log("Missing max wing ballast amount");
         return undefined;
     }
@@ -368,20 +370,19 @@ export function calculateTailWingCompensationBallast(
 
     let wing_ballast = ballast_inc;
     do {
-        let tail_ballast = datum.wingBallastArm * wing_ballast / datum.tailWingBallastCompensationArm;
+        let tail_ballast = (datum.wingBallastArm * wing_ballast) / datum.tailWingBallastCompensationArm;
 
         // if we have run out of tail ballast volume, then cap it. Only impact will be the CG moving
-        // forward due to missing compensation. 
-        if(tail_ballast > maxTailBallastAmount) {
+        // forward due to missing compensation.
+        if (tail_ballast > maxTailBallastAmount) {
             tail_ballast = maxTailBallastAmount;
         }
 
-        // Hacky way of rounding the numbers. 
-        retval.push({ wingBallastAmount: wing_ballast, tailBallastAmount: parseFloat(tail_ballast.toPrecision(2))});
+        // Hacky way of rounding the numbers.
+        retval.push({ wingBallastAmount: wing_ballast, tailBallastAmount: parseFloat(tail_ballast.toPrecision(2)) });
 
         wing_ballast += ballast_inc;
-
-    } while(wing_ballast <= maxWingBallastAmount);
+    } while (wing_ballast <= maxWingBallastAmount);
 
     return retval;
 }
