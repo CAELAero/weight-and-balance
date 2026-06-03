@@ -6,15 +6,18 @@ export { CertificationCategory, reverseCertificationCategoryMap } from "./util/c
 export { encodeTypeCertificateId } from "./util/type-cert-utils";
 
 export {
+    type BallastBlockCapacity,
+    type AircraftConfiguration,
+} from "./configuration/aircraft-configuration";
+
+export {
     SeatingConfiguration,
     TailBallastType,
     UndercarriageConfiguration,
     reverseUndercarriageConfigurationMap,
     reverseSeatingConfigurationMap,
     reverseTailBallastTypeMap,
-    type BallastBlockCapacity,
-    type AircraftConfiguration,
-} from "./configuration/aircraft-configuration";
+} from "./configuration/types";
 
 export { DatumCalculationModel, type WeightAndBalanceDatum, reverseCalculationModelMap } from "./datum/datum";
 
