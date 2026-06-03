@@ -6,6 +6,7 @@ export { CertificationCategory, reverseCertificationCategoryMap } from "./util/c
 export { encodeTypeCertificateId } from "./util/type-cert-utils";
 
 export {
+    type WingspanDetails,
     type BallastBlockCapacity,
     type AircraftConfiguration,
 } from "./configuration/aircraft-configuration";

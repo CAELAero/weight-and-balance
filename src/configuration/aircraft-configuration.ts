@@ -11,7 +11,7 @@ export interface BallastBlockCapacity {
     maxBlockCount: number;
 }
 
-interface WingspanDetails {
+export interface WingspanDetails {
     /** Total span of the wings for this configuration */
     span: number;
 
