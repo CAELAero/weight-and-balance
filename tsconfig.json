@@ -13,11 +13,9 @@
     ],
     "module": "commonjs",
     "esModuleInterop": true,
-    "outDir": "lib",
     "strict": true,
     "sourceMap": true,
     "target": "es6",
-    "moduleResolution": "node",
     "typeRoots": [
       "node_modules/@types"
     ]
