@@ -1,4 +1,5 @@
-import { AircraftConfiguration, BallastBlockCapacity, TailBallastType } from "../configuration/aircraft-configuration";
+import { AircraftConfiguration, BallastBlockCapacity } from "../configuration/aircraft-configuration";
+import { TailBallastType } from "../configuration/types";
 
 import { WeightAndBalanceDatum } from "../datum/datum";
 import { CertificationCategory } from "../util/certifcation-category";

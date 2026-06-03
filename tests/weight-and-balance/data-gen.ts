@@ -1,6 +1,7 @@
 import { CertificationCategory } from "../../src/util/certifcation-category";
-import { AircraftConfiguration, SeatingConfiguration, TailBallastType, UndercarriageConfiguration } from "../../src/configuration/aircraft-configuration";
+import { AircraftConfiguration } from "../../src/configuration/aircraft-configuration";
 import { DatumCalculationModel, WeightAndBalanceDatum } from "../../src/datum/datum";
+import { SeatingConfiguration, TailBallastType, UndercarriageConfiguration } from "../../src/configuration/types";
 
 export const JANTAR2_DATUM: WeightAndBalanceDatum = {
     typeCertificateId: "SZD 48-1",

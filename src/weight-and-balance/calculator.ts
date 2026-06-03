@@ -1,4 +1,5 @@
-import { AircraftConfiguration, SeatingConfiguration } from "../configuration/aircraft-configuration";
+import { AircraftConfiguration } from "../configuration/aircraft-configuration";
+import { SeatingConfiguration } from "../configuration/types";
 
 import { WeightAndBalanceDatum } from "../datum/datum";
 import { calculateG1, calculateG2, calculateWingWeights, WeightAndBalanceOptions } from "./calculator-common";

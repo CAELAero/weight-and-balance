@@ -1,8 +1,5 @@
-import {
-    AircraftConfiguration,
-    BallastBlockCapacity,
-    UndercarriageConfiguration,
-} from "../configuration/aircraft-configuration";
+import { AircraftConfiguration, BallastBlockCapacity } from "../configuration/aircraft-configuration";
+import { UndercarriageConfiguration } from "../configuration/types";
 
 import { WeightAndBalanceDatum } from "../datum/datum";
 import { WeightAndBalanceMeasurement } from "./measurements";
