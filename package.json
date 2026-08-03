@@ -74,6 +74,9 @@
     "prettier": "^3.x",
     "ts-jest": "^29.x",
     "typedoc": "^0.28",
-    "typescript": "^5.4"
+    "typescript": "6.x"
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true
   }
 }
