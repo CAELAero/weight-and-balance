@@ -10,7 +10,8 @@
   "transform": {
     "^.+\\.js?$": "babel-jest",
     "^.+\\.(ts|tsx)?$": [
-        "ts-jest", {
+        "ts-jest", 
+        {
             "tsconfig": "tsconfig.spec.json"
         }
     ]
