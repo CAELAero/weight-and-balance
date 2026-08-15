@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "rootDir": "tests",
     "outDir": "./build/spec",
     "types": [
       "jest",
