@@ -71,7 +71,7 @@ export interface AircraftConfiguration {
      * Is this a v-tail aircraft, which can have other interesting rammifications
      * for control deflection measurements
      */
-    hasRudderVators: boolean;
+    hasRuddervators: boolean;
 
     /**
      * Used for any form of fixed undercarriage, including
